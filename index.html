@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>SMET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fondo:#070b14;
+    --texto:#c3cbd6;
+    --frio:#8fa0b5;
+    --apagado:#4d5868;
+    --mancha:#111a29;
+    --mancha-nucleo:#0b1220;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--fondo);
+    color:var(--texto);
+    font-family:'Noticia Text', Georgia, serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  /* vignette + grain fijos */
+  #vig{position:fixed;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.55) 100%);}
+  #grano{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");}
+  /* profundidad: se oscurece al bajar */
+  #prof{position:fixed;inset:0;pointer-events:none;z-index:2;background:#02040a;opacity:0;transition:opacity .4s linear}
+
+  /* ---- el silencio ---- */
+  #silencio{
+    min-height:88vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:2rem 1rem;
+  }
+  .sil-label{
+    font-family:'Courier New',monospace;
+    font-size:.72rem;letter-spacing:.65em;text-indent:.65em;
+    color:var(--apagado);margin-bottom:1.4rem;text-transform:uppercase;
+  }
+  .sil-count{
+    font-family:'Jacquard 12', 'Courier New', monospace;
+    font-size:clamp(3rem, 9vw, 6.5rem);
+    color:var(--frio);
+    line-height:1;
+    text-shadow:0 0 24px rgba(143,160,181,.18);
+  }
+  .sil-sub{
+    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.35em;text-indent:.35em;
+    color:var(--apagado);margin-top:1.6rem;opacity:.7;
+  }
+  .bajar{
+    margin-top:14vh;color:var(--apagado);font-family:'Courier New',monospace;
+    font-size:.8rem;opacity:.55;animation:lat 4s ease-in-out infinite;
+  }
+  @keyframes lat{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(8px);opacity:.7}}
+
+  /* ---- transmisiones ---- */
+  #transmisiones{max-width:37em;margin:0 auto;padding:0 1.4rem 30vh}
+  .tx{margin-bottom:42vh}
+  .tx-head{display:flex;flex-direction:column;align-items:center;margin-bottom:3.2rem}
+  .tx-sig{
+    font-family:'Jacquard 12','Courier New',monospace;
+    font-size:2.3rem;color:var(--frio);letter-spacing:.06em;
+  }
+  .tx-fecha{
+    font-family:'Courier New',monospace;font-size:.68rem;color:var(--apagado);
+    letter-spacing:.3em;text-indent:.3em;margin-top:.9rem;
+  }
+  .tx-mancha{width:150px;height:54px;display:block}
+  .tx-cuerpo{font-size:1.16rem;line-height:1.85;color:var(--texto)}
+  .tx-cuerpo p{margin-bottom:1.35em}
+  .tx.reciente .tx-cuerpo p:last-child::after{
+    content:"█";font-size:.7em;color:var(--apagado);margin-left:.35em;
+    animation:parp 1.1s steps(2) infinite;
+  }
+  @keyframes parp{50%{opacity:0}}
+
+  /* llegada de la última transmisión */
+  .tx.reciente .w{opacity:0;animation:llega .5s forwards}
+  @keyframes llega{
+    0%{opacity:0;filter:blur(3px)}
+    60%{opacity:.9;filter:blur(0);transform:translateX(.5px)}
+    100%{opacity:1;transform:none}
+  }
+  .tx.reciente .tx-cuerpo{animation:inter 7s linear 1}
+  @keyframes inter{
+    0%,4%,9%{opacity:1}
+    5%{opacity:.55;transform:skewX(.4deg)}
+    6%{opacity:1;transform:none}
+    41%{opacity:.7}
+    42%{opacity:1}
+  }
+
+  /* separador entre estratos */
+  .estrato{
+    text-align:center;color:var(--apagado);opacity:.35;
+    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.9em;text-indent:.9em;
+    margin:0 0 42vh;user-select:none;
+  }
+
+  #fondoLista{height:1px}
+  #finArchivo{
+    text-align:center;color:var(--apagado);font-family:'Courier New',monospace;
+    font-size:.68rem;letter-spacing:.4em;text-indent:.4em;padding-bottom:22vh;opacity:.5;
+  }
+
+  /* ---- señal de fondo ---- */
+  #senal{position:fixed;left:1.1rem;bottom:1rem;z-index:6}
+  #senalBtn{
+    background:none;border:none;cursor:pointer;
+    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.2em;
+    color:var(--apagado);opacity:.6;transition:opacity .3s,color .3s;padding:.4rem;
+  }
+  #senalBtn:hover{opacity:1;color:var(--frio)}
+  #senalEmbed{margin-top:.5rem}
+  #senalEmbed iframe{border-radius:8px;display:block}
+
+  ::selection{background:#1b2637;color:#e6ecf4}
+  @media (max-width:600px){
+    .tx{margin-bottom:34vh}
+    .tx-cuerpo{font-size:1.05rem}
+  }
+</style>
+</head>
+<body>
+<div id="prof"></div>
+<div id="vig"></div>
+<div id="grano"></div>
+
+<section id="silencio">
+  <div class="sil-label">Silencio</div>
+  <div class="sil-count" id="silCount">·····</div>
+  <div class="sil-sub" id="silSub">desde la última transmisión</div>
+  <div class="bajar">▾</div>
+</section>
+
+<main id="transmisiones"></main>
+<div id="fondoLista"></div>
+<div id="finArchivo" hidden>— principio del archivo —</div>
+
+<div id="senal">
+  <button id="senalBtn" aria-label="señal de fondo">[ señal de fondo ]</button>
+  <div id="senalEmbed" hidden></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="fMancha" x="-40%" y="-80%" width="180%" height="260%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.055 0.11" numOctaves="3" seed="7" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="26"/>
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+    <filter id="fMancha2" x="-40%" y="-80%" width="180%" height="260%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.09 0.16" numOctaves="3" seed="23" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="18"/>
+      <feGaussianBlur stdDeviation="0.4"/>
+    </filter>
+  </defs>
+</svg>
+
+<script>
+(function(){
+  "use strict";
+
+  var PLAYLIST = "5Jm63LQHocyXae6iXWR7kq";
+  var LOTE = 3;                 // transmisiones por carga
+  var lista = [];               // ordenadas: la más nueva primero
+  var puntero = 0;
+  var observador = null;
+
+  /* ---------- utilidades ---------- */
+  function el(tag, cls){ var e = document.createElement(tag); if(cls) e.className = cls; return e; }
+  function pad(n){ return (n<10?"0":"")+n; }
+
+  function fechaCorta(iso){
+    var d = new Date(iso);
+    return pad(d.getDate())+"."+pad(d.getMonth()+1)+"."+d.getFullYear()+" · "+pad(d.getHours())+":"+pad(d.getMinutes());
+  }
+
+  /* ---------- contador de silencio ---------- */
+  function iniciarContador(isoUltima){
+    var elC = document.getElementById("silCount");
+    if(!isoUltima){ elC.textContent = "SIN SEÑAL"; return; }
+    var t0 = new Date(isoUltima).getTime();
+    function tic(){
+      var s = Math.max(0, Math.floor((Date.now()-t0)/1000));
+      var d = Math.floor(s/86400); s -= d*86400;
+      var h = Math.floor(s/3600);  s -= h*3600;
+      var m = Math.floor(s/60);    s -= m*60;
+      elC.textContent = (d>0 ? d + (d===1?" día ":" días ") : "") + pad(h)+":"+pad(m)+":"+pad(s);
+    }
+    tic(); setInterval(tic, 1000);
+  }
+
+  /* ---------- la mancha (firma de la torre) ---------- */
+  function mancha(){
+    var ns = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(ns,"svg");
+    svg.setAttribute("viewBox","0 0 150 54");
+    svg.setAttribute("class","tx-mancha");
+    svg.setAttribute("aria-label","");
+    var e1 = document.createElementNS(ns,"ellipse");
+    e1.setAttribute("cx","75"); e1.setAttribute("cy","27");
+    e1.setAttribute("rx","52"); e1.setAttribute("ry","13");
+    e1.setAttribute("fill","var(--mancha)");
+    e1.setAttribute("filter","url(#fMancha)");
+    var e2 = document.createElementNS(ns,"ellipse");
+    e2.setAttribute("cx","72"); e2.setAttribute("cy","26");
+    e2.setAttribute("rx","30"); e2.setAttribute("ry","8");
+    e2.setAttribute("fill","var(--mancha-nucleo)");
+    e2.setAttribute("filter","url(#fMancha2)");
+    svg.appendChild(e1); svg.appendChild(e2);
+    return svg;
+  }
+
+  /* ---------- render de una transmisión ---------- */
+  function render(entrada, texto, esReciente){
+    var art = el("article","tx"+(esReciente?" reciente":""));
+    var head = el("div","tx-head");
+
+    if(entrada.torre){
+      head.appendChild(mancha());
+    } else {
+      var sig = el("span","tx-sig");
+      sig.textContent = entrada.signatura || "";
+      head.appendChild(sig);
+    }
+    var f = el("time","tx-fecha");
+    f.textContent = fechaCorta(entrada.fecha);
+    head.appendChild(f);
+    art.appendChild(head);
+
+    var cuerpo = el("div","tx-cuerpo");
+    texto.split(/\n\s*\n/).forEach(function(par){
+      par = par.trim(); if(!par) return;
+      var p = el("p");
+      if(esReciente){
+        par.split(/\s+/).forEach(function(palabra,i){
+          var w = el("span","w");
+          w.textContent = palabra;
+          w.style.animationDelay = (i*0.055 + Math.random()*0.06).toFixed(3)+"s";
+          p.appendChild(w);
+          p.appendChild(document.createTextNode(" "));
+        });
+      } else {
+        p.textContent = par;
+      }
+      cuerpo.appendChild(p);
+    });
+    art.appendChild(cuerpo);
+
+    var cont = document.getElementById("transmisiones");
+    cont.appendChild(art);
+    var sep = el("div","estrato");
+    sep.textContent = "···";
+    cont.appendChild(sep);
+  }
+
+  /* ---------- carga de textos ---------- */
+  function textoDe(entrada){
+    if(typeof entrada.texto === "string") return Promise.resolve(entrada.texto);
+    return fetch(entrada.archivo).then(function(r){
+      if(!r.ok) throw new Error(entrada.archivo);
+      return r.text();
+    });
+  }
+
+  function cargarLote(){
+    if(puntero >= lista.length){
+      document.getElementById("finArchivo").hidden = false;
+      if(observador) observador.disconnect();
+      return Promise.resolve();
+    }
+    var tramo = lista.slice(puntero, puntero + LOTE);
+    var esPrimera = (puntero === 0);
+    puntero += tramo.length;
+    return tramo.reduce(function(cadena, entrada, i){
+      return cadena.then(function(){
+        return textoDe(entrada).then(function(txt){
+          render(entrada, txt, esPrimera && i === 0);
+        }).catch(function(){ /* un fragmento ilegible no rompe el descenso */ });
+      });
+    }, Promise.resolve()).then(function(){
+      if(puntero >= lista.length){
+        document.getElementById("finArchivo").hidden = false;
+        if(observador) observador.disconnect();
+      }
+    });
+  }
+
+  /* ---------- profundidad ---------- */
+  window.addEventListener("scroll", function(){
+    var prof = Math.min(0.38, window.scrollY / 18000);
+    document.getElementById("prof").style.opacity = prof.toFixed(3);
+  }, {passive:true});
+
+  /* ---------- señal de fondo ---------- */
+  document.getElementById("senalBtn").addEventListener("click", function(){
+    var caja = document.getElementById("senalEmbed");
+    var btn = document.getElementById("senalBtn");
+    if(caja.hidden){
+      caja.innerHTML = '<iframe src="https://open.spotify.com/embed/playlist/'+PLAYLIST+'?theme=0" width="300" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+      caja.hidden = false;
+      btn.textContent = "[ cortar señal ]";
+    } else {
+      caja.innerHTML = "";
+      caja.hidden = true;
+      btn.textContent = "[ señal de fondo ]";
+    }
+  });
+
+  /* ---------- arranque ---------- */
+  function arrancar(datos){
+    lista = (datos.transmisiones || []).slice().sort(function(a,b){
+      return new Date(b.fecha) - new Date(a.fecha);
+    });
+    iniciarContador(lista.length ? lista[0].fecha : null);
+    cargarLote().then(function(){
+      var centinela = document.getElementById("fondoLista");
+      observador = new IntersectionObserver(function(entradas){
+        entradas.forEach(function(en){ if(en.isIntersecting) cargarLote(); });
+      }, {rootMargin: "600px"});
+      observador.observe(centinela);
+    });
+  }
+
+  if(window.PREVIEW_DATA){
+    arrancar(window.PREVIEW_DATA);
+  } else {
+    fetch("manifest.json?v="+Date.now())
+      .then(function(r){ return r.json(); })
+      .then(arrancar)
+      .catch(function(){ document.getElementById("silCount").textContent = "SIN SEÑAL"; });
+  }
+})();
+</script>
+</body>
+</html>

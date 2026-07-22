@@ -1,0 +1,8 @@
+{
+  "transmisiones": [
+    { "archivo": "fragmentos/SMET-0001.md", "signatura": "SMET-0001", "fecha": "2026-07-01T03:41:00+02:00", "torre": false },
+    { "archivo": "fragmentos/SMET-0002.md", "signatura": "SMET-0002", "fecha": "2026-07-02T04:07:00+02:00", "torre": false },
+    { "archivo": "fragmentos/torre-0001.md", "signatura": null, "fecha": "2026-07-10T03:12:00+02:00", "torre": true },
+    { "archivo": "fragmentos/SMET-0003.md", "signatura": "SMET-0003", "fecha": "2026-07-11T03:57:00+02:00", "torre": false }
+  ]
+}
