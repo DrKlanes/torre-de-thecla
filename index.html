@@ -19,6 +19,7 @@
     --apagado:#4d5868;
     --mancha:#111a29;
     --mancha-nucleo:#0b1220;
+    --sedimento:#3f66c4;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -78,6 +79,15 @@
     letter-spacing:.3em;text-indent:.3em;margin-top:.9rem;
   }
   .tx-mancha{width:150px;height:54px;display:block}
+  /* el sedimento: lo ya leído se hunde en azul al subir */
+  .tx{--lejos:0}
+  .tx .tx-cuerpo, .tx .tx-sig{
+    color:color-mix(in oklab, var(--sedimento) calc(var(--lejos)*1%), var(--texto));
+    transition:color .35s linear;
+  }
+  .tx .tx-sig{
+    color:color-mix(in oklab, var(--sedimento) calc(var(--lejos)*1%), var(--frio));
+  }
   .tx-cuerpo{font-size:1.16rem;line-height:1.85;color:var(--texto)}
   .tx-cuerpo p{margin-bottom:1.35em}
   .tx.reciente .tx-cuerpo p:last-child::after{
@@ -124,7 +134,7 @@
   }
   #senalBtn:hover{opacity:1;color:var(--frio)}
   #senalEmbed{margin-top:.5rem}
-  #senalEmbed iframe{border-radius:8px;display:block}
+  #senalEmbed iframe{border-radius:8px;display:block;width:min(300px,calc(100vw - 2.2rem));height:152px;border:0}
 
   ::selection{background:#1b2637;color:#e6ecf4}
   @media (max-width:600px){
@@ -306,19 +316,36 @@
   }, {passive:true});
 
   /* ---------- señal de fondo ---------- */
-  document.getElementById("senalBtn").addEventListener("click", function(){
+  function ponerSenal(){
     var caja = document.getElementById("senalEmbed");
-    var btn = document.getElementById("senalBtn");
-    if(caja.hidden){
-      caja.innerHTML = '<iframe src="https://open.spotify.com/embed/playlist/'+PLAYLIST+'?theme=0" width="300" height="80" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
-      caja.hidden = false;
-      btn.textContent = "[ cortar señal ]";
-    } else {
-      caja.innerHTML = "";
-      caja.hidden = true;
-      btn.textContent = "[ señal de fondo ]";
-    }
+    caja.innerHTML = '<iframe src="https://open.spotify.com/embed/playlist/'+PLAYLIST+'?theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+    caja.hidden = false;
+    document.getElementById("senalBtn").textContent = "[ cortar señal ]";
+  }
+  function quitarSenal(){
+    var caja = document.getElementById("senalEmbed");
+    caja.innerHTML = "";
+    caja.hidden = true;
+    document.getElementById("senalBtn").textContent = "[ señal de fondo ]";
+  }
+  document.getElementById("senalBtn").addEventListener("click", function(){
+    if(document.getElementById("senalEmbed").hidden) ponerSenal(); else quitarSenal();
   });
+  // visible de serie en pantallas con sitio; plegada en móvil
+  if(window.matchMedia("(min-width: 700px)").matches) ponerSenal();
+
+  /* ---------- el sedimento (tinte azul de lo ya leído) ---------- */
+  function sedimentar(){
+    var vh = window.innerHeight;
+    document.querySelectorAll(".tx").forEach(function(a){
+      var r = a.getBoundingClientRect();
+      var subida = vh * 0.30 - r.bottom;              // cuánto ha subido más allá del umbral
+      var t = Math.max(0, Math.min(1, subida / (vh * 0.55)));
+      a.style.setProperty("--lejos", (t * 85).toFixed(1));
+    });
+  }
+  window.addEventListener("scroll", function(){ requestAnimationFrame(sedimentar); }, {passive:true});
+  window.addEventListener("resize", function(){ requestAnimationFrame(sedimentar); }, {passive:true});
 
   /* ---------- arranque ---------- */
   function arrancar(datos){
