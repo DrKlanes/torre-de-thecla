@@ -1,0 +1,24 @@
+[
+  {
+    "noche": "2026-07-22",
+    "palo": "C",
+    "carta": "C36",
+    "estado": "E16",
+    "modificador": "V5",
+    "prohibidas": [
+      "eterno",
+      "gusanos",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "tuercas": [
+      "T10",
+      "T1",
+      "T18"
+    ],
+    "reintentos": 0,
+    "signatura": "SMET-0001"
+  }
+]

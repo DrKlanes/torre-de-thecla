@@ -1,1 +1,10 @@
-{ "transmisiones": [] }
+{
+  "transmisiones": [
+    {
+      "archivo": "fragmentos/SMET-0001.md",
+      "signatura": "SMET-0001",
+      "fecha": "2026-07-22T23:06:05+02:00",
+      "torre": false
+    }
+  ]
+}
