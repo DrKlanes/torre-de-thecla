@@ -387,6 +387,7 @@
     clearTimeout(musica.temporizador);
     if(musica.pieza){ try{ musica.pieza.parar(); }catch(e){} musica.pieza = null; }
     if(musica.ctx){ try{ musica.ctx.suspend(); }catch(e){} }
+    if(desmudo){ try{ desmudo.pause(); }catch(e){} }
   }
   // en móvil, al bloquear pantalla o cambiar de app el navegador interrumpe el
   // audio: congelamos el reloj al ocultarse y lo reanudamos al volver
@@ -395,6 +396,22 @@
     if(document.hidden){ try{ musica.ctx.suspend(); }catch(e){} }
     else { try{ musica.ctx.resume(); }catch(e){} }
   });
+  // iOS/iPadOS enmudece el Web Audio con el interruptor de silencio (lo trata
+  // como audio "ambiente"). Reproducir un <audio> de silencio en el mismo gesto
+  // cambia la sesión a categoría «reproducción», que sí suena en silencio.
+  var desmudo = null;
+  function desenmudecer(){
+    if(!desmudo){
+      try{
+        desmudo = document.createElement("audio");
+        desmudo.setAttribute("playsinline", "");
+        desmudo.setAttribute("webkit-playsinline", "");
+        desmudo.loop = true;
+        desmudo.src = "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAABwAAAtAAZmZmZmZmZmZmZmZmZmaAgICAgICAgICAgICAgJmZmZmZmZmZmZmZmZmZs7Ozs7Ozs7Ozs7Ozs7OzzMzMzMzMzMzMzMzMzMzm5ubm5ubm5ubm5ubm5v//////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEIAAAAAAAAALQPzf7/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV/+MYxDsAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV/+MYxHYAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV/+MYxLEAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxMQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxMQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxMQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+      }catch(e){ return; }
+    }
+    try{ var p = desmudo.play(); if(p && p.catch) p.catch(function(){}); }catch(e){}
+  }
   document.getElementById("senal").addEventListener("click", function(){
     var btn = document.getElementById("senalBtn");
     if(musica.activa){
@@ -403,6 +420,7 @@
       btn.classList.remove("sonando");
     } else {
       musica.activa = true;
+      desenmudecer();   // dentro del gesto: es lo que le da permiso a iOS
       sonar();
       btn.textContent = "[ cortar la señal ]";
       btn.classList.add("sonando");
