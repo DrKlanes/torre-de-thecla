@@ -5,6 +5,12 @@
       "signatura": "SMET-0001",
       "fecha": "2026-07-22T23:06:05+02:00",
       "torre": false
+    },
+    {
+      "archivo": "fragmentos/SMET-0002.md",
+      "signatura": "SMET-0002",
+      "fecha": "2026-07-23T03:05:19+02:00",
+      "torre": false
     }
   ]
 }

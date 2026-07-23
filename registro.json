@@ -20,5 +20,26 @@
     ],
     "reintentos": 0,
     "signatura": "SMET-0001"
+  },
+  {
+    "noche": "2026-07-23",
+    "palo": "C",
+    "carta": "C40",
+    "estado": "E40",
+    "modificador": null,
+    "prohibidas": [
+      "huesos",
+      "maldito",
+      "infierno"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "tuercas": [
+      "T17",
+      "T10"
+    ],
+    "reintentos": 0,
+    "signatura": "SMET-0002"
   }
 ]
