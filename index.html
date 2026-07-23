@@ -112,6 +112,21 @@
     42%{opacity:1}
   }
 
+  /* planos de la torre: ventanas al gran mapa, bajo las transmisiones */
+  .tx{position:relative;z-index:1}
+  .plano{
+    position:relative;z-index:0;pointer-events:none;
+    width:100vw;left:50%;transform:translateX(-50%);
+    height:66vh;margin:-14vh 0 -14vh;
+    opacity:.9;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 45%, transparent 96%);
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, #000 45%, transparent 96%);
+  }
+  .plano canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+  @media (max-width:600px){
+    .plano{height:50vh;margin:-10vh 0 -10vh}
+  }
+
   /* separador entre estratos */
   .estrato{
     text-align:center;color:var(--apagado);opacity:.35;
@@ -272,6 +287,7 @@
 
     var cont = document.getElementById("transmisiones");
     cont.appendChild(art);
+    quizasPlano(entrada, cont);
     var sep = el("div","estrato");
     sep.textContent = "···";
     cont.appendChild(sep);
@@ -357,6 +373,344 @@
   }
   window.addEventListener("scroll", function(){ requestAnimationFrame(sedimentar); }, {passive:true});
   window.addEventListener("resize", function(){ requestAnimationFrame(sedimentar); }, {passive:true});
+
+  /* ==========================================================
+     LOS PLANOS — ventanas procedurales al gran mapa de la torre
+     Deterministas por signatura + día: la torre se reordena cada
+     madrugada. Grafismo técnico normalizado, dithering, pixelado.
+     ========================================================== */
+
+  function fnv(s){
+    var h = 2166136261;
+    for(var i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  var DIA = new Date().toISOString().slice(0, 10);
+
+  var TINTA = "163,182,208";   // el trazo del delineante
+  function tin(a){ return "rgba(" + TINTA + "," + a + ")"; }
+
+  function dibujarPlano(cv, semilla){
+    var R = mulberry32(fnv(semilla));
+    var rnd = R;
+    function rint(a, b){ return a + Math.floor(R() * (b - a + 1)); }
+    function pick(arr){ return arr[Math.floor(R() * arr.length)]; }
+
+    var W = cv.width, H = cv.height;
+    var g = cv.getContext("2d");
+    g.clearRect(0, 0, W, H);
+    g.lineWidth = 1;
+
+    var zona = pick(["salones", "pasadizos", "catacumbas", "claustro", "escaleras", "mixto", "mixto"]);
+    var P = {
+      salones:    {min: 70,  grosor: 8, thin: 0},
+      pasadizos:  {min: 26,  grosor: 3, thin: 1},
+      catacumbas: {min: 34,  grosor: 5, thin: 0},
+      claustro:   {min: 55,  grosor: 7, thin: 0},
+      escaleras:  {min: 48,  grosor: 6, thin: 0},
+      mixto:      {min: 42,  grosor: 6, thin: 0}
+    }[zona];
+    if(W < 280){ P = {min: P.min * 0.72, grosor: Math.max(3, P.grosor - 1), thin: P.thin}; }
+
+    var hojas = [], muros = [];
+    function partir(x, y, w, h, prof){
+      var min = P.min * (0.8 + R() * 0.6);
+      if((w < min * 2 || h < min * 2) || prof > 8){ hojas.push({x: x, y: y, w: w, h: h}); return; }
+      var vert = w > h * 1.15 ? true : h > w * 1.15 ? false : R() < 0.5;
+      var g2 = P.grosor;
+      if(vert){
+        var px = x + min + R() * (w - 2 * min);
+        muros.push({v: 1, x: px, y: y, len: h, g: g2});
+        partir(x, y, px - x, h, prof + 1);
+        partir(px + g2, y, x + w - px - g2, h, prof + 1);
+      } else {
+        var py = y + min + R() * (h - 2 * min);
+        muros.push({v: 0, x: x, y: py, len: w, g: g2});
+        partir(x, y, w, py - y, prof + 1);
+        partir(x, py + g2, w, y + h - py - g2, prof + 1);
+      }
+    }
+    var M = 50;
+    partir(-M, -M, W + 2 * M, H + 2 * M, 0);
+
+    // puertas y ventanas por muro
+    muros.forEach(function(m){
+      m.huecos = [];
+      var n = m.len > 140 ? rint(1, 3) : m.len > 50 ? 1 : 0;
+      for(var i = 0; i < n; i++){
+        var dw = rint(9, 15);
+        var pos = 12 + R() * Math.max(1, m.len - 24 - dw);
+        m.huecos.push({pos: pos, w: dw, tipo: R() < 0.78 ? "puerta" : "ventana"});
+      }
+      m.huecos.sort(function(a, b){ return a.pos - b.pos; });
+    });
+
+    // --- muros: segmentos entre huecos, poché rayado si son gruesos ---
+    function rayado(x, y, w, h){
+      g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip();
+      g.strokeStyle = tin(0.5); g.lineWidth = 1; g.beginPath();
+      for(var s = -h; s < w; s += 4){ g.moveTo(x + s, y + h); g.lineTo(x + s + h, y); }
+      g.stroke(); g.restore();
+    }
+    muros.forEach(function(m){
+      var trozos = [], c = 0;
+      m.huecos.forEach(function(hu){ trozos.push([c, hu.pos]); c = hu.pos + hu.w; });
+      trozos.push([c, m.len]);
+      trozos.forEach(function(t){
+        var l = t[1] - t[0]; if(l <= 0) return;
+        var x = m.v ? m.x : m.x + t[0], y = m.v ? m.y + t[0] : m.y;
+        var w = m.v ? m.g : l, h = m.v ? l : m.g;
+        if(m.g > 4){
+          rayado(x, y, w, h);
+          g.strokeStyle = tin(0.85);
+          g.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+        } else {
+          g.strokeStyle = tin(0.85); g.beginPath();
+          if(m.v){ g.moveTo(x + m.g / 2, y); g.lineTo(x + m.g / 2, y + h); }
+          else { g.moveTo(x, y + m.g / 2); g.lineTo(x + w, y + m.g / 2); }
+          g.stroke();
+        }
+      });
+      // símbolos de hueco
+      m.huecos.forEach(function(hu){
+        var hx = m.v ? m.x : m.x + hu.pos, hy = m.v ? m.y + hu.pos : m.y;
+        if(hu.tipo === "puerta"){
+          g.strokeStyle = tin(0.7); g.beginPath();
+          if(m.v){
+            g.moveTo(m.x + m.g / 2, hy); g.lineTo(m.x + m.g / 2 + hu.w, hy);
+            g.arc(m.x + m.g / 2, hy, hu.w, 0, Math.PI / 2);
+          } else {
+            g.moveTo(hx, m.y + m.g / 2); g.lineTo(hx, m.y + m.g / 2 + hu.w);
+            g.arc(hx, m.y + m.g / 2, hu.w, 0, Math.PI / 2);
+          }
+          g.stroke();
+        } else {
+          // ventana: triple línea dentro del hueco (da a otra sala, nunca a fuera)
+          g.strokeStyle = tin(0.8); g.beginPath();
+          for(var k = 0; k <= 2; k++){
+            var off = (m.g / 2) * (k - 1) * 0.8;
+            if(m.v){ g.moveTo(m.x + m.g / 2 + off, hy); g.lineTo(m.x + m.g / 2 + off, hy + hu.w); }
+            else { g.moveTo(hx, m.y + m.g / 2 + off); g.lineTo(hx + hu.w, m.y + m.g / 2 + off); }
+          }
+          g.stroke();
+        }
+      });
+    });
+
+    // --- mobiliario técnico por sala ---
+    function escaleraCaracol(cx, cy, r){
+      g.strokeStyle = tin(0.8);
+      g.beginPath(); g.arc(cx, cy, r, 0, Math.PI * 2); g.stroke();
+      g.beginPath(); g.arc(cx, cy, 1.6, 0, Math.PI * 2); g.stroke();
+      g.strokeStyle = tin(0.6); g.beginPath();
+      for(var a = 0; a < 12; a++){
+        var an = a * Math.PI / 6;
+        g.moveTo(cx + Math.cos(an) * r * 0.28, cy + Math.sin(an) * r * 0.28);
+        g.lineTo(cx + Math.cos(an) * r, cy + Math.sin(an) * r);
+      }
+      g.stroke();
+      var fa = R() * Math.PI * 2;
+      flecha(cx + Math.cos(fa) * r * 0.6, cy + Math.sin(fa) * r * 0.6, fa + Math.PI / 2);
+    }
+    function flecha(x, y, ang){
+      g.strokeStyle = tin(0.8); g.beginPath();
+      g.moveTo(x, y);
+      g.lineTo(x - Math.cos(ang - 0.4) * 5, y - Math.sin(ang - 0.4) * 5);
+      g.moveTo(x, y);
+      g.lineTo(x - Math.cos(ang + 0.4) * 5, y - Math.sin(ang + 0.4) * 5);
+      g.stroke();
+    }
+    function escaleraRecta(x, y, w, h, vert){
+      g.strokeStyle = tin(0.75);
+      g.strokeRect(x + 0.5, y + 0.5, w, h);
+      g.strokeStyle = tin(0.55); g.beginPath();
+      if(vert){ for(var s = y + 5; s < y + h - 3; s += 5){ g.moveTo(x, s); g.lineTo(x + w, s); } }
+      else { for(var s2 = x + 5; s2 < x + w - 3; s2 += 5){ g.moveTo(s2, y); g.lineTo(s2, y + h); } }
+      g.stroke();
+      g.strokeStyle = tin(0.8); g.beginPath();
+      if(vert){ g.moveTo(x + w / 2, y + h - 2); g.lineTo(x + w / 2, y + 2); }
+      else { g.moveTo(x + 2, y + h / 2); g.lineTo(x + w - 2, y + h / 2); }
+      g.stroke();
+      flecha(vert ? x + w / 2 : x + w - 2, vert ? y + 2 : y + h / 2, vert ? -Math.PI / 2 : 0);
+      // línea de rotura
+      g.strokeStyle = tin(0.7); g.beginPath();
+      if(vert){ var my = y + h / 2; g.moveTo(x - 2, my + 3); g.lineTo(x + w / 3, my - 3); g.moveTo(x + w / 3, my + 3); g.lineTo(x + w + 2, my - 3); }
+      else { var mx = x + w / 2; g.moveTo(mx - 3, y - 2); g.lineTo(mx + 3, y + h / 3); g.moveTo(mx - 3, y + h / 3); g.lineTo(mx + 3, y + h + 2); }
+      g.stroke();
+    }
+    function pozo(cx, cy){
+      g.strokeStyle = tin(0.8);
+      g.beginPath(); g.arc(cx, cy, 8, 0, Math.PI * 2); g.stroke();
+      g.beginPath(); g.arc(cx, cy, 4.5, 0, Math.PI * 2); g.stroke();
+      g.strokeStyle = tin(0.5); g.beginPath();
+      g.moveTo(cx - 11, cy); g.lineTo(cx - 8, cy); g.moveTo(cx + 8, cy); g.lineTo(cx + 11, cy);
+      g.moveTo(cx, cy - 11); g.lineTo(cx, cy - 8); g.moveTo(cx, cy + 8); g.lineTo(cx, cy + 11);
+      g.stroke();
+    }
+    function columnas(hj){
+      var paso = rint(26, 40);
+      g.fillStyle = tin(0.8);
+      for(var cx = hj.x + paso; cx < hj.x + hj.w - 8; cx += paso)
+        for(var cy = hj.y + paso; cy < hj.y + hj.h - 8; cy += paso)
+          g.fillRect(cx - 2, cy - 2, 4, 4);
+    }
+    function nichos(hj){
+      g.strokeStyle = tin(0.55);
+      var s = 9;
+      for(var x = hj.x + 6; x < hj.x + hj.w - 10; x += s){
+        g.strokeRect(x, hj.y + 2, 5, 7);
+        g.strokeRect(x, hj.y + hj.h - 9, 5, 7);
+      }
+      for(var y = hj.y + 6; y < hj.y + hj.h - 10; y += s){
+        g.strokeRect(hj.x + 2, y, 7, 5);
+        g.strokeRect(hj.x + hj.w - 9, y, 7, 5);
+      }
+    }
+    var codigoRepetido = null;
+    function codigoSala(hj){
+      var cod = pick(["S", "C", "G", "P", "M", "T"]) + "-" + ("00" + rint(1, 399)).slice(-3);
+      if(codigoRepetido === null && R() < 0.4){ codigoRepetido = cod; }
+      else if(codigoRepetido && R() < 0.18){ cod = codigoRepetido; } // dos salas, mismo número
+      g.fillStyle = tin(0.5);
+      g.font = "7px monospace";
+      g.fillText(cod, hj.x + hj.w / 2 - 10, hj.y + hj.h / 2 + 2);
+    }
+
+    hojas.forEach(function(hj){
+      if(hj.x + hj.w < 0 || hj.y + hj.h < 0 || hj.x > W || hj.y > H) return;
+      var lado = Math.min(hj.w, hj.h);
+      if(zona === "catacumbas" && lado > 28 && R() < 0.75){ nichos(hj); return; }
+      if(lado > 90 && (zona === "salones" || zona === "mixto") && R() < 0.7) columnas(hj);
+      if(lado > 46 && R() < (zona === "escaleras" ? 0.55 : 0.2))
+        escaleraCaracol(hj.x + hj.w * (0.3 + R() * 0.4), hj.y + hj.h * (0.3 + R() * 0.4), Math.min(20, lado * 0.3));
+      if(R() < (zona === "escaleras" ? 0.5 : 0.18)){
+        if(hj.w > hj.h * 1.6 && hj.w > 70) escaleraRecta(hj.x + hj.w * 0.2, hj.y + hj.h / 2 - 7, Math.min(hj.w * 0.5, 90), 14, false);
+        else if(hj.h > hj.w * 1.6 && hj.h > 70) escaleraRecta(hj.x + hj.w / 2 - 7, hj.y + hj.h * 0.2, 14, Math.min(hj.h * 0.5, 90), true);
+      }
+      if(lado > 60 && R() < 0.12) pozo(hj.x + hj.w / 2, hj.y + hj.h / 2);
+      if(lado > 40 && R() < 0.5) codigoSala(hj);
+    });
+
+    // claustro: patio central vaciado con columnata
+    if(zona === "claustro"){
+      var pw = W * 0.3, ph = H * 0.34, px2 = W / 2 - pw / 2, py2 = H / 2 - ph / 2;
+      g.clearRect(px2 - 14, py2 - 14, pw + 28, ph + 28);
+      g.strokeStyle = tin(0.85);
+      g.strokeRect(px2 + 0.5, py2 + 0.5, pw, ph);
+      g.fillStyle = tin(0.8);
+      var paso2 = 22;
+      for(var cx2 = px2; cx2 <= px2 + pw + 1; cx2 += paso2){ g.fillRect(cx2 - 2, py2 - 10, 4, 4); g.fillRect(cx2 - 2, py2 + ph + 6, 4, 4); }
+      for(var cy2 = py2; cy2 <= py2 + ph + 1; cy2 += paso2){ g.fillRect(px2 - 10, cy2 - 2, 4, 4); g.fillRect(px2 + pw + 6, cy2 - 2, 4, 4); }
+      if(R() < 0.6) pozo(W / 2, H / 2);
+    }
+
+    // cruces de replanteo
+    g.strokeStyle = tin(0.4); g.beginPath();
+    for(var gx = 40; gx < W; gx += 88){
+      for(var gy = 34; gy < H; gy += 88){
+        g.moveTo(gx - 3, gy); g.lineTo(gx + 3, gy);
+        g.moveTo(gx, gy - 3); g.lineTo(gx, gy + 3);
+      }
+    }
+    g.stroke();
+
+    // una cota con su cifra (medida sin sentido)
+    var cy3 = rint(20, 40), cx3 = rint(30, Math.max(31, W - 160)), clen = rint(70, 130);
+    g.strokeStyle = tin(0.6); g.beginPath();
+    g.moveTo(cx3, cy3); g.lineTo(cx3 + clen, cy3);
+    g.moveTo(cx3, cy3 - 4); g.lineTo(cx3, cy3 + 4);
+    g.moveTo(cx3 + clen, cy3 - 4); g.lineTo(cx3 + clen, cy3 + 4);
+    g.moveTo(cx3 - 2, cy3 + 2); g.lineTo(cx3 + 2, cy3 - 2);
+    g.moveTo(cx3 + clen - 2, cy3 + 2); g.lineTo(cx3 + clen + 2, cy3 - 2);
+    g.stroke();
+    g.fillStyle = tin(0.55); g.font = "7px monospace";
+    g.fillText((clen * 0.07 + R()).toFixed(2), cx3 + clen / 2 - 8, cy3 - 3);
+
+    // el punto de interés: cota de nivel, cruz de replanteo o equis. Sin explicación.
+    if(R() < 0.72){
+      var hsel = pick(hojas.filter(function(h2){ return h2.x > 10 && h2.y > 10 && h2.x + h2.w < W - 10 && h2.y + h2.h < H - 10; }) );
+      if(hsel){
+        var mx2 = hsel.x + hsel.w * (0.25 + R() * 0.5), my2 = hsel.y + hsel.h * (0.25 + R() * 0.5);
+        var tipo = pick(["cota", "cruz", "equis"]);
+        g.strokeStyle = tin(0.95); g.beginPath();
+        if(tipo === "cota"){
+          g.moveTo(mx2 - 5, my2 - 7); g.lineTo(mx2 + 5, my2 - 7); g.lineTo(mx2, my2); g.closePath();
+          g.moveTo(mx2 - 8, my2); g.lineTo(mx2 + 8, my2);
+        } else if(tipo === "cruz"){
+          g.arc(mx2, my2, 5, 0, Math.PI * 2);
+          g.moveTo(mx2 - 8, my2); g.lineTo(mx2 + 8, my2);
+          g.moveTo(mx2, my2 - 8); g.lineTo(mx2, my2 + 8);
+        } else {
+          g.moveTo(mx2 - 5, my2 - 5); g.lineTo(mx2 + 5, my2 + 5);
+          g.moveTo(mx2 + 5, my2 - 5); g.lineTo(mx2 - 5, my2 + 5);
+        }
+        g.stroke();
+      }
+    }
+
+    ditherizar(g, W, H);
+  }
+
+  // dithering ordenado (Bayer 4x4): el plano queda impreso, no renderizado
+  var BAYER = [[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+  function ditherizar(g, W, H){
+    var id = g.getImageData(0, 0, W, H), d = id.data;
+    for(var y = 0; y < H; y++){
+      for(var x = 0; x < W; x++){
+        var i = (y * W + x) * 4;
+        var a = d[i + 3] / 255;
+        var t = (BAYER[y & 3][x & 3] + 0.5) / 16;
+        d[i + 3] = a > t ? 175 : 0;
+      }
+    }
+    g.putImageData(id, 0, 0);
+  }
+
+  // inserción y dibujo perezoso
+  var PXL = 2; // 1 pixel de plano = 2 pixeles de pantalla
+  var obsPlanos = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var cv = en.target.querySelector("canvas");
+      pintarPlano(en.target, cv);
+      obsPlanos.unobserve(en.target);
+    });
+  }, {rootMargin: "900px"});
+
+  function pintarPlano(div, cv){
+    cv.width = Math.max(80, Math.round(div.clientWidth / PXL));
+    cv.height = Math.max(60, Math.round(div.clientHeight / PXL));
+    dibujarPlano(cv, div.dataset.semilla);
+    div.dataset.pintado = "1";
+  }
+
+  function quizasPlano(entrada, cont){
+    var clave = (entrada.signatura || entrada.archivo || "x");
+    if(mulberry32(fnv(clave + "·hueco"))() > 0.62) return;   // no siempre
+    var div = el("div", "plano");
+    div.dataset.semilla = clave + "·" + DIA;
+    div.appendChild(document.createElement("canvas"));
+    cont.appendChild(div);
+    obsPlanos.observe(div);
+  }
+
+  var redibTimer = null;
+  window.addEventListener("resize", function(){
+    clearTimeout(redibTimer);
+    redibTimer = setTimeout(function(){
+      document.querySelectorAll('.plano[data-pintado="1"]').forEach(function(div){
+        pintarPlano(div, div.querySelector("canvas"));
+      });
+    }, 300);
+  }, {passive:true});
 
   /* ---------- arranque ---------- */
   function arrancar(datos){
