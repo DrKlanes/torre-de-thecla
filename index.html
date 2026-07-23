@@ -702,6 +702,29 @@
     obsPlanos.observe(div);
   }
 
+  // tecla secreta de autor: G descarga como PNG (4x, pixelado intacto) el plano más visible
+  window.addEventListener("keydown", function(ev){
+    if(ev.key !== "g" && ev.key !== "G") return;
+    var mejor = null, mejorVis = 0;
+    document.querySelectorAll('.plano[data-pintado="1"]').forEach(function(div){
+      var r = div.getBoundingClientRect();
+      var vis = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+      if(vis > mejorVis){ mejorVis = vis; mejor = div; }
+    });
+    if(!mejor) return;
+    var cv = mejor.querySelector("canvas");
+    var out = document.createElement("canvas");
+    out.width = cv.width * 4; out.height = cv.height * 4;
+    var og = out.getContext("2d");
+    og.fillStyle = "#070b14"; og.fillRect(0, 0, out.width, out.height);
+    og.imageSmoothingEnabled = false;
+    og.drawImage(cv, 0, 0, out.width, out.height);
+    var a = document.createElement("a");
+    a.download = "plano-" + (mejor.dataset.semilla || "torre").replace(/[^\w.-]+/g, "-") + ".png";
+    a.href = out.toDataURL("image/png");
+    a.click();
+  });
+
   var redibTimer = null;
   window.addEventListener("resize", function(){
     clearTimeout(redibTimer);
