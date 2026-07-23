@@ -79,14 +79,14 @@
     letter-spacing:.3em;text-indent:.3em;margin-top:.9rem;
   }
   .tx-mancha{width:150px;height:54px;display:block}
-  /* el sedimento: lo ya leído se hunde en azul al subir */
-  .tx{--lejos:0}
-  .tx .tx-cuerpo, .tx .tx-sig{
-    color:color-mix(in oklab, var(--sedimento) calc(var(--lejos)*1%), var(--texto));
-    transition:color .35s linear;
+  /* el sedimento: lo ya leído se hunde en azul al subir, párrafo a párrafo */
+  .tx-cuerpo p{
+    color:color-mix(in oklab, var(--sedimento) calc(var(--lejos,0)*1%), var(--texto));
+    transition:color .3s linear;
   }
-  .tx .tx-sig{
-    color:color-mix(in oklab, var(--sedimento) calc(var(--lejos)*1%), var(--frio));
+  .tx-sig{
+    color:color-mix(in oklab, var(--sedimento) calc(var(--lejos,0)*1%), var(--frio)) !important;
+    transition:color .3s linear;
   }
   .tx-cuerpo{font-size:1.16rem;line-height:1.85;color:var(--texto)}
   .tx-cuerpo p{margin-bottom:1.35em}
@@ -335,13 +335,24 @@
   if(window.matchMedia("(min-width: 700px)").matches) ponerSenal();
 
   /* ---------- el sedimento (tinte azul de lo ya leído) ---------- */
+  // Un elemento empieza a teñirse en cuanto su base sube por encima de la
+  // zona de lectura (banda central de la vista) y llega al tinte pleno cerca
+  // del borde superior — es decir, se le VE hundirse, aún en pantalla.
   function sedimentar(){
     var vh = window.innerHeight;
-    document.querySelectorAll(".tx").forEach(function(a){
-      var r = a.getBoundingClientRect();
-      var subida = vh * 0.30 - r.bottom;              // cuánto ha subido más allá del umbral
-      var t = Math.max(0, Math.min(1, subida / (vh * 0.55)));
-      a.style.setProperty("--lejos", (t * 85).toFixed(1));
+    var movil = window.innerWidth < 700;
+    var foco = vh * (movil ? 0.62 : 0.52);   // donde empieza el hundimiento
+    var tope = vh * 0.06;                     // donde el azul es pleno
+    document.querySelectorAll(".tx").forEach(function(art){
+      var ra = art.getBoundingClientRect();
+      if(ra.top > vh * 1.5 || ra.bottom < -vh){ return; }  // lejos de la vista: no tocar
+      var piezas = art.querySelectorAll(".tx-cuerpo p, .tx-sig");
+      piezas.forEach(function(el){
+        var base = el.getBoundingClientRect().bottom;
+        var t = (foco - base) / (foco - tope);
+        t = Math.max(0, Math.min(1, t));
+        el.style.setProperty("--lejos", (t * 95).toFixed(1));
+      });
     });
   }
   window.addEventListener("scroll", function(){ requestAnimationFrame(sedimentar); }, {passive:true});
