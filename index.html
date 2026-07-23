@@ -143,18 +143,22 @@
     font-size:.68rem;letter-spacing:.4em;text-indent:.4em;padding-bottom:22vh;opacity:.5;
   }
 
-  /* ---- la señal (música procedural) ---- */
-  #senal{position:fixed;left:1.1rem;bottom:1rem;z-index:6}
+  /* ---- la señal (música procedural): onda arriba, centro ---- */
+  #senal{
+    position:fixed;top:.9rem;left:50%;transform:translateX(-50%);
+    z-index:6;text-align:center;cursor:pointer;padding:.3rem .8rem;
+  }
+  #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
   #senalBtn{
     background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.72rem;letter-spacing:.2em;
-    color:var(--frio);padding:.4rem;
+    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
+    color:var(--frio);padding:.15rem 0 0;
     animation:latSenal 5s ease-in-out infinite;
     transition:color .3s;
   }
-  #senalBtn:hover{animation-play-state:paused;opacity:1;color:var(--texto)}
+  #senal:hover #senalBtn{animation-play-state:paused;opacity:1;color:var(--texto)}
   #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
-  #senalBtn.sonando:hover{opacity:.9;color:var(--frio)}
+  #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
   @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 
   ::selection{background:#1b2637;color:#e6ecf4}
@@ -181,6 +185,7 @@
 <div id="finArchivo" hidden>— principio del archivo —</div>
 
 <div id="senal">
+  <canvas id="ondaCv" width="75" height="14"></canvas>
   <button id="senalBtn" aria-label="sintonizar la señal">[ sintonizar la señal ]</button>
 </div>
 
@@ -357,7 +362,9 @@
     var ctx = new AC();
     musica.ctx = ctx;
     var vol = ctx.createGain(); vol.gain.value = 0.22;   // bajo la lectura, siempre
-    vol.connect(ctx.destination);
+    var analizador = ctx.createAnalyser(); analizador.fftSize = 2048;
+    vol.connect(analizador); analizador.connect(ctx.destination);
+    musica.analizador = analizador;
     SENAL.tocar(ctx, vol, semillaMusical(), caracterMusical(), musica.TRAMO);
     // la pieza respira en tramos: al agotarse uno, vuelve a empezar (nadie nota un bucle de 8 min)
     musica.temporizador = setTimeout(function(){
@@ -371,7 +378,7 @@
     clearTimeout(musica.temporizador);
     if(musica.ctx){ try{ musica.ctx.close(); }catch(e){} musica.ctx = null; }
   }
-  document.getElementById("senalBtn").addEventListener("click", function(){
+  document.getElementById("senal").addEventListener("click", function(){
     var btn = document.getElementById("senalBtn");
     if(musica.activa){
       cortar();
@@ -384,6 +391,36 @@
       btn.classList.add("sonando");
     }
   });
+
+  /* la onda: forma de onda REAL cuando suena; señal muerta con pulsos cuando espera */
+  (function(){
+    var cv = document.getElementById("ondaCv"), go = cv.getContext("2d");
+    var W = cv.width, Hh = cv.height, mitad = Hh / 2;
+    var datos = new Uint8Array(2048);
+    function cuadro(ts){
+      var t = ts / 1000;
+      go.clearRect(0, 0, W, Hh);
+      go.fillStyle = "hsla(" + matizActual() + ", 20%, 66%, 0.85)";
+      if(musica.activa && musica.analizador){
+        musica.analizador.getByteTimeDomainData(datos);
+        for(var x = 0; x < W; x++){
+          var v = (datos[Math.floor(x / W * datos.length)] - 128) / 128;
+          v = Math.max(-1, Math.min(1, v * 2.4));   // amplificar para la vista
+          go.fillRect(x, Math.round(mitad + v * (mitad - 1.5)), 1, 1);
+        }
+      } else {
+        var ciclo = (t % 4.2) / 4.2, cx = ciclo * (W + 24) - 12;
+        for(var x2 = 0; x2 < W; x2++){
+          var env = Math.exp(-Math.pow(x2 - cx, 2) / 22);
+          var y = mitad + Math.sin(x2 * 0.9 + t * 5) * (mitad - 2) * env
+                        + (Math.sin(x2 * 7.3 + t * 2) * 0.4);
+          go.fillRect(x2, Math.round(y), 1, 1);
+        }
+      }
+      requestAnimationFrame(cuadro);
+    }
+    requestAnimationFrame(cuadro);
+  })();
 
   /* ---------- la brisa: el matiz de la noche, desde la tirada ---------- */
   function aplicarBrisa(){
