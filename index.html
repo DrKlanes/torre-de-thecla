@@ -348,7 +348,7 @@
   }, {passive:true});
 
   /* ---------- la señal: la pieza de esta noche, sintetizada aquí ---------- */
-  var musica = {ctx: null, activa: false, temporizador: null, TRAMO: 480};
+  var musica = {ctx: null, vol: null, pieza: null, activa: false, temporizador: null, TRAMO: 480};
   function semillaMusical(){
     return (lista.length && lista[0].signatura) ? lista[0].signatura
          : (lista.length && lista[0].torre) ? "TORRE" : "SMET-0000";
@@ -364,26 +364,37 @@
   }
   function sonar(){
     if(!musica.activa) return;
-    var AC = window.AudioContext || window.webkitAudioContext;
-    var ctx = new AC();
-    musica.ctx = ctx;
-    var vol = ctx.createGain(); vol.gain.value = 0.22;   // bajo la lectura, siempre
-    var analizador = ctx.createAnalyser(); analizador.fftSize = 2048;
-    vol.connect(analizador); analizador.connect(ctx.destination);
-    musica.analizador = analizador;
-    SENAL.tocar(ctx, vol, semillaMusical(), caracterMusical(), musica.TRAMO);
+    // UN solo AudioContext para toda la visita: crearlo y cerrarlo una y otra
+    // vez deja mudo el audio del sistema en móvil. Se crea en el primer toque
+    // (gesto del usuario) y después solo se suspende/reanuda.
+    if(!musica.ctx){
+      var AC = window.AudioContext || window.webkitAudioContext;
+      var ctx = new AC({latencyHint: "playback"});   // búfer holgado: menos microcortes
+      musica.ctx = ctx;
+      musica.vol = ctx.createGain(); musica.vol.gain.value = 0.22;   // bajo la lectura, siempre
+      var analizador = ctx.createAnalyser(); analizador.fftSize = 2048;
+      musica.vol.connect(analizador); analizador.connect(ctx.destination);
+      musica.analizador = analizador;
+    }
+    if(musica.ctx.state !== "running"){ try{ musica.ctx.resume(); }catch(e){} }
+    if(musica.pieza){ try{ musica.pieza.parar(); }catch(e){} }
+    musica.pieza = SENAL.tocar(musica.ctx, musica.vol, semillaMusical(), caracterMusical(), musica.TRAMO);
     // la pieza respira en tramos: al agotarse uno, vuelve a empezar (nadie nota un bucle de 8 min)
-    musica.temporizador = setTimeout(function(){
-      var viejo = musica.ctx;
-      if(viejo){ try{ viejo.close(); }catch(e){} }
-      sonar();
-    }, (musica.TRAMO - 1.5) * 1000);
+    musica.temporizador = setTimeout(sonar, (musica.TRAMO - 1.5) * 1000);
   }
   function cortar(){
     musica.activa = false;
     clearTimeout(musica.temporizador);
-    if(musica.ctx){ try{ musica.ctx.close(); }catch(e){} musica.ctx = null; }
+    if(musica.pieza){ try{ musica.pieza.parar(); }catch(e){} musica.pieza = null; }
+    if(musica.ctx){ try{ musica.ctx.suspend(); }catch(e){} }
   }
+  // en móvil, al bloquear pantalla o cambiar de app el navegador interrumpe el
+  // audio: congelamos el reloj al ocultarse y lo reanudamos al volver
+  document.addEventListener("visibilitychange", function(){
+    if(!musica.ctx || !musica.activa) return;
+    if(document.hidden){ try{ musica.ctx.suspend(); }catch(e){} }
+    else { try{ musica.ctx.resume(); }catch(e){} }
+  });
   document.getElementById("senal").addEventListener("click", function(){
     var btn = document.getElementById("senalBtn");
     if(musica.activa){
