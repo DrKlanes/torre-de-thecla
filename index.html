@@ -13,13 +13,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
-    --fondo:#070b14;
-    --texto:#c3cbd6;
-    --frio:#8fa0b5;
-    --apagado:#4d5868;
-    --mancha:#111a29;
-    --mancha-nucleo:#0b1220;
-    --sedimento:#3f66c4;
+    /* la brisa: todo el color nace de un matiz que la tirada de la noche desplaza */
+    --matiz:222;
+    --fondo:hsl(var(--matiz), 48%, 5%);
+    --texto:hsl(var(--matiz), 19%, 80%);
+    --frio:hsl(var(--matiz), 20%, 64%);
+    --apagado:hsl(var(--matiz), 15%, 35%);
+    --mancha:hsl(var(--matiz), 40%, 11%);
+    --mancha-nucleo:hsl(var(--matiz), 47%, 8%);
+    --sedimento:hsl(var(--matiz), 52%, 51%);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -29,6 +31,7 @@
     font-family:'Noticia Text', Georgia, serif;
     min-height:100vh;
     overflow-x:hidden;
+    transition:background-color 6s linear;
   }
   /* vignette + grain fijos */
   #vig{position:fixed;inset:0;pointer-events:none;z-index:3;
@@ -140,16 +143,19 @@
     font-size:.68rem;letter-spacing:.4em;text-indent:.4em;padding-bottom:22vh;opacity:.5;
   }
 
-  /* ---- señal de fondo ---- */
+  /* ---- la señal (música procedural) ---- */
   #senal{position:fixed;left:1.1rem;bottom:1rem;z-index:6}
   #senalBtn{
     background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.2em;
-    color:var(--apagado);opacity:.6;transition:opacity .3s,color .3s;padding:.4rem;
+    font-family:'Courier New',monospace;font-size:.72rem;letter-spacing:.2em;
+    color:var(--frio);padding:.4rem;
+    animation:latSenal 5s ease-in-out infinite;
+    transition:color .3s;
   }
-  #senalBtn:hover{opacity:1;color:var(--frio)}
-  #senalEmbed{margin-top:.5rem}
-  #senalEmbed iframe{border-radius:8px;display:block;width:min(300px,calc(100vw - 2.2rem));height:152px;border:0}
+  #senalBtn:hover{animation-play-state:paused;opacity:1;color:var(--texto)}
+  #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
+  #senalBtn.sonando:hover{opacity:.9;color:var(--frio)}
+  @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 
   ::selection{background:#1b2637;color:#e6ecf4}
   @media (max-width:600px){
@@ -175,10 +181,10 @@
 <div id="finArchivo" hidden>— principio del archivo —</div>
 
 <div id="senal">
-  <button id="senalBtn" aria-label="señal de fondo">[ señal de fondo ]</button>
-  <div id="senalEmbed" hidden></div>
+  <button id="senalBtn" aria-label="sintonizar la señal">[ sintonizar la señal ]</button>
 </div>
 
+<script src="motor.js"></script>
 <svg width="0" height="0" style="position:absolute">
   <defs>
     <filter id="fMancha" x="-40%" y="-80%" width="180%" height="260%">
@@ -198,7 +204,6 @@
 (function(){
   "use strict";
 
-  var PLAYLIST = "5Jm63LQHocyXae6iXWR7kq";
   var LOTE = 3;                 // transmisiones por carga
   var lista = [];               // ordenadas: la más nueva primero
   var puntero = 0;
@@ -331,24 +336,72 @@
     document.getElementById("prof").style.opacity = prof.toFixed(3);
   }, {passive:true});
 
-  /* ---------- señal de fondo ---------- */
-  function ponerSenal(){
-    var caja = document.getElementById("senalEmbed");
-    caja.innerHTML = '<iframe src="https://open.spotify.com/embed/playlist/'+PLAYLIST+'?theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
-    caja.hidden = false;
-    document.getElementById("senalBtn").textContent = "[ cortar señal ]";
+  /* ---------- la señal: la pieza de esta noche, sintetizada aquí ---------- */
+  var musica = {ctx: null, activa: false, temporizador: null, TRAMO: 480};
+  function semillaMusical(){
+    return (lista.length && lista[0].signatura) ? lista[0].signatura
+         : (lista.length && lista[0].torre) ? "TORRE" : "SMET-0000";
   }
-  function quitarSenal(){
-    var caja = document.getElementById("senalEmbed");
-    caja.innerHTML = "";
-    caja.hidden = true;
-    document.getElementById("senalBtn").textContent = "[ señal de fondo ]";
+  function caracterMusical(){
+    var r = window.__registro;
+    if(!r || !r.length) return "tragado";
+    var u = r[r.length - 1];
+    if(u.carta === "TORRE") return "torre";
+    if(u.palo === "D") return "presencia";
+    if(u.senal === "clara") return "clara";
+    return "tragado";
+  }
+  function sonar(){
+    if(!musica.activa) return;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    var ctx = new AC();
+    musica.ctx = ctx;
+    var vol = ctx.createGain(); vol.gain.value = 0.22;   // bajo la lectura, siempre
+    vol.connect(ctx.destination);
+    SENAL.tocar(ctx, vol, semillaMusical(), caracterMusical(), musica.TRAMO);
+    // la pieza respira en tramos: al agotarse uno, vuelve a empezar (nadie nota un bucle de 8 min)
+    musica.temporizador = setTimeout(function(){
+      var viejo = musica.ctx;
+      if(viejo){ try{ viejo.close(); }catch(e){} }
+      sonar();
+    }, (musica.TRAMO - 1.5) * 1000);
+  }
+  function cortar(){
+    musica.activa = false;
+    clearTimeout(musica.temporizador);
+    if(musica.ctx){ try{ musica.ctx.close(); }catch(e){} musica.ctx = null; }
   }
   document.getElementById("senalBtn").addEventListener("click", function(){
-    if(document.getElementById("senalEmbed").hidden) ponerSenal(); else quitarSenal();
+    var btn = document.getElementById("senalBtn");
+    if(musica.activa){
+      cortar();
+      btn.textContent = "[ sintonizar la señal ]";
+      btn.classList.remove("sonando");
+    } else {
+      musica.activa = true;
+      sonar();
+      btn.textContent = "[ cortar la señal ]";
+      btn.classList.add("sonando");
+    }
   });
-  // visible de serie en pantallas con sitio; plegada en móvil
-  if(window.matchMedia("(min-width: 700px)").matches) ponerSenal();
+
+  /* ---------- la brisa: el matiz de la noche, desde la tirada ---------- */
+  function aplicarBrisa(){
+    var r = window.__registro;
+    if(!r || !r.length) return;
+    var u = r[r.length - 1];
+    var matiz = u.carta === "TORRE" ? 213
+              : ({A: 222, B: 207, C: 234, D: 250})[u.palo] || 222;
+    document.documentElement.style.setProperty("--matiz", matiz);
+  }
+  function cargarRegistro(){
+    if(window.PREVIEW_REGISTRO){ window.__registro = window.PREVIEW_REGISTRO; aplicarBrisa(); return; }
+    fetch("registro.json?v=" + Date.now())
+      .then(function(res){ return res.json(); })
+      .then(function(r){ window.__registro = r; aplicarBrisa(); })
+      .catch(function(){ /* sin registro, el azul canon */ });
+  }
+  cargarRegistro();
 
   /* ---------- el sedimento (tinte azul de lo ya leído) ---------- */
   // Un elemento empieza a teñirse en cuanto su base sube por encima de la
@@ -395,8 +448,11 @@
   }
   var DIA = new Date().toISOString().slice(0, 10);
 
-  var TINTA = "163,182,208";   // el trazo del delineante
-  function tin(a){ return "rgba(" + TINTA + "," + a + ")"; }
+  function matizActual(){
+    var m = getComputedStyle(document.documentElement).getPropertyValue("--matiz").trim();
+    return parseFloat(m) || 222;
+  }
+  function tin(a){ return "hsla(" + matizActual() + ", 22%, 73%, " + a + ")"; }  // el trazo del delineante sigue la brisa
 
   function dibujarPlano(cv, semilla){
     var R = mulberry32(fnv(semilla));
