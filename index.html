@@ -479,9 +479,10 @@
     var r = window.__registro;
     if(!r || !r.length) return;
     var u = r[r.length - 1];
-    // el palo desplaza el matiz (abanico abierto: se nota sin gritar)
+    // el palo desplaza el matiz (abanico abierto: se nota sin gritar);
+    // X es el polizón: el único color que no debería estar
     var matiz = u.carta === "TORRE" ? 213
-              : ({A: 222, B: 200, C: 245, D: 265})[u.palo] || 222;
+              : ({A: 222, B: 200, C: 245, D: 265, X: 190})[u.palo] || 222;
     // la señal hunde o levanta la luz: abisal se hunde, clara clarea, la torre apaga
     var luz = u.carta === "TORRE" ? -2.6
             : ({abisal: -1.6, turbia: 0, clara: 2.2})[u.senal] || 0;
