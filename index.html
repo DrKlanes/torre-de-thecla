@@ -71,6 +71,18 @@
     font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.35em;text-indent:.35em;
     color:var(--apagado);margin-top:1.6rem;opacity:.7;
   }
+  /* los pregones: donde la señal también se oye, en susurro */
+  .sil-ecos{
+    font-family:'Courier New',monospace;font-size:.62rem;
+    letter-spacing:.35em;text-indent:.35em;
+    margin-top:2.6rem;opacity:.55;
+  }
+  .sil-ecos a{
+    color:var(--apagado);text-decoration:none;
+    transition:color .4s ease;
+  }
+  .sil-ecos a:hover{color:var(--frio)}
+  .sil-ecos .eco-sep{color:var(--apagado);opacity:.5;margin:0 .9em}
   .bajar{
     margin-top:14vh;color:var(--apagado);font-family:'Courier New',monospace;
     font-size:.8rem;opacity:.55;animation:lat 4s ease-in-out infinite;
@@ -185,6 +197,9 @@
   <div class="sil-label">Silencio</div>
   <div class="sil-count" id="silCount">·····</div>
   <div class="sil-sub" id="silSub">desde la última transmisión</div>
+  <div class="sil-ecos">
+    <a href="https://bsky.app/profile/torredethecla.bsky.social" target="_blank" rel="noopener">bluesky</a><span class="eco-sep">·</span><a href="https://x.com/torredethecla" target="_blank" rel="noopener">x</a>
+  </div>
   <div class="bajar">▾</div>
 </section>
 
