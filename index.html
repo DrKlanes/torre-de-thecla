@@ -19,15 +19,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* la brisa: todo el color nace de un matiz que la tirada de la noche desplaza */
+    /* la brisa: todo el color nace de un matiz que la tirada de la noche desplaza,
+       y de una luz que la señal hunde o levanta (abisal se hunde, clara clarea) */
     --matiz:222;
-    --fondo:hsl(var(--matiz), 48%, 5%);
-    --texto:hsl(var(--matiz), 19%, 80%);
-    --frio:hsl(var(--matiz), 20%, 64%);
-    --apagado:hsl(var(--matiz), 15%, 35%);
-    --mancha:hsl(var(--matiz), 40%, 11%);
-    --mancha-nucleo:hsl(var(--matiz), 47%, 8%);
-    --sedimento:hsl(var(--matiz), 52%, 51%);
+    --luz:0%;
+    --fondo:hsl(var(--matiz), 48%, calc(5% + var(--luz)));
+    --texto:hsl(var(--matiz), 19%, calc(80% + var(--luz)));
+    --frio:hsl(var(--matiz), 20%, calc(64% + var(--luz)));
+    --apagado:hsl(var(--matiz), 15%, calc(35% + var(--luz)));
+    --mancha:hsl(var(--matiz), 40%, calc(11% + var(--luz)));
+    --mancha-nucleo:hsl(var(--matiz), 47%, calc(8% + var(--luz)));
+    --sedimento:hsl(var(--matiz), 52%, calc(51% + var(--luz)));
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -435,7 +437,7 @@
     function cuadro(ts){
       var t = ts / 1000;
       go.clearRect(0, 0, W, Hh);
-      go.fillStyle = "hsla(" + matizActual() + ", 20%, 66%, 0.85)";
+      go.fillStyle = "hsla(" + matizActual() + ", 20%, " + (66 + luzActual()) + "%, 0.85)";
       if(musica.activa && musica.analizador){
         musica.analizador.getByteTimeDomainData(datos);
         for(var x = 0; x < W; x++){
@@ -462,9 +464,14 @@
     var r = window.__registro;
     if(!r || !r.length) return;
     var u = r[r.length - 1];
+    // el palo desplaza el matiz (abanico abierto: se nota sin gritar)
     var matiz = u.carta === "TORRE" ? 213
-              : ({A: 222, B: 207, C: 234, D: 250})[u.palo] || 222;
+              : ({A: 222, B: 200, C: 245, D: 265})[u.palo] || 222;
+    // la señal hunde o levanta la luz: abisal se hunde, clara clarea, la torre apaga
+    var luz = u.carta === "TORRE" ? -2.6
+            : ({abisal: -1.6, turbia: 0, clara: 2.2})[u.senal] || 0;
     document.documentElement.style.setProperty("--matiz", matiz);
+    document.documentElement.style.setProperty("--luz", luz + "%");
   }
   function cargarRegistro(){
     if(window.PREVIEW_REGISTRO){ window.__registro = window.PREVIEW_REGISTRO; aplicarBrisa(); return; }
@@ -524,7 +531,11 @@
     var m = getComputedStyle(document.documentElement).getPropertyValue("--matiz").trim();
     return parseFloat(m) || 222;
   }
-  function tin(a){ return "hsla(" + matizActual() + ", 22%, 73%, " + a + ")"; }  // el trazo del delineante sigue la brisa
+  function luzActual(){
+    var l = getComputedStyle(document.documentElement).getPropertyValue("--luz").trim();
+    return parseFloat(l) || 0;
+  }
+  function tin(a){ return "hsla(" + matizActual() + ", 22%, " + (73 + luzActual()) + "%, " + a + ")"; }  // el trazo del delineante sigue la brisa
 
   function dibujarPlano(cv, semilla){
     var R = mulberry32(fnv(semilla));
