@@ -41,5 +41,25 @@
     ],
     "reintentos": 0,
     "signatura": "SMET-0002"
+  },
+  {
+    "noche": "2026-07-24",
+    "palo": "A",
+    "carta": "A33",
+    "estado": "E7",
+    "modificador": "V13",
+    "prohibidas": [
+      "podrido",
+      "escupir",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 1.71,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "esquirla": "Pedrazo húmedo; la misa, un eco seco en mi garganta muerta. Dedos rotos sostienen el aire… hasta que solo queda hambre helada donde debió estar Dios. No hay piedad: solo polvo gélido y silencio eterno entre mis dientes vacíos.",
+    "signatura": "SMET-0003"
   }
 ]
