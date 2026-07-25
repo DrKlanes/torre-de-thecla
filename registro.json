@@ -19,7 +19,8 @@
       "T18"
     ],
     "reintentos": 0,
-    "signatura": "SMET-0001"
+    "signatura": "SMET-0001",
+    "palabras": 281
   },
   {
     "noche": "2026-07-23",
@@ -40,7 +41,8 @@
       "T10"
     ],
     "reintentos": 0,
-    "signatura": "SMET-0002"
+    "signatura": "SMET-0002",
+    "palabras": 210
   },
   {
     "noche": "2026-07-24",
@@ -60,7 +62,8 @@
     "tuercas": null,
     "reintentos": 0,
     "esquirla": "Pedrazo húmedo; la misa, un eco seco en mi garganta muerta. Dedos rotos sostienen el aire… hasta que solo queda hambre helada donde debió estar Dios. No hay piedad: solo polvo gélido y silencio eterno entre mis dientes vacíos.",
-    "signatura": "SMET-0003"
+    "signatura": "SMET-0003",
+    "palabras": 146
   },
   {
     "noche": "2026-07-25",
@@ -80,6 +83,7 @@
     "tuercas": null,
     "reintentos": 0,
     "esquirla": "Salmuera fría suda piedra no mía. Siglos caen plumas oxidadas bajo el trueno real que me golpea; recordar esperanza es maldecirse. Pasos muertos, compañeros ausentes hambrientos en la garganta rota: dentadura y olvido dulce. La torre respira… yo también respiro para nada.",
-    "signatura": "SMET-0004"
+    "signatura": "SMET-0004",
+    "palabras": 215
   }
 ]

@@ -181,6 +181,36 @@
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
   @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 
+  /* ---- el poso: el fondo del archivo ---- */
+  #poso{position:relative;margin-top:8vh}
+  .poso-cab{text-align:center;margin-bottom:3.2rem}
+  .poso-titulo{
+    display:block;font-family:'Jacquard 12','Courier New',monospace;
+    font-size:2.3rem;color:var(--frio);letter-spacing:.06em;
+  }
+  .poso-sub{
+    display:block;font-family:'Courier New',monospace;font-size:.68rem;
+    color:var(--apagado);letter-spacing:.3em;text-indent:.3em;margin-top:.9rem;
+  }
+  .poso-marco{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    line-height:0;
+  }
+  #posoCv{
+    width:100%;display:block;image-rendering:pixelated;
+    cursor:crosshair;touch-action:pan-y;
+  }
+  .poso-info{
+    text-align:center;font-family:'Courier New',monospace;font-size:.62rem;
+    color:var(--frio);letter-spacing:.18em;min-height:1.4em;
+    margin:.9rem 1rem 0;opacity:.75;
+  }
+  .poso-pie{
+    text-align:center;font-family:'Courier New',monospace;font-size:.6rem;
+    color:var(--apagado);letter-spacing:.3em;text-indent:.3em;
+    margin:.6rem 1rem 0;opacity:.55;padding-bottom:12vh;
+  }
+
   ::selection{background:#1b2637;color:#e6ecf4}
   @media (max-width:600px){
     .tx{margin-bottom:34vh}
@@ -206,6 +236,16 @@
 <main id="transmisiones"></main>
 <div id="fondoLista"></div>
 <div id="finArchivo" hidden>— principio del archivo —</div>
+
+<section id="poso" aria-label="el poso">
+  <div class="poso-cab">
+    <span class="poso-titulo">el poso</span>
+    <span class="poso-sub">lo que la torre no devuelve</span>
+  </div>
+  <div class="poso-marco"><canvas id="posoCv" width="220" height="120"></canvas></div>
+  <div class="poso-info" id="posoInfo">&nbsp;</div>
+  <div class="poso-pie">un grano por palabra · la arena reciente aún se mueve · la piedra ya es de la torre</div>
+</section>
 
 <div id="senal">
   <canvas id="ondaCv" width="75" height="14"></canvas>
@@ -915,5 +955,6 @@
   }
 })();
 </script>
+<script src="el-poso.js"></script>
 </body>
 </html>
