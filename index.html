@@ -212,6 +212,23 @@
     margin:.6rem 1rem 0;opacity:.55;padding-bottom:12vh;
   }
 
+  /* ---- atajos: el poso y la vuelta al silencio ---- */
+  #atajos{
+    position:fixed;bottom:.9rem;left:0;right:0;z-index:6;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    padding:0 1.1rem;pointer-events:none;
+  }
+  .atajo{
+    pointer-events:auto;background:none;border:none;cursor:pointer;
+    font-family:'Courier New',monospace;font-size:.66rem;letter-spacing:.22em;
+    color:var(--apagado);opacity:.6;padding:.4rem .2rem;
+    transition:color .3s ease, opacity .6s ease;
+  }
+  .atajo:hover{color:var(--frio);opacity:1}
+  .atajo.oculto{opacity:0;pointer-events:none;animation:none}
+  #irPoso{animation:latSenal 5s ease-in-out infinite}
+  #irPoso:hover{animation-play-state:paused}
+
   ::selection{background:#1b2637;color:#e6ecf4}
   @media (max-width:600px){
     .tx{margin-bottom:34vh}
@@ -252,6 +269,11 @@
   <canvas id="ondaCv" width="75" height="14"></canvas>
   <button id="senalBtn" aria-label="sintonizar la señal">[ sintonizar la señal ]</button>
 </div>
+
+<nav id="atajos" aria-label="atajos del descenso">
+  <button id="irSilencio" class="atajo oculto" aria-label="volver al silencio">▴ el silencio</button>
+  <button id="irPoso" class="atajo" aria-label="bajar al poso">el poso ▾</button>
+</nav>
 
 <script src="motor.js"></script>
 <svg width="0" height="0" style="position:absolute">

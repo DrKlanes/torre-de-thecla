@@ -541,20 +541,50 @@ function conRegistro(cb){
   },250);
 }
 
+/* ---------- atajos: bajar al poso, volver al silencio ---------- */
+function montarAtajos(sec){
+  var btnSil=document.getElementById("irSilencio");
+  var btnPoso=document.getElementById("irPoso");
+  if(!btnSil||!btnPoso) return null;
+  btnSil.addEventListener("click",function(){
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+  btnPoso.addEventListener("click",function(){
+    // salto con re-anclaje: los lotes que cargan arriba empujan el poso,
+    // así que lo volvemos a clavar hasta que la página se asienta
+    sec.scrollIntoView({block:"start",behavior:"instant"});
+    var t0=Date.now();
+    var fix=setInterval(function(){
+      sec.scrollIntoView({block:"start",behavior:"instant"});
+      if(Date.now()-t0>2400) clearInterval(fix);
+    },150);
+  });
+  window.addEventListener("scroll",function(){
+    btnSil.classList.toggle("oculto", window.scrollY < window.innerHeight*1.2);
+  },{passive:true});
+  return btnPoso;
+}
+
 function iniciar(){
   var sec=document.getElementById("poso");
   if(!sec) return;
   cv=document.getElementById("posoCv");
   infoEl=document.getElementById("posoInfo");
   ctx=cv.getContext("2d");
+  var btnPoso=montarAtajos(sec);
   conRegistro(function(reg){
-    if(!construir(reg)){ sec.hidden=true; return; }
+    if(!construir(reg)){
+      sec.hidden=true;
+      if(btnPoso) btnPoso.classList.add("oculto");
+      return;
+    }
     medir();
     montarInteraccion();
     // el ritual: la última noche cae cuando el visitante llega al fondo
     var obs=new IntersectionObserver(function(es){
       es.forEach(function(en){
         visible=en.isIntersecting;
+        if(btnPoso) btnPoso.classList.toggle("oculto", en.isIntersecting);
         if(en.isIntersecting && !revelado){
           revelado=true;
           if(ultima) depositNight(ultima, !ultima.torre);
