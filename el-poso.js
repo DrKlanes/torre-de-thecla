@@ -254,8 +254,8 @@ function takeLucid(x,y){
     if(lucidCells[i].x===x&&lucidCells[i].y===y){lucidCells.splice(i,1);return true;}
   return false;
 }
-function perturb(cx,cy,vx,vy){
-  var R=4;
+function perturb(cx,cy,vx,vy,R,lift){
+  R=R||4; lift=lift||0;                            // lift: lanzamiento hacia arriba (táctil)
   for(var dy=-R;dy<=R;dy++)for(var dx=-R;dx<=R;dx++){
     if(dx*dx+dy*dy>R*R) continue;
     var x=cx+dx,y=cy+dy;
@@ -267,8 +267,8 @@ function perturb(cx,cy,vx,vy){
     if(dyn.length>420) break;
     grid[k]=0;
     dyn.push({px:x, py:y, ni:v-1, st:stained[k], lucid:takeLucid(x,y),
-      vx:vx*0.8+(rngP()-0.5)*0.9+dx*0.08,
-      vy:Math.max(-0.4,vy*0.6)+(rngP()-0.5)*0.3});
+      vx:vx*0.8+(rngP()-0.5)*0.9+dx*(lift?0.22:0.08),
+      vy:Math.max(-0.4,vy*0.6)+(rngP()-0.5)*0.3-lift*(0.7+rngP()*0.6)});
     stained[k]=0;
     activate(x,y-1); activate(x-1,y-1); activate(x+1,y-1);
     dirtyCols.add(x);
@@ -446,18 +446,66 @@ function celdaDe(ev){
 }
 function montarInteraccion(){
   var down=false;
+  /* ---- táctil: tap = impacto · arrastre horizontal = remover ·
+          mantener pulsado = leer el estrato (y deslizar para recorrerlo) ---- */
+  var toque={activo:false,modo:null,cx:0,cy:0,px0:0,py0:0,timer:null};
+  function finToque(ev,cancelado){
+    if(!toque.activo) return;
+    clearTimeout(toque.timer);
+    // impacto solo si fue un tap real: corto, quieto y no robado por el scroll
+    if(!cancelado && toque.modo==="pendiente"){
+      var lejos = ev && ev.clientX!==undefined
+        ? Math.abs(ev.clientX-toque.px0)+Math.abs(ev.clientY-toque.py0) : 0;
+      if(lejos<14) perturb(toque.cx,toque.cy,0,0,7,1.15);
+    }
+    toque.activo=false; toque.modo=null;
+  }
   cv.addEventListener("pointerdown",function(ev){
-    if(ev.pointerType==="mouse" && ev.button!==0) return;
-    down=true; lastPtr=null;
-    var c=celdaDe(ev);
-    perturb(c.x,c.y,0,0);
-    lastPtr=c;
+    if(ev.pointerType==="mouse"){
+      if(ev.button!==0) return;
+      down=true; lastPtr=null;
+      var c=celdaDe(ev);
+      perturb(c.x,c.y,0,0);
+      lastPtr=c;
+      return;
+    }
+    var ct=celdaDe(ev);
+    toque.activo=true; toque.modo="pendiente";
+    toque.cx=ct.x; toque.cy=ct.y;
+    toque.px0=ev.clientX; toque.py0=ev.clientY;
+    clearTimeout(toque.timer);
+    toque.timer=setTimeout(function(){
+      if(toque.activo && toque.modo==="pendiente"){
+        toque.modo="leer";
+        hoverInfo(toque.cx,toque.cy);
+      }
+    },400);
   });
-  window.addEventListener("pointerup",function(){down=false;lastPtr=null;});
+  window.addEventListener("pointerup",function(ev){
+    down=false; lastPtr=null;
+    finToque(ev,false);
+  });
+  cv.addEventListener("pointercancel",function(){ finToque(null,true); });
   cv.addEventListener("pointermove",function(ev){
     var c=celdaDe(ev);
+    if(ev.pointerType!=="mouse"){
+      if(!toque.activo) return;
+      var dxp=ev.clientX-toque.px0, dyp=ev.clientY-toque.py0;
+      if(toque.modo==="pendiente" && Math.abs(dxp)>14 && Math.abs(dxp)>Math.abs(dyp)*1.2){
+        toque.modo="remover"; clearTimeout(toque.timer);
+      }
+      if(toque.modo==="remover"){
+        var tvx=Math.max(-3.5,Math.min(3.5,(c.x-toque.cx)*0.6));
+        var tvy=Math.max(-2,Math.min(2,(c.y-toque.cy)*0.5));
+        perturb(c.x,c.y,tvx,tvy,5,0.35);
+      }else if(toque.modo==="leer"){
+        hoverInfo(c.x,c.y);            // la aguja: deslizar leyendo capa a capa
+      }
+      toque.cx=c.x; toque.cy=c.y;
+      return;
+    }
     hoverInfo(c.x,c.y);
-    if(!down || ev.pointerType!=="mouse") return;   // en táctil: solo el toque
+    if(!down) return;
     var vx=0,vy=0;
     if(lastPtr){
       vx=Math.max(-3,Math.min(3,(c.x-lastPtr.x)*0.45));
@@ -466,7 +514,9 @@ function montarInteraccion(){
     perturb(c.x,c.y,vx,vy);
     lastPtr=c;
   });
-  cv.addEventListener("pointerleave",function(){infoEl.innerHTML="&nbsp;";});
+  cv.addEventListener("pointerleave",function(ev){
+    if(ev.pointerType==="mouse") infoEl.innerHTML="&nbsp;";
+  });
   // la rueda desciende por el corte; al tocar techo, devuelve el scroll a la página
   cv.addEventListener("wheel",function(ev){
     var paso=Math.sign(ev.deltaY)*8;
