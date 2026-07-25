@@ -355,11 +355,14 @@ function refreshCols(){
 function camMin(){ return Math.max(0, surfaceY-Math.floor(VISH*0.22)); }
 function camMax(){ return MAXH-VISH; }
 function medir(){
-  var cssW=cv.parentNode.clientWidth;
-  cellPx=cssW/W;
+  // grano de tamaño fijo (4px), lecho acotado y centrado; en pantallas
+  // estrechas el grano se comprime para caber
+  var contW=cv.parentNode.clientWidth;
+  cellPx=Math.min(4, contW/W);
   var targetH=Math.min(window.innerHeight*0.52, 560);
   VISH=Math.max(60,Math.min(400,Math.round(targetH/cellPx)));
   cv.width=W; cv.height=VISH;
+  cv.style.width=(W*cellPx)+"px";
   cv.style.height=(VISH*cellPx)+"px";
   img=ctx.createImageData(W,VISH);
   if(camY===undefined||camY===null) camY=camMin();
