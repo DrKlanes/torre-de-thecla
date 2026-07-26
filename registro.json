@@ -85,5 +85,26 @@
     "esquirla": "Salmuera fría suda piedra no mía. Siglos caen plumas oxidadas bajo el trueno real que me golpea; recordar esperanza es maldecirse. Pasos muertos, compañeros ausentes hambrientos en la garganta rota: dentadura y olvido dulce. La torre respira… yo también respiro para nada.",
     "signatura": "SMET-0004",
     "palabras": 215
+  },
+  {
+    "noche": "2026-07-26",
+    "palo": "A",
+    "carta": "A6",
+    "estado": "E44",
+    "modificador": "V10",
+    "prohibidas": [
+      "escupir",
+      "piedra",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "esquirla": "La luz mintió… quietud es conversión lenta aquí. Mi orden come fe rota, así limpio mis manos. Santo era castigo, no salvación; demasiado tarde para entenderlo ahora que estoy atado a algo perfecto... o al menos eso creo. Un espejo roto sería justo.",
+    "signatura": "SMET-0005",
+    "palabras": 145
   }
 ]
