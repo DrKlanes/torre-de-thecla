@@ -196,6 +196,7 @@ function luzActual(){
   return parseFloat(l)||0;
 }
 function tin(a){return "hsla("+matizActual()+", 22%, "+(73+luzActual())+"%, "+a+")";}
+function tinL(l,a){return "hsla("+matizActual()+", 22%, "+(l+luzActual())+"%, "+a+")";}
 
 /* ---------- datos ---------- */
 function fechaBonita(iso){
@@ -288,11 +289,14 @@ function rayado(x,y,w,h){
   for(var s=-h; s<w; s+=4){ ctx.moveTo(x+s,y+h); ctx.lineTo(x+s+h,y); }
   ctx.stroke(); ctx.restore();
 }
-function ditherizar(){
+function ditherizar(offY){
+  /* la máscara Bayer se ancla al MUNDO (offY = scroll lógico entero):
+     el plano queda grabado; la cámara solo lo recorre, sin retramear */
   var id=ctx.getImageData(0,0,W,H), d=id.data;
   for(var y=0;y<H;y++){
+    var by=(y+offY)&3;
     for(var x=0;x<W;x++){
-      var i=(y*W+x)*4, a=d[i+3]/255, t=(BAYER[y&3][x&3]+0.5)/16;
+      var i=(y*W+x)*4, a=d[i+3]/255, t=(BAYER[by][x&3]+0.5)/16;
       d[i+3]=a>t?175:0;
     }
   }
@@ -350,7 +354,7 @@ function dibujar(){
   if(!ctx) return;
   ctx.clearRect(0,0,W,H);
   var corteTop = corteEl.getBoundingClientRect().top;   // px reales
-  var scrollLogico = -corteTop/PXL;                     // y lógico en el borde superior
+  var scrollLogico = Math.floor(-corteTop/PXL);         // ENTERO: el mundo no tiembla
   var cx=Math.floor(W/2);
 
   /* 1. el campo lateral, detrás de todo */
@@ -367,16 +371,18 @@ function dibujar(){
     var wob1=Math.round((hash2(3,Math.floor(wy/9))-0.5)*4);
     var wob2=Math.round((hash2(7,Math.floor(wy/11))-0.5)*4);
     var izq=cx-15+wob1, der=cx+15+wob2;
-    if((Math.floor(wy)+izq)%3===0){ ctx.fillStyle=tin(0.85); ctx.fillRect(izq,ry,1,1); }
-    if((Math.floor(wy)+der)%3===0){ ctx.fillStyle=tin(0.85); ctx.fillRect(der,ry,1,1); }
-    /* las hebras: duplicados en tramos, más oscuros cuanto más afuera */
-    for(var s=1; s<=4; s++){
-      var banda=hash2(Math.floor(wy/14)+s*31, s*7);     // aparecen y desaparecen por tramos
-      if(banda < 0.60-s*0.10) continue;
-      var offL=s*3+Math.round((hash2(s*13,Math.floor(wy/6))-0.5)*3);
-      var offR=s*3+Math.round((hash2(s*17,Math.floor(wy/6))-0.5)*3);
-      if((Math.floor(wy)+s)%2===0){
-        ctx.fillStyle=tin(Math.max(0.12, 0.5-s*0.09));
+    if((wy+izq)%3===0){ ctx.fillStyle=tin(0.85); ctx.fillRect(izq,ry,1,1); }
+    if((wy+der)%3===0){ ctx.fillStyle=tin(0.85); ctx.fillRect(der,ry,1,1); }
+    /* las hebras: muchas, por tramos, hundiéndose en la oscuridad —
+       la lejanía viaja en el COLOR (más lejos, más oscuro), no en el alfa */
+    for(var s=1; s<=8; s++){
+      var banda=hash2(Math.floor(wy/14)+s*31, s*7);     // tramos que nacen y mueren
+      if(banda < 0.30+s*0.045) continue;
+      var offL=Math.round(s*3.6+(hash2(s*13,Math.floor(wy/6))-0.5)*4);
+      var offR=Math.round(s*3.6+(hash2(s*17,Math.floor(wy/6))-0.5)*4);
+      if((wy+s)%2===0){
+        var lum=Math.max(24, 73-s*6.5);
+        ctx.fillStyle=tinL(lum, Math.max(0.22, 0.5-s*0.035));
         ctx.fillRect(izq-offL,ry,1,1);
         ctx.fillRect(der+offR,ry,1,1);
       }
@@ -391,7 +397,7 @@ function dibujar(){
   });
 
   /* 4. la cristalización: todo trazo se vuelve píxel (como los planos) */
-  ditherizar();
+  ditherizar(scrollLogico);
 
   /* 5. las brasas, por encima del dither: la lucidez no se tramea */
   noches.forEach(function(n){
