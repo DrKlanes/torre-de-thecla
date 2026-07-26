@@ -181,6 +181,44 @@
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
   @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 
+  /* ---- el hilo: la plomada que une los testimonios ---- */
+  #transmisiones{position:relative}
+  #hilo{
+    position:absolute;top:-8vh;bottom:-10vh;left:-3rem;width:2px;
+    pointer-events:none;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 70px,#000 calc(100% - 150px),transparent 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 70px,#000 calc(100% - 150px),transparent 100%);
+  }
+  #hilo::before{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(180deg,var(--apagado) 0 2px,transparent 2px 5px);
+    opacity:.32;
+    animation:hiloGoteo 22s linear infinite;
+  }
+  #hiloLeido{
+    position:absolute;top:0;left:0;width:2px;height:0;
+    background:repeating-linear-gradient(180deg,var(--sedimento) 0 2px,transparent 2px 5px);
+    opacity:.4;
+    animation:hiloGoteo 22s linear infinite;
+  }
+  #hiloPlomada{
+    position:absolute;left:-1px;width:4px;height:4px;
+    background:var(--frio);opacity:0;transition:opacity .4s;
+  }
+  .hilo-nudo{
+    position:absolute;left:-2px;width:6px;height:6px;
+    background:hsl(222,10%,34%);opacity:.85;
+    pointer-events:auto;
+  }
+  .hilo-nudo.torre{background:hsl(213,32%,11%);width:7px;height:5px;left:-3px}
+  @keyframes hiloGoteo{to{background-position:0 5px}}
+  @media (max-width:44em){
+    #hilo{left:6px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #hilo::before,#hiloLeido{animation:none}
+  }
+
   /* ---- el poso: el fondo del archivo ---- */
   #poso{position:relative;margin-top:8vh}
   .poso-cab{text-align:center;margin-bottom:3.2rem}
@@ -251,7 +289,7 @@
   <div class="bajar">▾</div>
 </section>
 
-<main id="transmisiones"></main>
+<main id="transmisiones"><div id="hilo" aria-hidden="true"><div id="hiloLeido"></div><div id="hiloPlomada"></div></div></main>
 <div id="fondoLista"></div>
 <div id="finArchivo" hidden>— principio del archivo —</div>
 
@@ -978,6 +1016,7 @@
   }
 })();
 </script>
+<script src="el-hilo.js"></script>
 <script src="el-poso.js"></script>
 </body>
 </html>
