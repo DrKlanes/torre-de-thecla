@@ -40,7 +40,9 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");}
 
   /* el corte vive detrás; las etiquetas y fichas, delante */
-  #corteCv{position:fixed;top:0;left:0;z-index:0;
+  /* el lienzo vive DENTRO del documento: se mueve con el scroll nativo,
+     en el mismo hilo que las etiquetas — sin parallax posible */
+  #corteCv{position:absolute;top:0;left:0;z-index:0;
     image-rendering:pixelated;pointer-events:none}
   #mundo{position:relative;z-index:1}
 
@@ -85,9 +87,11 @@
   .estancia{
     position:absolute;z-index:2;cursor:pointer;
     font-size:.62rem;letter-spacing:.18em;color:var(--apagado);
-    padding:.35rem .5rem;border:1px solid transparent;
+    padding:.35rem .5rem;
+    background:var(--fondo);
+    border:1px solid hsla(222,20%,40%,.28);
     transition:color .3s,border-color .3s;
-    background:none;text-align:left;font-family:'Courier New',monospace;
+    text-align:left;font-family:'Courier New',monospace;
     max-width:42vw;white-space:nowrap;
   }
   @media (max-width:600px){
@@ -162,7 +166,6 @@
 </style>
 </head>
 <body>
-<canvas id="corteCv"></canvas>
 <div id="prof"></div>
 <div id="vig"></div>
 <div id="grano"></div>
@@ -185,7 +188,7 @@
     <div class="cons-nota">los números salen del registro; nada se inventa · devorados en diez siglos: la cuenta se perdió</div>
   </section>
 
-  <div id="corte" style="position:relative"></div>
+  <div id="corte" style="position:relative"><canvas id="corteCv"></canvas></div>
 
   <div id="fondoCorte">— aquí se acaba el registro; la torre es más antigua que su archivo —</div>
 </div>
@@ -268,21 +271,14 @@ function preparar(registro, manifest){
 }
 
 /* ---------- disposición del mundo ---------- */
-var W=0, H=0, ctx, cv, corteEl;
+var W=0, H=0, CH=0, anchor=null, ctx, cv, corteEl;
 function layout(){
   cv=document.getElementById("corteCv");
   /* en pantallas estrechas el grano baja a 2px y la geometría se comprime
      para que TODO quepa en la mitad disponible del pozo */
   PXL = window.innerWidth<=600 ? 2 : 3;
   W=Math.floor(window.innerWidth/PXL);
-  H=Math.ceil(window.innerHeight/PXL)+1;
-  cv.width=W; cv.height=H;
-  /* tamaño CSS EXPLÍCITO y exacto (nada de 100vh: en móvil el vh grande
-     estira el lienzo respecto a innerHeight y nace un parallax progresivo
-     entre el dibujo y las etiquetas DOM) */
-  cv.style.width=(W*PXL)+"px";
-  cv.style.height=(H*PXL)+"px";
-  ctx=cv.getContext("2d");
+  H=Math.ceil(window.innerHeight/PXL)+1;                  // filas de UN viewport
   var mitad=Math.floor(W/2)-6;                            // capacidad por lado
 
   /* lo NUEVO arriba; se baja hacia lo antiguo. El silencio entre dos noches
@@ -309,9 +305,16 @@ function layout(){
   });
   mundoAlto = y + 140;
   corteEl.style.height = (mundoAlto*PXL)+"px";
+  /* el lienzo cubre ~3 pantallas y se re-ancla solo al acercarse a su borde;
+     entre anclajes, el scroll nativo lo mueve junto a las etiquetas: cero lag.
+     Tamaño CSS EXPLÍCITO en px exactos (jamás vh: estira en móvil). */
+  CH=Math.min(3*H, mundoAlto+H);
+  cv.width=W; cv.height=CH;
+  cv.style.width=(W*PXL)+"px";
+  cv.style.height=(CH*PXL)+"px";
+  ctx=cv.getContext("2d");
+  anchor=null;                                            // fuerza re-anclaje
   colocarEtiquetas();
-  ultimoScroll=null;
-  dibujar();
 }
 
 /* ---------- etiquetas DOM ---------- */
@@ -361,8 +364,8 @@ function rayado(x,y,w,h){
 function ditherizar(offY){
   /* la máscara Bayer se ancla al MUNDO (offY = scroll lógico entero):
      el plano queda grabado; la cámara solo lo recorre, sin retramear */
-  var id=ctx.getImageData(0,0,W,H), d=id.data;
-  for(var y=0;y<H;y++){
+  var id=ctx.getImageData(0,0,W,CH), d=id.data;
+  for(var y=0;y<CH;y++){
     var by=(y+offY)&3;
     for(var x=0;x<W;x++){
       var i=(y*W+x)*4, a=d[i+3]/255, t=(BAYER[by][x&3]+0.5)/16;
@@ -384,7 +387,7 @@ function muebleCelda(celX, celY, scrollLogico, cx){
     if(wx>rx0-12&&wx<rx0+n.w+12&&wy>n.y-14&&wy<n.y+n.h+14) return;
   }
   var x=wx, y=wy-scrollLogico;
-  if(y<-30||y>H+30) return;
+  if(y<-30||y>CH+30) return;
   var tipo=R();
   if(tipo<0.38){                                       // cruz de replanteo
     ctx.strokeStyle=tin(0.4); ctx.beginPath();
@@ -420,17 +423,16 @@ function muebleCelda(celX, celY, scrollLogico, cx){
 }
 
 function dibujar(){
-  if(!ctx) return;
-  ctx.clearRect(0,0,W,H);
-  var corteTop = corteEl.getBoundingClientRect().top;   // px reales
-  var scrollLogico = Math.floor(-corteTop/PXL);         // ENTERO: el mundo no tiembla
+  if(!ctx || anchor===null) return;
+  ctx.clearRect(0,0,W,CH);
+  var scrollLogico = anchor;                            // la ventana anclada del lienzo
   var cx=Math.floor(W/2);
 
   /* 0. el tejido de lo construido: escanlíneas rotas en los laterales,
      que se apagan del todo hacia los extremos — la torre surge del fondo.
      El tubo queda limpio. */
   var maxD=W/2-21;
-  for(var ry0=0; ry0<H; ry0++){
+  for(var ry0=0; ry0<CH; ry0++){
     var wy0=scrollLogico+ry0;
     if(wy0<0 || (wy0&3)!==0) continue;               // una línea cada 4 filas
     for(var lx=0; lx<W; lx++){
@@ -448,14 +450,14 @@ function dibujar(){
   }
 
   /* 1. el campo lateral, detrás de todo */
-  var c0=Math.max(0,Math.floor(scrollLogico/56)-1), c1=Math.floor((scrollLogico+H)/56)+1;
+  var c0=Math.max(0,Math.floor(scrollLogico/56)-1), c1=Math.floor((scrollLogico+CH)/56)+1;
   var ncx=Math.ceil(W/78);
   for(var cyI=c0; cyI<=c1; cyI++)
     for(var cxI=0; cxI<ncx; cxI++)
       muebleCelda(cxI, cyI, scrollLogico, cx);
 
   /* 2. el tubo: dos flujos punteados con hebras que se van a la oscuridad */
-  for(var ry=0; ry<H; ry++){
+  for(var ry=0; ry<CH; ry++){
     var wy=scrollLogico+ry;
     if(wy<0) continue;
     var wob1=Math.round((hash2(3,Math.floor(wy/9))-0.5)*4);
@@ -482,7 +484,7 @@ function dibujar(){
   /* 3. estancias visibles */
   noches.forEach(function(n){
     var ry0=n.y-scrollLogico;
-    if(ry0+n.h<-24||ry0>H+24) return;
+    if(ry0+n.h<-24||ry0>CH+24) return;
     dibujarEstancia(n, ry0, cx);
   });
 
@@ -493,8 +495,8 @@ function dibujar(){
   noches.forEach(function(n){
     if(!n.reg.lucidez) return;
     var ry0=n.y-scrollLogico;
-    if(ry0+n.h<0||ry0>H) return;
-    var x0=(n.lado<0)?cx-17-n.w:cx+17;
+    if(ry0+n.h<0||ry0>CH) return;
+    var x0=(n.lado<0)?cx-17-n.sep-n.w:cx+17+n.sep;
     var p=0.5+0.5*Math.sin(tPulso/28+n.idx);
     ctx.fillStyle="hsl(46,70%,"+(46+p*22)+"%)";
     ctx.fillRect(x0+Math.floor(n.w*0.28), Math.round(ry0+n.h*0.6), 2, 2);
@@ -877,10 +879,21 @@ function hayBrasaVisible(){
 }
 function tick(){
   tPulso++;
-  var st=corteEl.getBoundingClientRect().top;
-  if(st!==ultimoScroll || tPulso<6 || hayBrasaVisible()){
-    ultimoScroll=st;
-    dibujar();
+  if(ctx){
+    var top=corteEl.getBoundingClientRect().top;
+    var vt=Math.floor(-top/PXL);                    // fila del mundo en el borde superior
+    var maxAnchor=Math.max(0, mundoAlto+H-CH);
+    var margen=(CH-H)>>1;
+    var necesita = anchor===null
+      || (anchor>0 && vt < anchor+(margen>>1))
+      || (anchor<maxAnchor && vt+H > anchor+CH-(margen>>1));
+    if(necesita){
+      anchor=Math.max(0, Math.min(maxAnchor, vt-margen));
+      cv.style.top=(anchor*PXL)+"px";
+      dibujar();                                    // solo al re-anclar…
+    } else if(hayBrasaVisible()){
+      dibujar();                                    // …o si una brasa late a la vista
+    }
   }
   requestAnimationFrame(tick);
 }
