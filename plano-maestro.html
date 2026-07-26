@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<title>SMET — el plano maestro</title>
+<meta property="og:title" content="El plano maestro — La Torre de Thecla">
+<meta property="og:description" content="Sección vertical de la torre: cada noche, una estancia. El gran mapa que los planos solo dejaban entrever.">
+<meta property="og:image" content="https://torredethecla.dumaker.com/og.png">
+<meta property="og:url" content="https://torredethecla.dumaker.com/plano-maestro.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matiz:222; --luz:0%;
+    --fondo:hsl(var(--matiz), 48%, calc(5% + var(--luz)));
+    --texto:hsl(var(--matiz), 19%, calc(80% + var(--luz)));
+    --frio:hsl(var(--matiz), 20%, calc(64% + var(--luz)));
+    --apagado:hsl(var(--matiz), 15%, calc(35% + var(--luz)));
+    --sedimento:hsl(var(--matiz), 52%, calc(51% + var(--luz)));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--fondo);color:var(--texto);
+    font-family:'Courier New',monospace;
+    min-height:100vh;overflow-x:hidden;
+    transition:background-color 6s linear;
+  }
+  #vig{position:fixed;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.55) 100%);}
+  #grano{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");}
+
+  /* el corte vive detrás; las etiquetas y fichas, delante */
+  #corteCv{position:fixed;inset:0;z-index:0;width:100vw;height:100vh;
+    image-rendering:pixelated;pointer-events:none}
+  #mundo{position:relative;z-index:1}
+
+  /* ---- cabecera ---- */
+  header{
+    text-align:center;padding:9vh 1rem 4vh;position:relative;z-index:2;
+  }
+  h1{
+    font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:clamp(2.6rem,7vw,4.2rem);color:var(--frio);letter-spacing:.04em;
+  }
+  .sub{font-size:.66rem;letter-spacing:.5em;text-indent:.5em;color:var(--apagado);
+    text-transform:uppercase;margin-top:.8rem}
+  .volver{display:inline-block;margin-top:2.2rem;font-size:.68rem;letter-spacing:.25em;
+    color:var(--apagado);text-decoration:none;transition:color .3s}
+  .volver:hover{color:var(--frio)}
+
+  /* ---- sala de constantes ---- */
+  #constantes{
+    max-width:34em;margin:0 auto;padding:3vh 1.4rem 10vh;
+    position:relative;z-index:2;
+  }
+  .cons-titulo{
+    text-align:center;font-size:.62rem;letter-spacing:.55em;text-indent:.55em;
+    color:var(--apagado);text-transform:uppercase;margin-bottom:2.4rem;opacity:.8;
+  }
+  .cons{display:flex;justify-content:space-between;align-items:baseline;
+    font-size:.76rem;letter-spacing:.12em;padding:.5rem 0;
+    border-bottom:1px dotted hsla(222,20%,40%,.25);}
+  .cons b{font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:1.5rem;color:var(--frio);letter-spacing:.05em}
+  .cons .lore{color:var(--apagado);font-size:.76rem;font-style:normal}
+  .cons-palos{display:flex;gap:4px;align-items:baseline}
+  .palo-bar{display:inline-block;width:10px;background:#888;vertical-align:bottom}
+  .cons-nota{font-size:.6rem;color:var(--apagado);letter-spacing:.2em;
+    text-align:center;margin-top:2rem;opacity:.65}
+
+  /* ---- etiquetas de estancia (DOM sobre el canvas) ---- */
+  .estancia{
+    position:absolute;z-index:2;cursor:pointer;
+    font-size:.62rem;letter-spacing:.18em;color:var(--apagado);
+    padding:.35rem .5rem;border:1px solid transparent;
+    transition:color .3s,border-color .3s;
+    background:none;text-align:left;font-family:'Courier New',monospace;
+  }
+  .estancia:hover,.estancia:focus{color:var(--frio);border-color:hsla(222,20%,45%,.35);outline:none}
+  .estancia .es-sig{display:block;font-size:.72rem;letter-spacing:.14em}
+  .estancia .es-fecha{display:block;opacity:.7;margin-top:.15rem}
+  .estancia.sellada{cursor:default;opacity:.55}
+  .estancia.torre .es-sig{color:hsl(213,18%,42%)}
+
+  #fondoCorte{
+    position:relative;z-index:2;text-align:center;
+    font-size:.62rem;letter-spacing:.4em;text-indent:.4em;color:var(--apagado);
+    padding:16vh 1rem 18vh;opacity:.6;
+  }
+
+  /* ---- la ficha ---- */
+  #ficha{
+    position:fixed;top:0;right:0;bottom:0;width:min(30rem,100vw);
+    background:hsl(var(--matiz),45%,4%);
+    border-left:1px solid hsla(222,20%,30%,.4);
+    z-index:6;padding:2.2rem 1.8rem;overflow-y:auto;
+    transform:translateX(102%);transition:transform .35s ease;
+  }
+  #ficha.abierta{transform:none}
+  #fichaCerrar{
+    position:absolute;top:1rem;right:1.2rem;background:none;border:none;
+    color:var(--apagado);font-family:'Courier New',monospace;font-size:.9rem;
+    cursor:pointer;letter-spacing:.2em;padding:.4rem;
+  }
+  #fichaCerrar:hover{color:var(--frio)}
+  .f-sig{font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:2rem;color:var(--frio)}
+  .f-fecha{font-size:.66rem;letter-spacing:.3em;color:var(--apagado);margin:.5rem 0 1.6rem}
+  .f-dato{display:flex;justify-content:space-between;gap:1rem;
+    font-size:.72rem;letter-spacing:.1em;padding:.4rem 0;
+    border-bottom:1px dotted hsla(222,20%,40%,.2)}
+  .f-dato span:first-child{color:var(--apagado);white-space:nowrap}
+  .f-dato span:last-child{text-align:right}
+  .f-esquirla{margin:1.6rem 0 0;font-family:'Noticia Text',Georgia,serif;
+    font-size:.92rem;line-height:1.7;color:var(--texto);font-style:italic;opacity:.9}
+  .f-leer{display:inline-block;margin-top:1.8rem;font-size:.66rem;letter-spacing:.25em;
+    color:var(--frio);cursor:pointer;background:none;border:1px solid hsla(222,18%,30%,.5);
+    padding:.5rem .9rem;font-family:'Courier New',monospace}
+  .f-leer:hover{color:#fff;border-color:var(--frio)}
+  .f-texto{margin-top:1.6rem;font-family:'Noticia Text',Georgia,serif;
+    font-size:.98rem;line-height:1.8;color:var(--texto);display:none}
+  .f-texto p{margin-bottom:1.1em}
+  @media (max-width:600px){
+    #ficha{width:100vw}
+  }
+</style>
+</head>
+<body>
+<canvas id="corteCv"></canvas>
+<div id="vig"></div>
+<div id="grano"></div>
+
+<div id="mundo">
+  <header>
+    <h1>el plano maestro</h1>
+    <div class="sub">sección vertical · de toren van thecla</div>
+    <a class="volver" href="index.html">▴ el archivo</a>
+  </header>
+
+  <section id="constantes" aria-label="sala de constantes">
+    <div class="cons-titulo">Sala de constantes</div>
+    <div id="consLista"></div>
+    <div class="cons-nota">los números salen del registro; nada se inventa · devorados en diez siglos: la cuenta se perdió</div>
+  </section>
+
+  <div id="corte" style="position:relative"></div>
+
+  <div id="fondoCorte">— la sección continúa donde aún no hay noches —</div>
+</div>
+
+<aside id="ficha" aria-label="ficha de la estancia">
+  <button id="fichaCerrar" aria-label="cerrar">[ x ]</button>
+  <div id="fichaCuerpo"></div>
+</aside>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   EL PLANO MAESTRO — v1
+   La torre en sección: cada noche real, una estancia a su
+   profundidad. Todo sale de registro.json + manifest.json.
+   Dibujo procedural determinista, virtualizado por scroll.
+   ============================================================ */
+
+var HUE = {A:222, B:200, C:245, D:265, X:190, T:213};
+var NOMBRE_PALO = {A:"tragados", B:"testigos", C:"cosas", D:"presencias", X:"polizón"};
+var PXL = 3;                       // píxel lógico (como los planos)
+var ESPACIO = 92;                  // separación base entre noches (px lógicos)
+var CAIDA_SILENCIO = 26;           // px extra por cada noche de silencio
+var noches = [], mundoAlto = 0;
+
+/* ---------- deterministas (el dialecto de los planos) ---------- */
+function fnv(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;
+  var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;
+  return((t^t>>>14)>>>0)/4294967296;};}
+function hash2(x,y){var h=Math.imul(x,374761393)+Math.imul(y,668265263);
+  h=Math.imul(h^h>>>13,1274126177);return((h^h>>>16)>>>0)/4294967296;}
+var BAYER=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+
+function matizActual(){
+  var m=getComputedStyle(document.documentElement).getPropertyValue("--matiz").trim();
+  return parseFloat(m)||222;
+}
+function luzActual(){
+  var l=getComputedStyle(document.documentElement).getPropertyValue("--luz").trim();
+  return parseFloat(l)||0;
+}
+function tin(a){return "hsla("+matizActual()+", 22%, "+(73+luzActual())+"%, "+a+")";}
+
+/* ---------- datos ---------- */
+function fechaBonita(iso){
+  if(!iso) return "";
+  var p=iso.slice(0,10).split("-");
+  return p.length===3 ? p[2]+"."+p[1]+"."+p[0] : iso;
+}
+function diasEntre(a,b){
+  return Math.round((new Date(b.slice(0,10))-new Date(a.slice(0,10)))/86400000);
+}
+
+function preparar(registro, manifest){
+  var porSig={};
+  (manifest.transmisiones||[]).forEach(function(t){
+    if(t.signatura) porSig[t.signatura]=t;
+  });
+  var lista=[];
+  registro.forEach(function(e,i){
+    var n={reg:e, idx:i, torre:e.carta==="TORRE", sellada:(!e.signatura && e.carta!=="TORRE")};
+    n.sig = e.signatura || (n.torre ? "la torre" : "— sellada —");
+    n.fecha = e.noche;
+    var m = e.signatura ? porSig[e.signatura] : null;
+    if(!m && n.torre){
+      m=(manifest.transmisiones||[]).find(function(t){
+        return t.torre && t.fecha && t.fecha.slice(0,10)===e.noche;
+      });
+    }
+    n.archivo = m ? m.archivo : null;
+    n.silencio = i>0 ? Math.max(0, diasEntre(registro[i-1].noche, e.noche)-1) : 0;
+    lista.push(n);
+  });
+  return lista;
+}
+
+/* ---------- disposición del mundo ---------- */
+var W=0, H=0, ctx, cv, corteEl;
+function layout(){
+  cv=document.getElementById("corteCv");
+  W=Math.floor(window.innerWidth/PXL);
+  H=Math.floor(window.innerHeight/PXL);
+  cv.width=W; cv.height=H;
+  ctx=cv.getContext("2d");
+
+  var y=40;
+  noches.forEach(function(n,i){
+    y += (i===0?0:ESPACIO) + n.silencio*CAIDA_SILENCIO;
+    if(n.reg.crecida) y += 14;
+    n.y = y;
+    var pal = n.reg.palabras || 150;
+    n.w = Math.round(44 + Math.min(1,(pal-60)/290)*40);   // 44..84
+    n.h = n.reg.crecida ? 62 : 32;
+    if(n.torre) { n.w=70; n.h=18; }
+    if(n.sellada){ n.w=52; n.h=24; }
+    n.lado = (fnv(n.sig+"·lado")%2===0)?-1:1;             // izquierda o derecha
+  });
+  mundoAlto = y + 140;
+  corteEl.style.height = (mundoAlto*PXL)+"px";
+  colocarEtiquetas();
+  dibujar();
+}
+
+/* ---------- etiquetas DOM ---------- */
+function colocarEtiquetas(){
+  corteEl.querySelectorAll(".estancia").forEach(function(e){e.remove();});
+  var cx=W/2;
+  noches.forEach(function(n){
+    var b=document.createElement("button");
+    b.className="estancia"+(n.torre?" torre":"")+(n.sellada?" sellada":"");
+    b.innerHTML='<span class="es-sig">'+n.sig+'</span><span class="es-fecha">'+fechaBonita(n.fecha)+'</span>';
+    var margen = 14;
+    var px = (n.lado<0)
+      ? (cx - 17 - n.w - margen)*PXL
+      : (cx + 17 + margen)*PXL;
+    if(n.lado<0){ b.style.right=(window.innerWidth-px)+"px"; b.style.textAlign="right"; }
+    else { b.style.left=(px + n.w*PXL - 0)+"px"; }
+    /* la etiqueta cuelga junto a la estancia */
+    b.style.top=((n.y-4)*PXL)+"px";
+    if(!n.sellada) b.addEventListener("click",function(){abrirFicha(n);});
+    corteEl.appendChild(b);
+  });
+}
+
+/* ---------- dibujo del corte (virtualizado) ---------- */
+var tPulso=0;
+function dibujar(){
+  if(!ctx) return;
+  ctx.clearRect(0,0,W,H);
+  var corteTop = corteEl.getBoundingClientRect().top;   // px reales
+  var scrollLogico = -corteTop/PXL;                     // y lógico en el borde superior
+  var cx=Math.floor(W/2);
+  var trazo=tin(0.55), trazoSuave=tin(0.28);
+
+  /* el pozo central: dos muros que serpentean */
+  for(var ry=0; ry<H; ry++){
+    var wy=scrollLogico+ry;
+    if(wy<0) continue;
+    var wob1=Math.round((hash2(3,Math.floor(wy/9))-0.5)*4);
+    var wob2=Math.round((hash2(7,Math.floor(wy/11))-0.5)*4);
+    var izq=cx-15+wob1, der=cx+15+wob2;
+    /* muro: rayado con dither */
+    if((Math.floor(wy)+izq)%3===0){ ctx.fillStyle=trazo; ctx.fillRect(izq,ry,1,1); }
+    else if(BAYER[Math.floor(wy)&3][izq&3]<5){ ctx.fillStyle=trazoSuave; ctx.fillRect(izq-1,ry,1,1); }
+    if((Math.floor(wy)+der)%3===0){ ctx.fillStyle=trazo; ctx.fillRect(der,ry,1,1); }
+    else if(BAYER[Math.floor(wy)&3][der&3]<5){ ctx.fillStyle=trazoSuave; ctx.fillRect(der+1,ry,1,1); }
+  }
+
+  /* estancias visibles */
+  noches.forEach(function(n){
+    var ry0=n.y-scrollLogico;
+    if(ry0+n.h<-20||ry0>H+20) return;
+    dibujarEstancia(n, ry0, cx);
+  });
+}
+
+function dibujarEstancia(n, ry0, cx){
+  var x0 = (n.lado<0) ? cx-17-n.w : cx+17;
+  var R=mulberry32(fnv(n.sig+"·estancia"));
+  var trazo=tin(0.6);
+  var hue = n.torre?HUE.T:(HUE[n.reg.palo]||213);
+  /* luz interior según la señal */
+  var senal=n.reg.senal||"abisal";
+  var lum = senal==="clara"?16 : senal==="turbia"?10 : 6.5;
+  var sat = n.sellada?6:16;
+  if(n.torre){ lum=4.5; sat=30; }
+
+  /* interior con dither */
+  for(var yy=0; yy<n.h; yy++){
+    for(var xx=0; xx<n.w; xx++){
+      var wy=Math.floor(n.y+yy), wx=x0+xx;
+      var d=BAYER[wy&3][wx&3]/15;
+      var l=lum+(d-0.5)*3+(hash2(wx,wy)-0.5)*2;
+      ctx.fillStyle="hsl("+hue+","+sat+"%,"+Math.max(2,l)+"%)";
+      ctx.fillRect(wx,Math.round(ry0+yy),1,1);
+    }
+  }
+  /* muros de la estancia: trazo de delineante */
+  ctx.fillStyle=trazo;
+  for(var xw=0; xw<=n.w; xw++){
+    if((xw+Math.floor(n.y))%2===0){
+      ctx.fillRect(x0+xw,Math.round(ry0)-1,1,1);
+      ctx.fillRect(x0+xw,Math.round(ry0+n.h),1,1);
+    }
+  }
+  for(var yw=0; yw<=n.h; yw++){
+    if((yw+x0)%2===0){
+      var xa=(n.lado<0)?x0-1:x0+n.w;    // muro exterior
+      ctx.fillRect(xa,Math.round(ry0+yw),1,1);
+    }
+  }
+  /* la puerta al pozo: hueco en el lado del pozo */
+  var puertaY=Math.round(ry0+n.h/2)-2;
+  var xp=(n.lado<0)?x0+n.w:x0-1;
+  ctx.clearRect(xp,puertaY,1,4);
+
+  /* sellada: tapiada con aspa de rayado */
+  if(n.sellada){
+    ctx.fillStyle=tin(0.35);
+    for(var i=0;i<n.w;i+=3){
+      ctx.fillRect(x0+i,Math.round(ry0+(i%n.h)),1,1);
+      ctx.fillRect(x0+n.w-1-i,Math.round(ry0+(i%n.h)),1,1);
+    }
+  }
+  /* lucidez: la brasa que no se apaga */
+  if(n.reg.lucidez){
+    var p=0.5+0.5*Math.sin(tPulso/28+n.idx);
+    ctx.fillStyle="hsl(46,70%,"+(46+p*22)+"%)";
+    ctx.fillRect(x0+Math.floor(n.w*0.28),Math.round(ry0+n.h*0.6),2,2);
+  }
+  /* violadas: manchas en el muro; corregidas: remiendo claro */
+  if(n.reg.violadas && n.reg.violadas.length){
+    ctx.fillStyle="hsla(213,40%,3%,0.85)";
+    for(var v=0;v<n.reg.violadas.length;v++){
+      var mx=x0+Math.floor(R()*n.w*0.8)+1, my=Math.round(ry0+2+R()*(n.h-5));
+      ctx.fillRect(mx,my,3,2); ctx.fillRect(mx+1,my+2,2,1);
+    }
+  }
+  if(n.reg.corregidas && n.reg.corregidas.length){
+    ctx.fillStyle=tin(0.5);
+    ctx.fillRect(x0+Math.floor(n.w*0.7),Math.round(ry0+2),3,1);
+    ctx.fillRect(x0+Math.floor(n.w*0.7)+1,Math.round(ry0+3),1,1);
+  }
+  /* polizón: la estancia que no encaja — esquina comida */
+  if(n.reg.palo==="X"){
+    ctx.clearRect(x0+((n.lado<0)?0:n.w-5),Math.round(ry0),5,4);
+  }
+}
+
+/* ---------- sala de constantes ---------- */
+function constantes(reg){
+  var pub=reg.filter(function(e){return e.signatura;});
+  var palabras=pub.reduce(function(a,e){return a+(e.palabras||0);},0);
+  var palos={A:0,B:0,C:0,D:0,X:0};
+  pub.forEach(function(e){ if(palos[e.palo]!==undefined) palos[e.palo]++; });
+  var senales={abisal:0,turbia:0,clara:0};
+  pub.forEach(function(e){ if(senales[e.senal]!==undefined) senales[e.senal]++; });
+  var violadas=reg.filter(function(e){return e.violadas&&e.violadas.length;}).length;
+  var corregidas=reg.filter(function(e){return e.corregidas&&e.corregidas.length;}).length;
+  var selladas=reg.filter(function(e){return !e.signatura&&e.carta!=="TORRE";}).length;
+  var torres=reg.filter(function(e){return e.carta==="TORRE";}).length;
+  var maxSil=0;
+  for(var i=1;i<reg.length;i++){
+    maxSil=Math.max(maxSil, diasEntre(reg[i-1].noche, reg[i].noche)-1);
+  }
+  var lucideces=reg.filter(function(e){return e.lucidez;}).length;
+  var crecidas=reg.filter(function(e){return e.crecida;}).length;
+
+  function fila(k,v){ return '<div class="cons"><span>'+k+'</span><b>'+v+'</b></div>'; }
+  var h='';
+  h+=fila("noches transmitiendo", reg.length);
+  h+=fila("palabras devoradas", palabras.toLocaleString("es"));
+  var barras='<span class="cons-palos">';
+  ["A","B","C","D","X"].forEach(function(p){
+    var alt=4+palos[p]*7;
+    barras+='<span class="palo-bar" title="'+NOMBRE_PALO[p]+': '+palos[p]+'" style="height:'+alt+'px;background:hsl('+HUE[p]+',26%,42%)"></span>';
+  });
+  barras+='</span>';
+  h+='<div class="cons"><span>voces por palo</span>'+barras+'</div>';
+  h+=fila("señales · abisal / turbia / clara", senales.abisal+" / "+senales.turbia+" / "+senales.clara);
+  h+=fila("desobediencias del pozo", violadas);
+  if(corregidas) h+=fila("segundas tomas que limpiaron", corregidas);
+  h+=fila("noches selladas", selladas);
+  if(torres) h+=fila("veces que habló la torre", torres);
+  if(lucideces) h+=fila("lucideces", lucideces);
+  if(crecidas) h+=fila("crecidas", crecidas);
+  h+=fila("silencio más largo", maxSil+(maxSil===1?" noche":" noches"));
+  document.getElementById("consLista").innerHTML=h;
+}
+
+/* ---------- ficha ---------- */
+var ficha=document.getElementById("ficha");
+function abrirFicha(n){
+  var e=n.reg;
+  function f(k,v){ return (v===null||v===undefined||v==="")?"":'<div class="f-dato"><span>'+k+'</span><span>'+v+'</span></div>'; }
+  var h='<div class="f-sig">'+n.sig+'</div>';
+  h+='<div class="f-fecha">'+fechaBonita(n.fecha)+'</div>';
+  if(!n.torre){
+    h+=f("palo", (NOMBRE_PALO[e.palo]||e.palo)+" · "+(e.carta||""));
+    if(e.carta_inventada) h+=f("la fiebre nombró", e.carta_inventada);
+    h+=f("estado", e.estado);
+    h+=f("señal", e.senal+" · temp "+e.temperatura);
+    if(e.modificador) h+=f("modificador", e.modificador);
+    if(e.tuercas&&e.tuercas.length) h+=f("vueltas de tuerca", e.tuercas.join(", "));
+    if(e.eco) h+=f("eco de", e.eco);
+    h+=f("prohibidas", (e.prohibidas||[]).join(", ")||"—");
+    if(e.violadas&&e.violadas.length) h+=f("desobedecidas", e.violadas.join(", "));
+    if(e.corregidas&&e.corregidas.length) h+=f("corregidas en 2ª toma", e.corregidas.join(", "));
+    if(e.lucidez) h+=f("lucidez", "esa noche recordó");
+    if(e.crecida) h+=f("crecida", "la grieta fue ancha");
+    if(e.aniversario) h+=f("aniversario", "18 de noviembre");
+    h+=f("palabras", e.palabras||"—");
+  } else {
+    h+=f("silencio roto", (e.silencio_roto||"?")+" noches");
+  }
+  if(e.esquirla) h+='<p class="f-esquirla">«'+e.esquirla+'»</p>';
+  if(n.archivo){
+    h+='<button class="f-leer" id="fLeer">[ leer la transmisión ]</button>';
+    h+='<div class="f-texto" id="fTexto"></div>';
+  }
+  document.getElementById("fichaCuerpo").innerHTML=h;
+  var btn=document.getElementById("fLeer");
+  if(btn){
+    btn.addEventListener("click",function(){
+      var cont=document.getElementById("fTexto");
+      if(cont.style.display==="block"){ cont.style.display="none"; btn.textContent="[ leer la transmisión ]"; return; }
+      btn.textContent="[ …interceptando ]";
+      fetch(n.archivo).then(function(r){return r.text();}).then(function(txt){
+        cont.innerHTML=txt.trim().split(/\n\s*\n/).map(function(p){
+          return "<p>"+p.replace(/&/g,"&amp;").replace(/</g,"&lt;")+"</p>";
+        }).join("");
+        cont.style.display="block";
+        btn.textContent="[ cerrar la transmisión ]";
+      }).catch(function(){ btn.textContent="[ la señal no llega ]"; });
+    });
+  }
+  ficha.classList.add("abierta");
+}
+document.getElementById("fichaCerrar").addEventListener("click",function(){
+  ficha.classList.remove("abierta");
+});
+document.addEventListener("keydown",function(ev){
+  if(ev.key==="Escape") ficha.classList.remove("abierta");
+});
+
+/* ---------- brisa (la misma que el archivo) ---------- */
+function aplicarBrisa(reg){
+  if(!reg.length) return;
+  var u=reg[reg.length-1];
+  var matiz = u.carta==="TORRE" ? 213 : (HUE[u.palo]||222);
+  var luz = u.carta==="TORRE" ? -2.6
+          : ({abisal:-1.6,turbia:0,clara:2.2})[u.senal]||0;
+  document.documentElement.style.setProperty("--matiz",matiz);
+  document.documentElement.style.setProperty("--luz",luz+"%");
+}
+
+/* ---------- bucle ---------- */
+function tick(){
+  tPulso++;
+  dibujar();               // barato: solo la ventana visible
+  requestAnimationFrame(tick);
+}
+
+/* ---------- arranque ---------- */
+corteEl=document.getElementById("corte");
+Promise.all([
+  fetch("registro.json?v="+Date.now()).then(function(r){return r.json();}),
+  fetch("manifest.json?v="+Date.now()).then(function(r){return r.json();})
+]).then(function(res){
+  var registro=res[0], manifest=res[1];
+  aplicarBrisa(registro);
+  noches=preparar(registro, manifest);
+  constantes(registro);
+  layout();
+  var rT=null;
+  window.addEventListener("resize",function(){
+    clearTimeout(rT); rT=setTimeout(layout,250);
+  },{passive:true});
+  tick();
+}).catch(function(){
+  document.getElementById("consLista").innerHTML=
+    '<div class="cons"><span>el registro no responde</span><b>—</b></div>';
+});
+})();
+</script>
+</body>
+</html>
