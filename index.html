@@ -538,16 +538,39 @@
     var btn = document.getElementById("senalBtn");
     if(musica.activa){
       cortar();
+      try{ sessionStorage.removeItem("thecla.senal"); }catch(e){}
       btn.textContent = "[ sintonizar la señal ]";
       btn.classList.remove("sonando");
     } else {
       musica.activa = true;
+      try{ sessionStorage.setItem("thecla.senal", "1"); }catch(e){}
       desenmudecer();   // dentro del gesto: es lo que le da permiso a iOS
       sonar();
       btn.textContent = "[ cortar la señal ]";
       btn.classList.add("sonando");
     }
   });
+
+  // la señal viaja entre páginas: si sonaba en el plano maestro, intenta
+  // seguir aquí; si el navegador exige gesto, queda armada a un toque
+  function reanudarSenal(){
+    var guardado = null;
+    try{ guardado = sessionStorage.getItem("thecla.senal"); }catch(e){}
+    if(guardado !== "1") return;
+    var btn = document.getElementById("senalBtn");
+    musica.activa = true;
+    desenmudecer();
+    sonar();
+    setTimeout(function(){
+      if(musica.ctx && musica.ctx.state === "running"){
+        btn.textContent = "[ cortar la señal ]";
+        btn.classList.add("sonando");
+      } else {
+        cortar();
+        btn.textContent = "[ reanudar la señal ]";
+      }
+    }, 700);
+  }
 
   /* la onda: forma de onda REAL cuando suena; señal muerta con pulsos cuando espera */
   (function(){
@@ -598,7 +621,7 @@
     if(window.PREVIEW_REGISTRO){ window.__registro = window.PREVIEW_REGISTRO; aplicarBrisa(); return; }
     fetch("registro.json?v=" + Date.now())
       .then(function(res){ return res.json(); })
-      .then(function(r){ window.__registro = r; aplicarBrisa(); })
+      .then(function(r){ window.__registro = r; aplicarBrisa(); reanudarSenal(); })
       .catch(function(){ /* sin registro, el azul canon */ });
   }
   cargarRegistro();
