@@ -34,6 +34,8 @@
   #mundo{overflow-x:clip}
   #vig{position:fixed;inset:0;pointer-events:none;z-index:3;
     background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.55) 100%);}
+  /* profundidad: el descenso se hunde en azul, como en el archivo */
+  #prof{position:fixed;inset:0;pointer-events:none;z-index:2;background:#02040a;opacity:0;transition:opacity .4s linear}
   #grano{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.05;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");}
 
@@ -52,9 +54,9 @@
   }
   .sub{font-size:.66rem;letter-spacing:.5em;text-indent:.5em;color:var(--apagado);
     text-transform:uppercase;margin-top:.8rem}
-  .volver{display:inline-block;margin-top:2.2rem;font-size:.68rem;letter-spacing:.25em;
-    color:var(--apagado);text-decoration:none;transition:color .3s}
-  .volver:hover{color:var(--frio)}
+  .volver{display:inline-block;margin-top:2.2rem;font-size:.72rem;letter-spacing:.25em;
+    color:var(--frio);opacity:.9;text-decoration:none;transition:color .3s}
+  .volver:hover{color:var(--texto)}
 
   /* ---- sala de constantes ---- */
   #constantes{
@@ -158,6 +160,7 @@
 </head>
 <body>
 <canvas id="corteCv"></canvas>
+<div id="prof"></div>
 <div id="vig"></div>
 <div id="grano"></div>
 
@@ -181,7 +184,7 @@
 
   <div id="corte" style="position:relative"></div>
 
-  <div id="fondoCorte">— la sección continúa donde aún no hay noches —</div>
+  <div id="fondoCorte">— aquí se acaba el registro; la torre es más antigua que su archivo —</div>
 </div>
 
 <aside id="ficha" aria-label="ficha de la estancia">
@@ -274,9 +277,12 @@ function layout(){
   ctx=cv.getContext("2d");
   var mitad=Math.floor(W/2)-6;                            // capacidad por lado
 
+  /* lo NUEVO arriba; se baja hacia lo antiguo. El silencio entre dos noches
+     se dibuja entre ellas: es el que guarda la más nueva de las dos. */
+  var orden=noches.slice().reverse();
   var y=40;
-  noches.forEach(function(n,i){
-    y += (i===0?0:ESPACIO) + n.silencio*CAIDA_SILENCIO;
+  orden.forEach(function(n,k){
+    if(k>0) y += ESPACIO + orden[k-1].silencio*CAIDA_SILENCIO;
     if(n.reg.crecida) y += 14;
     n.y = y;
     var pal = n.reg.palabras || 150;
@@ -827,6 +833,10 @@ Promise.all([
   var rT=null;
   window.addEventListener("resize",function(){
     clearTimeout(rT); rT=setTimeout(layout,250);
+  },{passive:true});
+  window.addEventListener("scroll",function(){
+    document.getElementById("prof").style.opacity =
+      Math.min(0.38, window.scrollY/18000).toFixed(3);
   },{passive:true});
   tick();
 }).catch(function(){

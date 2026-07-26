@@ -73,15 +73,15 @@
   }
   /* los pregones: donde la señal también se oye, en susurro */
   .sil-ecos{
-    font-family:'Courier New',monospace;font-size:.62rem;
+    font-family:'Courier New',monospace;font-size:.68rem;
     letter-spacing:.35em;text-indent:.35em;
-    margin-top:2.6rem;opacity:.55;
+    margin-top:2.6rem;opacity:.85;
   }
   .sil-ecos a{
-    color:var(--apagado);text-decoration:none;
+    color:var(--frio);text-decoration:none;
     transition:color .4s ease;
   }
-  .sil-ecos a:hover{color:var(--frio)}
+  .sil-ecos a:hover{color:var(--texto)}
   .sil-ecos .eco-sep{color:var(--apagado);opacity:.5;margin:0 .9em}
   .bajar{
     margin-top:14vh;color:var(--apagado);font-family:'Courier New',monospace;
@@ -258,11 +258,15 @@
   }
   .atajo{
     pointer-events:auto;background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.66rem;letter-spacing:.22em;
-    color:var(--apagado);opacity:.6;padding:.4rem .2rem;
+    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.22em;
+    color:var(--frio);opacity:.85;padding:.4rem .2rem;
     transition:color .3s ease, opacity .6s ease;
   }
-  .atajo:hover{color:var(--frio);opacity:1}
+  .atajo:hover{color:var(--texto);opacity:1}
+  @media (max-width:600px){
+    .atajo{font-size:.74rem;opacity:.95}
+    .sil-ecos{font-size:.72rem;opacity:.95}
+  }
   .atajo.oculto{opacity:0;pointer-events:none;animation:none}
   #irPoso{animation:latSenal 5s ease-in-out infinite}
   #irPoso:hover{animation-play-state:paused}
