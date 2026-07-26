@@ -130,12 +130,35 @@
   @media (max-width:600px){
     #ficha{width:100vw}
   }
+
+  /* ---- la señal: el mismo sintonizador del archivo ---- */
+  #senal{
+    position:fixed;top:.9rem;left:50%;transform:translateX(-50%);
+    z-index:6;text-align:center;cursor:pointer;padding:.3rem .8rem;
+  }
+  #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
+  #senalBtn{
+    background:none;border:none;cursor:pointer;
+    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
+    color:var(--frio);padding:.15rem 0 0;
+    animation:latSenal 5s ease-in-out infinite;
+    transition:color .3s;
+  }
+  #senal:hover #senalBtn{animation-play-state:paused;opacity:1;color:var(--texto)}
+  #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
+  #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
+  @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 </style>
 </head>
 <body>
 <canvas id="corteCv"></canvas>
 <div id="vig"></div>
 <div id="grano"></div>
+
+<div id="senal">
+  <canvas id="ondaCv" width="75" height="14"></canvas>
+  <button id="senalBtn" aria-label="sintonizar la señal">[ sintonizar la señal ]</button>
+</div>
 
 <div id="mundo">
   <header>
@@ -160,6 +183,7 @@
   <div id="fichaCuerpo"></div>
 </aside>
 
+<script src="motor.js"></script>
 <script>
 (function(){
 "use strict";
@@ -251,6 +275,10 @@ function layout(){
     if(n.torre) { n.w=70; n.h=18; }
     if(n.sellada){ n.w=52; n.h=24; }
     n.lado = (fnv(n.sig+"·lado")%2===0)?-1:1;             // izquierda o derecha
+    /* distancia al tubo: algunas pegadas, otras retiradas con galería */
+    var rs=(fnv(n.sig+"·sep")%100)/100;
+    n.sep = rs<0.45?0 : rs<0.75?7 : rs<0.9?13 : 21;
+    if(n.torre) n.sep=0;                                  // la torre pega a su pozo
   });
   mundoAlto = y + 140;
   corteEl.style.height = (mundoAlto*PXL)+"px";
@@ -268,8 +296,8 @@ function colocarEtiquetas(){
     b.innerHTML='<span class="es-sig">'+n.sig+'</span><span class="es-fecha">'+fechaBonita(n.fecha)+'</span>';
     var margen = 14;
     var px = (n.lado<0)
-      ? (cx - 17 - n.w - margen)*PXL
-      : (cx + 17 + margen)*PXL;
+      ? (cx - 17 - n.sep - n.w - margen)*PXL
+      : (cx + 17 + n.sep + margen)*PXL;
     if(n.lado<0){ b.style.right=(window.innerWidth-px)+"px"; b.style.textAlign="right"; }
     else { b.style.left=(px + n.w*PXL - 0)+"px"; }
     /* la etiqueta cuelga junto a la estancia */
@@ -311,7 +339,7 @@ function muebleCelda(celX, celY, scrollLogico, cx){
   if(Math.abs(wx-cx)<32) return;                       // el tubo queda limpio
   for(var i=0;i<noches.length;i++){                    // no pisar estancias
     var n=noches[i];
-    var rx0=(n.lado<0)?cx-17-n.w:cx+17;
+    var rx0=(n.lado<0)?cx-17-n.sep-n.w:cx+17+n.sep;
     if(wx>rx0-12&&wx<rx0+n.w+12&&wy>n.y-14&&wy<n.y+n.h+14) return;
   }
   var x=wx, y=wy-scrollLogico;
@@ -412,7 +440,7 @@ function dibujar(){
 }
 
 function dibujarEstancia(n, ry0, cx){
-  var x0 = (n.lado<0) ? cx-17-n.w : cx+17;
+  var x0 = (n.lado<0) ? cx-17-n.sep-n.w : cx+17+n.sep;
   var R=mulberry32(fnv(n.sig+"·estancia"));
   var g=3;                                             // grosor del muro
   var hue = n.torre?HUE.T:(HUE[n.reg.palo]||213);
@@ -465,6 +493,19 @@ function dibujarEstancia(n, ry0, cx){
     ctx.moveTo(hx, hy); ctx.lineTo(hx+dir*pw, hy);
     ctx.arc(hx, hy, pw, dir<0?Math.PI:0, dir<0?Math.PI/2:Math.PI/2, dir<0);
     ctx.stroke();
+    /* la galería: si la estancia está retirada, un pasadizo punteado la une al tubo */
+    if(n.sep>0){
+      var gy0=ry0+py, gy1=ry0+py+pw;
+      var gx0, gx1;
+      if(n.lado<0){ gx0=x0+n.w+g; gx1=cx-14; } else { gx0=cx+14; gx1=x0-g; }
+      ctx.fillStyle=tin(0.55);
+      for(var gx=gx0; gx<=gx1; gx++){
+        if((gx+Math.floor(n.y))%2===0){
+          ctx.fillRect(gx, gy0-1, 1, 1);
+          ctx.fillRect(gx, gy1, 1, 1);
+        }
+      }
+    }
   }
 
   /* mobiliario interior, escaso */
@@ -609,6 +650,110 @@ document.addEventListener("keydown",function(ev){
   if(ev.key==="Escape") ficha.classList.remove("abierta");
 });
 
+/* ---------- la señal: la BSO de la torre, el mismo ritual del archivo ---------- */
+var musica={ctx:null, vol:null, pieza:null, activa:false, temporizador:null, TRAMO:480, analizador:null};
+var desmudo=null;
+function semillaMusical(){
+  var r=window.__registro||[];
+  for(var i=r.length-1;i>=0;i--){
+    if(r[i].signatura) return r[i].signatura;
+    if(r[i].carta==="TORRE") return "TORRE";
+  }
+  return "SMET-0000";
+}
+function caracterMusical(){
+  var r=window.__registro||[];
+  if(!r.length) return "tragado";
+  var u=r[r.length-1];
+  if(u.carta==="TORRE") return "torre";
+  if(u.palo==="D") return "presencia";
+  if(u.senal==="clara") return "clara";
+  return "tragado";
+}
+function sonar(){
+  if(!musica.activa || typeof SENAL==="undefined") return;
+  if(!musica.ctx){
+    var AC=window.AudioContext||window.webkitAudioContext;
+    var actx=new AC({latencyHint:"playback"});
+    musica.ctx=actx;
+    musica.vol=actx.createGain(); musica.vol.gain.value=0.22;
+    var analizador=actx.createAnalyser(); analizador.fftSize=2048;
+    musica.vol.connect(analizador); analizador.connect(actx.destination);
+    musica.analizador=analizador;
+  }
+  if(musica.ctx.state!=="running"){ try{musica.ctx.resume();}catch(e){} }
+  if(musica.pieza){ try{musica.pieza.parar();}catch(e){} }
+  musica.pieza=SENAL.tocar(musica.ctx, musica.vol, semillaMusical(), caracterMusical(), musica.TRAMO);
+  musica.temporizador=setTimeout(sonar,(musica.TRAMO-1.5)*1000);
+}
+function cortar(){
+  musica.activa=false;
+  clearTimeout(musica.temporizador);
+  if(musica.pieza){ try{musica.pieza.parar();}catch(e){} musica.pieza=null; }
+  if(musica.ctx){ try{musica.ctx.suspend();}catch(e){} }
+  if(desmudo){ try{desmudo.pause();}catch(e){} }
+}
+document.addEventListener("visibilitychange",function(){
+  if(!musica.ctx||!musica.activa) return;
+  if(document.hidden){ try{musica.ctx.suspend();}catch(e){} }
+  else { try{musica.ctx.resume();}catch(e){} }
+});
+function desenmudecer(){
+  if(!desmudo){
+    try{
+      desmudo=document.createElement("audio");
+      desmudo.setAttribute("playsinline","");
+      desmudo.setAttribute("webkit-playsinline","");
+      desmudo.loop=true;
+      desmudo.src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAABwAAAtAAZmZmZmZmZmZmZmZmZmaAgICAgICAgICAgICAgJmZmZmZmZmZmZmZmZmZs7Ozs7Ozs7Ozs7Ozs7OzzMzMzMzMzMzMzMzMzMzm5ubm5ubm5ubm5ubm5v//////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEIAAAAAAAAALQPzf7/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV/+MYxDsAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV/+MYxHYAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVV/+MYxLEAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxMQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxMQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxMQAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+    }catch(e){ return; }
+  }
+  try{ var p=desmudo.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){}
+}
+document.getElementById("senal").addEventListener("click",function(){
+  var btn=document.getElementById("senalBtn");
+  if(musica.activa){
+    cortar();
+    btn.textContent="[ sintonizar la señal ]";
+    btn.classList.remove("sonando");
+  } else {
+    musica.activa=true;
+    desenmudecer();
+    sonar();
+    btn.textContent="[ cortar la señal ]";
+    btn.classList.add("sonando");
+  }
+});
+/* la onda: forma real cuando suena; pulso muerto cuando espera */
+(function(){
+  var ocv=document.getElementById("ondaCv"), go=ocv.getContext("2d");
+  var OW=ocv.width, OH=ocv.height, mitad=OH/2;
+  var datos=new Uint8Array(2048);
+  function cuadro(ts){
+    var t=ts/1000;
+    go.clearRect(0,0,OW,OH);
+    go.fillStyle="hsla("+matizActual()+", 20%, "+(66+luzActual())+"%, 0.85)";
+    if(musica.activa&&musica.analizador){
+      musica.analizador.getByteTimeDomainData(datos);
+      for(var x=0;x<OW;x++){
+        var v=(datos[Math.floor(x/OW*datos.length)]-128)/128;
+        v=Math.max(-1,Math.min(1,v*2.4));
+        go.fillRect(x,Math.round(mitad+v*(mitad-1.5)),1,1);
+      }
+    } else {
+      var ciclo=(t%4.2)/4.2, ccx=ciclo*(OW+24)-12;
+      for(var x2=0;x2<OW;x2++){
+        var env=Math.exp(-Math.pow(x2-ccx,2)/22);
+        var yv=mitad+Math.sin(x2*0.9+t*5)*(mitad-2)*env
+              +(Math.sin(x2*7.3+t*2)*0.4);
+        go.fillRect(x2,Math.round(yv),1,1);
+      }
+    }
+    requestAnimationFrame(cuadro);
+  }
+  requestAnimationFrame(cuadro);
+})();
+
 /* ---------- brisa (la misma que el archivo) ---------- */
 function aplicarBrisa(reg){
   if(!reg.length) return;
@@ -647,6 +792,7 @@ Promise.all([
   fetch("manifest.json?v="+Date.now()).then(function(r){return r.json();})
 ]).then(function(res){
   var registro=res[0], manifest=res[1];
+  window.__registro=registro;          // para la señal y quien venga después
   aplicarBrisa(registro);
   noches=preparar(registro, manifest);
   constantes(registro);
