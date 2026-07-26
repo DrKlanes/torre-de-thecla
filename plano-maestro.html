@@ -24,13 +24,14 @@
     --sedimento:hsl(var(--matiz), 52%, calc(51% + var(--luz)));
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:hidden}
   body{
     background:var(--fondo);color:var(--texto);
     font-family:'Courier New',monospace;
     min-height:100vh;overflow-x:hidden;
     transition:background-color 6s linear;
   }
+  #mundo{overflow-x:clip}
   #vig{position:fixed;inset:0;pointer-events:none;z-index:3;
     background:radial-gradient(ellipse at 50% 35%, transparent 45%, rgba(0,0,0,.55) 100%);}
   #grano{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.05;
@@ -82,6 +83,11 @@
     padding:.35rem .5rem;border:1px solid transparent;
     transition:color .3s,border-color .3s;
     background:none;text-align:left;font-family:'Courier New',monospace;
+    max-width:42vw;white-space:nowrap;
+  }
+  @media (max-width:600px){
+    header{padding-top:14vh}
+    .estancia{font-size:.56rem;letter-spacing:.12em;padding:.25rem .3rem}
   }
   .estancia:hover,.estancia:focus{color:var(--frio);border-color:hsla(222,20%,45%,.35);outline:none}
   .estancia .es-sig{display:block;font-size:.72rem;letter-spacing:.14em}
@@ -259,10 +265,14 @@ function preparar(registro, manifest){
 var W=0, H=0, ctx, cv, corteEl;
 function layout(){
   cv=document.getElementById("corteCv");
+  /* en pantallas estrechas el grano baja a 2px y la geometría se comprime
+     para que TODO quepa en la mitad disponible del pozo */
+  PXL = window.innerWidth<=600 ? 2 : 3;
   W=Math.floor(window.innerWidth/PXL);
   H=Math.floor(window.innerHeight/PXL);
   cv.width=W; cv.height=H;
   ctx=cv.getContext("2d");
+  var mitad=Math.floor(W/2)-6;                            // capacidad por lado
 
   var y=40;
   noches.forEach(function(n,i){
@@ -279,10 +289,14 @@ function layout(){
     var rs=(fnv(n.sig+"·sep")%100)/100;
     n.sep = rs<0.45?0 : rs<0.75?7 : rs<0.9?13 : 21;
     if(n.torre) n.sep=0;                                  // la torre pega a su pozo
+    /* que quepa: primero cede la separación, luego la anchura */
+    while(n.sep>0 && 17+n.sep+n.w > mitad) n.sep=Math.max(0,n.sep-7);
+    if(17+n.sep+n.w > mitad) n.w=Math.max(28, mitad-17-n.sep);
   });
   mundoAlto = y + 140;
   corteEl.style.height = (mundoAlto*PXL)+"px";
   colocarEtiquetas();
+  ultimoScroll=null;
   dibujar();
 }
 
@@ -298,12 +312,25 @@ function colocarEtiquetas(){
     var px = (n.lado<0)
       ? (cx - 17 - n.sep - n.w - margen)*PXL
       : (cx + 17 + n.sep + margen)*PXL;
-    if(n.lado<0){ b.style.right=(window.innerWidth-px)+"px"; b.style.textAlign="right"; }
-    else { b.style.left=(px + n.w*PXL - 0)+"px"; }
-    /* la etiqueta cuelga junto a la estancia */
-    b.style.top=((n.y-4)*PXL)+"px";
+    if(n.lado<0){
+      /* nunca fuera del viewport: se fija como mínimo a 4px del borde */
+      b.style.right=Math.max(4, window.innerWidth-px)+"px";
+      b.style.textAlign="right";
+    } else {
+      b.style.left=Math.min(px + n.w*PXL, window.innerWidth-120)+"px";
+    }
+    /* la etiqueta cuelga junto a la estancia; en móvil, un poco por encima */
+    b.style.top=((n.y-(window.innerWidth<=600?12:4))*PXL)+"px";
     if(!n.sellada) b.addEventListener("click",function(){abrirFicha(n);});
     corteEl.appendChild(b);
+  });
+  /* reencaje final: ninguna etiqueta asoma del viewport, se mida como se mida */
+  requestAnimationFrame(function(){
+    corteEl.querySelectorAll(".estancia").forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.left<4){ el.style.right="auto"; el.style.left="4px"; }
+      else if(r.right>window.innerWidth-4){ el.style.left="auto"; el.style.right="4px"; }
+    });
   });
 }
 
