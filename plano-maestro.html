@@ -164,38 +164,46 @@
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
   @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 
-  /* ==== LEGIBILIDAD (27 jul): mismo criterio que el archivo.
-     Las etiquetas de estancia en movil estaban a 9px: eso no es susurro. ==== */
-  .sub{font-size:.7rem}
+  /* ==== LEGIBILIDAD v2 (27 jul) — mismo sistema que el archivo.
+     Las estancias son navegacion, no ornamento: en movil van a 12.5px
+     con el interletrado recogido, y la signatura a 14px. */
+  .sub{font-size:.7rem;letter-spacing:.35em;text-indent:.35em}
   .volver{font-size:.74rem}
-  .cons-titulo{font-size:.66rem}
+  .cons-titulo{font-size:.66rem;letter-spacing:.45em;text-indent:.45em}
   .cons{font-size:.8rem}
   .cons .lore{font-size:.8rem}
   .cons-nota{font-size:.66rem}
-  .estancia{font-size:.66rem}
+  .estancia{font-size:.66rem;letter-spacing:.14em}
   .estancia .es-sig{font-size:.76rem}
   #prof{font-size:.68rem}
-  #fondoCorte{font-size:.68rem}
+  #fondoCorte{font-size:.68rem;letter-spacing:.3em;text-indent:.3em}
   .f-fecha{font-size:.7rem}
   .f-dato{font-size:.76rem}
   .f-leer{font-size:.7rem}
   #senalBtn{font-size:.72rem}
+  /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta */
+  h1{letter-spacing:normal}
+  .f-sig{letter-spacing:normal}
+  .cons b{letter-spacing:normal}
   @media (max-width:600px){
-    .sub{font-size:.74rem;letter-spacing:.35em;text-indent:.35em}
-    .volver{font-size:.8rem;padding:.35rem .2rem}
-    .cons{font-size:.84rem}
-    .cons .lore{font-size:.84rem}
-    .cons-nota{font-size:.7rem}
-    .estancia{font-size:.7rem;letter-spacing:.08em;padding:.3rem .4rem}
-    .estancia .es-sig{font-size:.8rem}
-    #prof{font-size:.72rem}
-    #fondoCorte{font-size:.72rem}
-    .f-fecha{font-size:.76rem}
-    .f-dato{font-size:.8rem}
-    .f-esquirla{font-size:.98rem}
-    .f-texto{font-size:1.02rem}
-    .f-leer{font-size:.78rem;padding:.6rem 1rem}
-    #senalBtn{font-size:.76rem;padding:.3rem .5rem}
+    .sub{font-size:.8rem;letter-spacing:.18em;text-indent:.18em;line-height:1.6}
+    .volver{font-size:.875rem;letter-spacing:.18em;padding:.4rem .2rem}
+    .cons-titulo{font-size:.78rem;letter-spacing:.3em;text-indent:.3em}
+    .cons{font-size:.9rem;letter-spacing:.06em}
+    .cons .lore{font-size:.9rem}
+    .cons-nota{font-size:.76rem;letter-spacing:.12em;line-height:1.6}
+    .estancia{font-size:.78rem;letter-spacing:.05em;padding:.32rem .45rem}
+    .estancia .es-sig{font-size:.875rem;letter-spacing:.1em}
+    #prof{font-size:.78rem}
+    #fondoCorte{font-size:.78rem;letter-spacing:.15em;text-indent:.15em}
+    #fichaCerrar{font-size:1.05rem;padding:.55rem .75rem}
+    .f-sig{font-size:2.2rem}
+    .f-fecha{font-size:.82rem;letter-spacing:.2em}
+    .f-dato{font-size:.875rem;letter-spacing:.05em}
+    .f-esquirla{font-size:1rem}
+    .f-texto{font-size:1.05rem}
+    .f-leer{font-size:.84rem;letter-spacing:.18em;padding:.65rem 1.05rem}
+    #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
   }
 </style>
 </head>

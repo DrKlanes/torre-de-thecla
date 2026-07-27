@@ -277,34 +277,42 @@
     .tx-cuerpo{font-size:1.05rem}
   }
 
-  /* ==== LEGIBILIDAD (27 jul): los susurros suben medio punto.
-     Susurro sigue siendo susurro — por color y espaciado, no por ser ilegible.
-     Escritorio: +0.04rem general. Movil: suelo de ~12px para todo lo informativo
-     y objetivos tactiles mas generosos. Todo en un bloque, facil de auditar. ==== */
+  /* ==== LEGIBILIDAD v2 (27 jul) ====
+     Sistema, no parche. El interletrado en em se come la caja en movil:
+     a 13px, .3em son 4px de aire por letra y la frase se disuelve.
+     Reglas: (1) movil, suelo 13px informativo / 14px interactivo;
+     (2) tracking ancho SOLO para palabras sueltas en caps (SILENCIO);
+     las frases susurran por color, no por dispersion; (3) los ornamentos
+     (el estrato) no se tocan. Todo lo tipografico vive en este bloque. */
   .sil-label{font-size:.74rem}
-  .sil-sub{font-size:.72rem}
-  .sil-ecos{font-size:.72rem}
-  .tx-fecha{font-size:.72rem}
-  #finArchivo{font-size:.72rem}
+  .sil-sub{font-size:.72rem;letter-spacing:.22em;text-indent:.22em}
+  .sil-ecos{font-size:.74rem}
+  .tx-fecha{font-size:.72rem;letter-spacing:.25em;text-indent:.25em}
+  #finArchivo{font-size:.72rem;letter-spacing:.25em;text-indent:.25em}
   #senalBtn{font-size:.72rem}
   .poso-sub{font-size:.72rem}
-  .poso-info{font-size:.68rem}
-  .poso-pie{font-size:.66rem}
+  .poso-info{font-size:.7rem}
+  .poso-pie{font-size:.68rem}
   .atajo{font-size:.74rem}
+  /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta */
+  .sil-count{letter-spacing:normal}
+  .tx-sig{letter-spacing:normal}
+  .poso-titulo{letter-spacing:normal}
   @media (max-width:600px){
-    .sil-label{font-size:.78rem;letter-spacing:.5em;text-indent:.5em}
-    .sil-sub{font-size:.76rem;letter-spacing:.28em;text-indent:.28em}
-    .sil-ecos{font-size:.78rem}
-    .sil-ecos a{padding:.3rem .15rem}                /* dedo, no puntero */
-    .tx-fecha{font-size:.76rem}
-    .tx-cuerpo{font-size:1.08rem}
-    #finArchivo{font-size:.74rem}
-    #senalBtn{font-size:.76rem;padding:.3rem .5rem}
-    .bajar{font-size:.88rem}
-    .poso-sub{font-size:.76rem}
-    .poso-info{font-size:.74rem}
-    .poso-pie{font-size:.72rem}
-    .atajo{font-size:.8rem;padding:.45rem .55rem}
+    .sil-label{font-size:.82rem;letter-spacing:.45em;text-indent:.45em}
+    .sil-sub{font-size:.82rem;letter-spacing:.12em;text-indent:.12em;line-height:1.6}
+    .sil-ecos{font-size:.84rem;letter-spacing:.12em}
+    .sil-ecos a{padding:.35rem .15rem;white-space:nowrap}
+    .sil-ecos .eco-sep{margin:0 .45em}
+    .tx-fecha{font-size:.82rem;letter-spacing:.18em;text-indent:.18em}
+    .tx-cuerpo{font-size:1.1rem;line-height:1.78}
+    #finArchivo{font-size:.8rem;letter-spacing:.2em;text-indent:.2em}
+    #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
+    .bajar{font-size:.9rem}
+    .poso-sub{font-size:.82rem;letter-spacing:.14em}
+    .poso-info{font-size:.8rem;letter-spacing:.1em;line-height:1.6}
+    .poso-pie{font-size:.78rem;letter-spacing:.08em;line-height:1.6}
+    .atajo{font-size:.875rem;letter-spacing:.14em;padding:.5rem .6rem}
   }
 </style>
 </head>
