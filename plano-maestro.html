@@ -163,6 +163,40 @@
   #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
   @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
+
+  /* ==== LEGIBILIDAD (27 jul): mismo criterio que el archivo.
+     Las etiquetas de estancia en movil estaban a 9px: eso no es susurro. ==== */
+  .sub{font-size:.7rem}
+  .volver{font-size:.74rem}
+  .cons-titulo{font-size:.66rem}
+  .cons{font-size:.8rem}
+  .cons .lore{font-size:.8rem}
+  .cons-nota{font-size:.66rem}
+  .estancia{font-size:.66rem}
+  .estancia .es-sig{font-size:.76rem}
+  #prof{font-size:.68rem}
+  #fondoCorte{font-size:.68rem}
+  .f-fecha{font-size:.7rem}
+  .f-dato{font-size:.76rem}
+  .f-leer{font-size:.7rem}
+  #senalBtn{font-size:.72rem}
+  @media (max-width:600px){
+    .sub{font-size:.74rem;letter-spacing:.35em;text-indent:.35em}
+    .volver{font-size:.8rem;padding:.35rem .2rem}
+    .cons{font-size:.84rem}
+    .cons .lore{font-size:.84rem}
+    .cons-nota{font-size:.7rem}
+    .estancia{font-size:.7rem;letter-spacing:.08em;padding:.3rem .4rem}
+    .estancia .es-sig{font-size:.8rem}
+    #prof{font-size:.72rem}
+    #fondoCorte{font-size:.72rem}
+    .f-fecha{font-size:.76rem}
+    .f-dato{font-size:.8rem}
+    .f-esquirla{font-size:.98rem}
+    .f-texto{font-size:1.02rem}
+    .f-leer{font-size:.78rem;padding:.6rem 1rem}
+    #senalBtn{font-size:.76rem;padding:.3rem .5rem}
+  }
 </style>
 </head>
 <body>

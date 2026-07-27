@@ -276,6 +276,36 @@
     .tx{margin-bottom:34vh}
     .tx-cuerpo{font-size:1.05rem}
   }
+
+  /* ==== LEGIBILIDAD (27 jul): los susurros suben medio punto.
+     Susurro sigue siendo susurro — por color y espaciado, no por ser ilegible.
+     Escritorio: +0.04rem general. Movil: suelo de ~12px para todo lo informativo
+     y objetivos tactiles mas generosos. Todo en un bloque, facil de auditar. ==== */
+  .sil-label{font-size:.74rem}
+  .sil-sub{font-size:.72rem}
+  .sil-ecos{font-size:.72rem}
+  .tx-fecha{font-size:.72rem}
+  #finArchivo{font-size:.72rem}
+  #senalBtn{font-size:.72rem}
+  .poso-sub{font-size:.72rem}
+  .poso-info{font-size:.68rem}
+  .poso-pie{font-size:.66rem}
+  .atajo{font-size:.74rem}
+  @media (max-width:600px){
+    .sil-label{font-size:.78rem;letter-spacing:.5em;text-indent:.5em}
+    .sil-sub{font-size:.76rem;letter-spacing:.28em;text-indent:.28em}
+    .sil-ecos{font-size:.78rem}
+    .sil-ecos a{padding:.3rem .15rem}                /* dedo, no puntero */
+    .tx-fecha{font-size:.76rem}
+    .tx-cuerpo{font-size:1.08rem}
+    #finArchivo{font-size:.74rem}
+    #senalBtn{font-size:.76rem;padding:.3rem .5rem}
+    .bajar{font-size:.88rem}
+    .poso-sub{font-size:.76rem}
+    .poso-info{font-size:.74rem}
+    .poso-pie{font-size:.72rem}
+    .atajo{font-size:.8rem;padding:.45rem .55rem}
+  }
 </style>
 </head>
 <body>
