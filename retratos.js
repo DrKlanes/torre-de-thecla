@@ -95,20 +95,49 @@ function montar(atlas, exp, entrada, clase){
   var cv = document.createElement("canvas");
   cv.width = W; cv.height = H;
   caja.appendChild(cv);
-  var manto = document.createElement("div");          // el sedimento, cuando toque
-  manto.className = "retrato-manto";
-  caja.appendChild(manto);
 
-  var id = pintar(atlas, exp, entrada.palo, entrada.senal);
+  var base = pintar(atlas, exp, entrada.palo, entrada.senal);
   var cx = cv.getContext("2d");
   cx.imageSmoothingEnabled = false;
 
-  var estado = {id:id, cv:cv, cx:cx, vivo:true, revelado:false};
+  /* base = la imagen pura; id = la imagen con el sedimento de ESTE momento.
+     El tinte solo toca pixeles con carne (alfa > 0): el vacio sigue siendo vacio. */
+  var estado = {base:base, id:base, t:0, sed:null, cv:cv, cx:cx, vivo:true, revelado:false};
   caja.__retrato = estado;
   return caja;
 }
 
 function volcar(e){ e.cx.putImageData(e.id, 0, 0); }
+
+/* ---- el sedimento: lo leido se hunde en azul — SOLO la carne, jamas el vacio ---- */
+var _probe = null;
+function colorSedimento(){
+  if(!_probe){
+    _probe = document.createElement("i");
+    _probe.style.cssText = "position:absolute;visibility:hidden;color:var(--sedimento,#5a76b4)";
+    document.body.appendChild(_probe);
+  }
+  var m = getComputedStyle(_probe).color.match(/(\d+)[, ]+(\d+)[, ]+(\d+)/);
+  return m ? [+m[1], +m[2], +m[3]] : [90, 118, 180];
+}
+/* hundirse es bajar: el sedimento MULTIPLICA (tiñe y oscurece), nunca aclara */
+function mezcla(c, sed, t){
+  var m0 = c[0]*sed[0]/255, m1 = c[1]*sed[1]/255, m2 = c[2]*sed[2]/255;
+  return [Math.round(c[0] + (m0-c[0])*t),
+          Math.round(c[1] + (m1-c[1])*t),
+          Math.round(c[2] + (m2-c[2])*t)];
+}
+function tintar(e){
+  if(e.t <= 0.01 || !e.sed){ e.id = e.base; return; }
+  var id2 = new ImageData(new Uint8ClampedArray(e.base.data), W, H);
+  var d = id2.data, t = e.t;
+  for(var o = 0; o < d.length; o += 4){
+    if(!d[o+3]) continue;                              // el vacio no se sedimenta
+    var c = mezcla([d[o], d[o+1], d[o+2]], e.sed, t);  // multiplicar: tinte que oscurece
+    d[o] = c[0]; d[o+1] = c[1]; d[o+2] = c[2];
+  }
+  e.id = id2;
+}
 
 /* ---- la revelación por líneas: la imagen llega como llega el texto ---- */
 function revelar(e, dur){
@@ -146,16 +175,16 @@ function titilar(e){
     setTimeout(function(){
       if(!e.vivo || !e.revelado || document.hidden){ chispas(); return; }
       var id2 = new ImageData(new Uint8ClampedArray(e.id.data), W, H);
-      var d = id2.data, n = 3 + Math.floor(Math.random()*5);
+      var d = id2.data, db = e.base.data, n = 3 + Math.floor(Math.random()*5);
       for(var k = 0; k < n; k++){
         var x = Math.floor(W*VELO.inicio + Math.random()*W*(1-VELO.inicio));
         var y = Math.floor(Math.random()*H);
         var o = (y*W + x)*4;
-        if(!d[o+3]) continue;
-        var i = IDX[(d[o]<<16)|(d[o+1]<<8)|d[o+2]];
+        if(!db[o+3]) continue;
+        var i = IDX[(db[o]<<16)|(db[o+1]<<8)|db[o+2]]; // el indice, de la imagen pura
         if(i === undefined) continue;                  // la luz no titila
         var j = Math.max(0, Math.min(9, i + (Math.random() < 0.5 ? -1 : 1)));
-        var C = RAMPA_RGB[j];
+        var C = (e.t > 0.01 && e.sed) ? mezcla(RAMPA_RGB[j], e.sed, e.t) : RAMPA_RGB[j];
         d[o] = C[0]; d[o+1] = C[1]; d[o+2] = C[2];
       }
       e.cx.putImageData(id2, 0, 0);
@@ -186,9 +215,6 @@ function estilos(){
     ".retrato-noche{position:relative;width:220px;margin:3rem auto 0;}",
     ".retrato-noche canvas,.retrato-ficha canvas{width:100%;display:block;",
     "  image-rendering:pixelated;image-rendering:crisp-edges;}",
-    ".retrato-manto{position:absolute;inset:0;pointer-events:none;",
-    "  background:var(--sedimento,#5a76b4);mix-blend-mode:color;opacity:0;",
-    "  transition:opacity .3s linear;}",
     ".retrato-ficha{position:relative;width:176px;margin:0 0 1.6rem;}",
     "@media (max-width:600px){.retrato-noche{width:176px}}"
   ].join("\n");
@@ -267,16 +293,21 @@ function archivo(atlas, censo, reg){
     });
   }).observe(cont, {childList:true});
 
-  // el retrato se hunde en el sedimento con su testimonio (misma ley que el texto)
+  // el retrato se hunde en el sedimento con su testimonio (misma ley que el texto,
+  // pero pintada dentro del canvas: el tinte solo alcanza la carne, nunca el vacio)
   function sedimento(){
     var vh = window.innerHeight, movil = window.innerWidth < 700;
     var foco = vh * (movil ? 0.62 : 0.52), tope = vh * 0.06;
     document.querySelectorAll(".retrato-noche").forEach(function(caja){
+      var e = caja.__retrato;
+      if(!e || !e.revelado) return;
       var r = caja.getBoundingClientRect();
       if(r.top > vh * 1.5 || r.bottom < -vh) return;
       var t = (foco - r.bottom) / (foco - tope);
-      t = Math.max(0, Math.min(1, t));
-      caja.querySelector(".retrato-manto").style.opacity = (t * 0.9).toFixed(2);
+      t = Math.max(0, Math.min(1, t)) * 0.85;
+      if(Math.abs(t - e.t) < 0.02) return;             // sin cambio: ni un repintado
+      e.t = t; e.sed = colorSedimento();
+      tintar(e); volcar(e);
     });
   }
   window.addEventListener("scroll", function(){ requestAnimationFrame(sedimento); }, {passive:true});
