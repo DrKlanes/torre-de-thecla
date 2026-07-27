@@ -20,8 +20,7 @@
     ],
     "reintentos": 0,
     "signatura": "SMET-0001",
-    "palabras": 281,
-    "retrato": false
+    "palabras": 281
   },
   {
     "noche": "2026-07-23",
@@ -43,8 +42,7 @@
     ],
     "reintentos": 0,
     "signatura": "SMET-0002",
-    "palabras": 210,
-    "retrato": false
+    "palabras": 210
   },
   {
     "noche": "2026-07-24",
@@ -65,8 +63,7 @@
     "reintentos": 0,
     "esquirla": "Pedrazo húmedo; la misa, un eco seco en mi garganta muerta. Dedos rotos sostienen el aire… hasta que solo queda hambre helada donde debió estar Dios. No hay piedad: solo polvo gélido y silencio eterno entre mis dientes vacíos.",
     "signatura": "SMET-0003",
-    "palabras": 146,
-    "retrato": false
+    "palabras": 146
   },
   {
     "noche": "2026-07-25",
@@ -87,8 +84,7 @@
     "reintentos": 0,
     "esquirla": "Salmuera fría suda piedra no mía. Siglos caen plumas oxidadas bajo el trueno real que me golpea; recordar esperanza es maldecirse. Pasos muertos, compañeros ausentes hambrientos en la garganta rota: dentadura y olvido dulce. La torre respira… yo también respiro para nada.",
     "signatura": "SMET-0004",
-    "palabras": 215,
-    "retrato": false
+    "palabras": 215
   },
   {
     "noche": "2026-07-26",
@@ -109,8 +105,7 @@
     "reintentos": 0,
     "esquirla": "La luz mintió… quietud es conversión lenta aquí. Mi orden come fe rota, así limpio mis manos. Santo era castigo, no salvación; demasiado tarde para entenderlo ahora que estoy atado a algo perfecto... o al menos eso creo. Un espejo roto sería justo.",
     "signatura": "SMET-0005",
-    "palabras": 145,
-    "retrato": true
+    "palabras": 145
   },
   {
     "noche": "2026-07-27",
@@ -135,7 +130,6 @@
     "crecida": true,
     "esquirla": "Azulejo roto… tu nombre gotea en mis dientes negros antes de entrar al cuarto sin aire. Huele a tubería muerta; mi casa era un hueso bajo la cerradura que ahora te sangra las manos: cierra el grifo o te quedas aquí con nosotros, respirando polvo eterno.",
     "signatura": "SMET-0006",
-    "palabras": 250,
-    "retrato": false
+    "palabras": 250
   }
 ]
