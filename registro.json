@@ -106,5 +106,30 @@
     "esquirla": "La luz mintió… quietud es conversión lenta aquí. Mi orden come fe rota, así limpio mis manos. Santo era castigo, no salvación; demasiado tarde para entenderlo ahora que estoy atado a algo perfecto... o al menos eso creo. Un espejo roto sería justo.",
     "signatura": "SMET-0005",
     "palabras": 145
+  },
+  {
+    "noche": "2026-07-27",
+    "palo": "C",
+    "carta": "C8",
+    "estado": "E12",
+    "modificador": null,
+    "prohibidas": [
+      "podrido",
+      "eterno",
+      "vacío"
+    ],
+    "violadas": [
+      "podrido",
+      "eterno"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "crecida": true,
+    "esquirla": "Azulejo roto… tu nombre gotea en mis dientes negros antes de entrar al cuarto sin aire. Huele a tubería muerta; mi casa era un hueso bajo la cerradura que ahora te sangra las manos: cierra el grifo o te quedas aquí con nosotros, respirando polvo eterno.",
+    "signatura": "SMET-0006",
+    "palabras": 250
   }
 ]
