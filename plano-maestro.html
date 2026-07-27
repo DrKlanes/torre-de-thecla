@@ -169,33 +169,36 @@
      con el interletrado recogido, y la signatura a 14px. */
   .sub{font-size:.7rem;letter-spacing:.35em;text-indent:.35em}
   .volver{font-size:.74rem}
-  .cons-titulo{font-size:.66rem;letter-spacing:.45em;text-indent:.45em}
-  .cons{font-size:.8rem}
+  .cons-titulo{font-size:.66rem;letter-spacing:.35em;text-indent:.35em}
+  .cons{font-size:.8rem;letter-spacing:.06em}
   .cons .lore{font-size:.8rem}
   .cons-nota{font-size:.66rem}
   .estancia{font-size:.66rem;letter-spacing:.14em}
   .estancia .es-sig{font-size:.76rem}
-  #prof{font-size:.68rem}
   #fondoCorte{font-size:.68rem;letter-spacing:.3em;text-indent:.3em}
   .f-fecha{font-size:.7rem}
   .f-dato{font-size:.76rem}
   .f-leer{font-size:.7rem}
-  #senalBtn{font-size:.72rem}
+  #senalBtn{font-size:.72rem;letter-spacing:.16em;white-space:nowrap}
   /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta */
   h1{letter-spacing:normal}
   .f-sig{letter-spacing:normal}
   .cons b{letter-spacing:normal}
   @media (max-width:600px){
-    .sub{font-size:.8rem;letter-spacing:.18em;text-indent:.18em;line-height:1.6}
+    :root{--apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)))}
+    #fondoCorte{opacity:.85}
+    .cons-titulo{opacity:1}
+    .estancia.sellada{opacity:.7}
+    .sub{font-size:.8rem;letter-spacing:.14em;text-indent:.14em;line-height:1.6}
     .volver{font-size:.875rem;letter-spacing:.18em;padding:.4rem .2rem}
-    .cons-titulo{font-size:.78rem;letter-spacing:.3em;text-indent:.3em}
-    .cons{font-size:.9rem;letter-spacing:.06em}
+    .cons-titulo{font-size:.78rem;letter-spacing:.22em;text-indent:.22em}
+    .cons{font-size:.9rem;letter-spacing:.01em;gap:1rem}
+    .cons b{white-space:nowrap}
     .cons .lore{font-size:.9rem}
     .cons-nota{font-size:.76rem;letter-spacing:.12em;line-height:1.6}
     .estancia{font-size:.78rem;letter-spacing:.05em;padding:.32rem .45rem}
     .estancia .es-sig{font-size:.875rem;letter-spacing:.1em}
-    #prof{font-size:.78rem}
-    #fondoCorte{font-size:.78rem;letter-spacing:.15em;text-indent:.15em}
+    #fondoCorte{font-size:.78rem;letter-spacing:.12em;text-indent:.12em}
     #fichaCerrar{font-size:1.05rem;padding:.55rem .75rem}
     .f-sig{font-size:2.2rem}
     .f-fecha{font-size:.82rem;letter-spacing:.2em}

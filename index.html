@@ -289,7 +289,7 @@
   .sil-ecos{font-size:.74rem}
   .tx-fecha{font-size:.72rem;letter-spacing:.25em;text-indent:.25em}
   #finArchivo{font-size:.72rem;letter-spacing:.25em;text-indent:.25em}
-  #senalBtn{font-size:.72rem}
+  #senalBtn{font-size:.72rem;letter-spacing:.16em;white-space:nowrap}
   .poso-sub{font-size:.72rem}
   .poso-info{font-size:.7rem}
   .poso-pie{font-size:.68rem}
@@ -299,6 +299,12 @@
   .tx-sig{letter-spacing:normal}
   .poso-titulo{letter-spacing:normal}
   @media (max-width:600px){
+    /* en pantalla pequena el susurro sube de color: el --apagado gana 10 puntos
+       de luz (la brisa sigue mandando via --luz) y las opacidades tienen suelo */
+    :root{--apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)))}
+    #finArchivo{opacity:.8}
+    .bajar{opacity:.8}
+    #senalBtn.sonando{opacity:.75}
     .sil-label{font-size:.82rem;letter-spacing:.45em;text-indent:.45em}
     .sil-sub{font-size:.82rem;letter-spacing:.12em;text-indent:.12em;line-height:1.6}
     .sil-ecos{font-size:.84rem;letter-spacing:.12em}
