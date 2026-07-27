@@ -199,7 +199,6 @@
 </aside>
 
 <script src="motor.js"></script>
-<script src="retratos.js"></script>
 <script>
 (function(){
 "use strict";
