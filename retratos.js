@@ -359,7 +359,7 @@ function arrancar(){
       ficha(atlas, censo, reg);
     });
   };
-  atlas.src = "partes.png?v=1";
+  atlas.src = "partes.png?v=2";
 }
 if(document.readyState === "loading"){
   document.addEventListener("DOMContentLoaded", arrancar);
