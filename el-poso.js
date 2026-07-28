@@ -444,6 +444,16 @@ function celdaDe(ev){
   return {x:Math.floor((ev.clientX-r.left)/r.width*W),
           y:camY+Math.floor((ev.clientY-r.top)/r.height*VISH)};
 }
+/* LA FUERZA DE LA MANO (28 jul) — el dedo golpea con toda la yema; el ratón,
+   con la punta. Pero la punta también levanta polvo: el escritorio estaba a
+   lift 0 (los granos solo se desmoronaban, jamás saltaban) y a radio 4.
+   Ahora reacciona de verdad, todavía por debajo del móvil.
+   De referencia, el móvil: tap R7/lift 1.15 · arrastre R5/lift 0.35/factor .6 */
+var MANO = {
+  clic:     {R:6, lift:0.85},                    // antes: R4, lift 0
+  arrastre: {R:5, lift:0.20, f:0.55, cx:3.5, cy:2.5}  // antes: R4, lift 0, f .45
+};
+
 function montarInteraccion(){
   var down=false;
   /* ---- táctil: tap = impacto · arrastre horizontal = remover ·
@@ -465,7 +475,7 @@ function montarInteraccion(){
       if(ev.button!==0) return;
       down=true; lastPtr=null;
       var c=celdaDe(ev);
-      perturb(c.x,c.y,0,0);
+      perturb(c.x,c.y,0,0,MANO.clic.R,MANO.clic.lift);
       lastPtr=c;
       return;
     }
@@ -506,12 +516,12 @@ function montarInteraccion(){
     }
     hoverInfo(c.x,c.y);
     if(!down) return;
-    var vx=0,vy=0;
+    var vx=0,vy=0, A=MANO.arrastre;
     if(lastPtr){
-      vx=Math.max(-3,Math.min(3,(c.x-lastPtr.x)*0.45));
-      vy=Math.max(-2,Math.min(3,(c.y-lastPtr.y)*0.45));
+      vx=Math.max(-A.cx,Math.min(A.cx,(c.x-lastPtr.x)*A.f));
+      vy=Math.max(-A.cy,Math.min(3,(c.y-lastPtr.y)*A.f));
     }
-    perturb(c.x,c.y,vx,vy);
+    perturb(c.x,c.y,vx,vy,A.R,A.lift);
     lastPtr=c;
   });
   cv.addEventListener("pointerleave",function(ev){
