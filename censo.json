@@ -14,5 +14,13 @@
     "v": -1,
     "desde": "SMET-0005",
     "senal": "abisal"
+  },
+  "B19": {
+    "f": 1,
+    "m": 7,
+    "b": 5,
+    "v": 0,
+    "desde": "SMET-0007",
+    "senal": "turbia"
   }
 }

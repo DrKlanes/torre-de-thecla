@@ -137,5 +137,27 @@
     "signatura": "SMET-0006",
     "palabras": 250,
     "retrato": false
+  },
+  {
+    "noche": "2026-07-28",
+    "palo": "B",
+    "carta": "B19",
+    "estado": "E30",
+    "modificador": "V10",
+    "prohibidas": [
+      "gusanos",
+      "laberinto",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.19,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "esquirla": "La música vibra abajo donde no hay sol, solo piedra fría hasta que la luz roja te borra en el cristal roto. No preguntes por las llaves o los pasos…",
+    "signatura": "SMET-0007",
+    "palabras": 189,
+    "retrato": false
   }
 ]
