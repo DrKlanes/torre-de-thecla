@@ -146,6 +146,22 @@
     #ficha{width:100vw}
   }
 
+  /* ---- atajo: la vuelta arriba. Mismo componente que el archivo:
+     misma posición, mismo color, misma regla de aparición (1.2 pantallas). ---- */
+  #atajos{
+    position:fixed;bottom:.9rem;left:0;right:0;z-index:5;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    padding:0 1.1rem;pointer-events:none;
+  }
+  .atajo{
+    pointer-events:auto;background:none;border:none;cursor:pointer;
+    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.22em;
+    color:var(--frio);opacity:.85;padding:.4rem .2rem;
+    transition:color .3s ease, opacity .6s ease;
+  }
+  .atajo:hover{color:var(--texto);opacity:1}
+  .atajo.oculto{opacity:0;pointer-events:none}
+
   /* ---- la señal: el mismo sintonizador del archivo ---- */
   #senal{
     position:fixed;top:.9rem;left:50%;transform:translateX(-50%);
@@ -184,6 +200,7 @@
   h1{letter-spacing:normal}
   .f-sig{letter-spacing:normal}
   .cons b{letter-spacing:normal}
+  .atajo{font-size:.74rem}
 
   /* ==== v2.2 (28 jul) — LA PLACA ES UNA PUERTA ====
      Las estancias vivían en --apagado: L35 sobre un fondo L5, ~2.5:1 de
@@ -203,17 +220,17 @@
      Franja clicable sobre el conducto que dibuja el canvas dentro del pozo.
      Rótulo vertical, como una anotación de sección. */
   .galeria{
-    position:absolute;z-index:3;cursor:pointer;
+    position:absolute;z-index:1;cursor:pointer;
     background:none;border:none;padding:0;
     display:flex;align-items:center;justify-content:center;
     -webkit-tap-highlight-color:transparent;
   }
   .galeria span{
-    writing-mode:vertical-rl;
-    font-family:'Courier New',monospace;font-size:.54rem;letter-spacing:.34em;
-    color:var(--apagado);transition:color .3s;
+    font-family:'Courier New',monospace;font-size:.52rem;letter-spacing:.3em;
+    color:var(--frio);background:var(--fondo);padding:0 .35rem;
+    white-space:nowrap;opacity:0;transition:opacity .35s;
   }
-  .galeria:hover span,.galeria:focus span{color:var(--frio)}
+  .galeria:hover span,.galeria:focus span{opacity:.92}
   .galeria:focus{outline:none}
   .f-eco{
     margin:.5rem 0 .2rem;font-size:.95rem;line-height:1.7;
@@ -243,6 +260,7 @@
     .f-texto{font-size:1.05rem}
     .f-leer{font-size:.84rem;letter-spacing:.18em;padding:.65rem 1.05rem}
     #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
+    .atajo{font-size:.875rem;letter-spacing:.14em;padding:.5rem .6rem}
   }
 </style>
 </head>
@@ -273,6 +291,10 @@
 
   <div id="fondoCorte">— aquí se acaba el registro; la torre es más antigua que su archivo —</div>
 </div>
+
+<nav id="atajos" aria-label="atajos del corte">
+  <button id="irConstantes" class="atajo oculto" aria-label="volver a la sala de constantes">▴ sala de constantes</button>
+</nav>
 
 <aside id="ficha" aria-label="ficha de la estancia">
   <button id="fichaCerrar" aria-label="cerrar">[ x ]</button>
@@ -360,7 +382,6 @@ function preparar(registro, manifest){
     var origen=porSigN[n.reg.eco];
     if(!origen || origen===n) return;
     n.ecoDe=origen;
-    n.ecoX=((fnv(n.sig+"\u00b7galeria")%3)-1)*7;
     (origen.ecoHacia=origen.ecoHacia||[]).push(n);
   });
   /* ENSAYO DE AUTOR: ?ensayo finge un eco entre la noche más nueva y la más
@@ -370,7 +391,7 @@ function preparar(registro, manifest){
     var conSig=lista.filter(function(n){return n.reg.signatura;});
     if(conSig.length>1 && !lista.some(function(n){return n.ecoDe;})){
       var nuevo=conSig[conSig.length-1], viejo=conSig[0];
-      nuevo.ecoDe=viejo; nuevo.ecoX=0;
+      nuevo.ecoDe=viejo;
       nuevo.reg.eco=viejo.sig;
       if(!nuevo.reg.eco_frase) nuevo.reg.eco_frase="Aqu\u00ed dentro nadie termina de irse del todo.";
       viejo.ecoHacia=[nuevo];
@@ -450,25 +471,27 @@ function colocarEtiquetas(){
     if(!n.sellada) b.addEventListener("click",function(){abrirFicha(n);});
     corteEl.appendChild(b);
   });
-  /* las galerías del eco: franja clicable sobre el conducto del pozo.
-     Tocarla es viajar a la noche que sonó (y, si la señal está puesta,
-     oírla: recorrer la galería es cruzar de una pieza a otra). */
+  /* el hilo del eco: franja clicable rotada sobre la diagonal. Va por
+     DEBAJO de las placas (z-index 1) para no robarles el clic, y el
+     rótulo solo aparece al posarse: la línea es la marca, no la etiqueta. */
   noches.forEach(function(n){
     if(!n.ecoDe) return;
-    var m=n.ecoDe;
-    var yA=n.y+n.h/2, yB=m.y+m.h/2;
-    var y0=Math.min(yA,yB), y1=Math.max(yA,yB);
+    var q=puntasEco(n, cx); if(!q) return;
+    var ax=q.ax*PXL, ay=q.ay*PXL, bx=q.bx*PXL, by=q.by*PXL;
+    var dx=bx-ax, dy=by-ay, largo=Math.sqrt(dx*dx+dy*dy);
+    if(largo<8) return;
     var g=document.createElement("button");
     g.className="galeria";
     g.innerHTML='<span>eco</span>';
-    var rotulo="una voz de "+m.sig+" se oy\u00f3 en "+n.sig;
+    var rotulo="una voz de "+n.ecoDe.sig+" se oy\u00f3 en "+n.sig;
     g.title=rotulo; g.setAttribute("aria-label", rotulo);
-    var gx=cx+(n.ecoX||0);
-    g.style.left=Math.round((gx-7)*PXL)+"px";
-    g.style.top=Math.round(y0*PXL)+"px";
-    g.style.width=(14*PXL)+"px";
-    g.style.height=Math.max(24, Math.round((y1-y0)*PXL))+"px";
-    g.addEventListener("click",function(){ abrirFicha(m); });
+    g.style.left=Math.round(ax)+"px";
+    g.style.top=Math.round(ay-10)+"px";
+    g.style.width=Math.round(largo)+"px";
+    g.style.height="20px";
+    g.style.transformOrigin="0 10px";
+    g.style.transform="rotate("+Math.atan2(dy,dx)+"rad)";
+    g.addEventListener("click",function(){ abrirFicha(n.ecoDe); });
     corteEl.appendChild(g);
   });
 
@@ -612,6 +635,9 @@ function dibujar(){
     }
   }
 
+  /* 2.5 los hilos del eco, POR DEBAJO de la arquitectura: cada sala los tapa */
+  noches.forEach(function(n){ if(n.ecoDe) dibujarHiloEco(n, scrollLogico, cx); });
+
   /* 3. estancias visibles */
   noches.forEach(function(n){
     var ry0=n.y-scrollLogico;
@@ -619,9 +645,8 @@ function dibujar(){
     dibujarEstancia(n, ry0, cx);
   });
 
-  /* 3.5 las galerías del eco: van DESPUÉS de las estancias porque cada
-     estancia limpia su hueco (clearRect) y se comería el conducto. */
-  noches.forEach(function(n){ if(n.ecoDe) dibujarGaleria(n, scrollLogico, cx); });
+  /* 3.5 las brechas: van después, sobre el muro ya dibujado */
+  noches.forEach(function(n){ if(n.ecoDe) brechasEco(n, scrollLogico, cx); });
 
   /* 4. la cristalización: todo trazo se vuelve píxel (como los planos) */
   ditherizar(scrollLogico);
@@ -638,52 +663,51 @@ function dibujar(){
   });
 }
 
-/* la galería del eco: un conducto vertical dentro del pozo, de la noche que
-   oyó a la noche que sonó. Va en el dialecto del delineante (dos muros y
-   travesaños), y muerde el muro interior de cada estancia en sus dos bocas:
-   para que un sonido suba siete plantas, tiene que romper siete suelos. */
-function dibujarGaleria(n, scrollLogico, cx){
+/* EL HILO DEL ECO (§14) — v2 (28 jul, corrección suya).
+   Antes era un conducto ancho por el centro. Error mío doble: el pozo es
+   la única zona que el plano defiende limpia (mira el tejido y el campo,
+   los dos lo esquivan), y con un archivo de meses N conductos paralelos
+   habrían convertido el tubo en un código de barras.
+   Ahora: un hilo que sale del muro INFERIOR de la sala de arriba y entra
+   por el muro SUPERIOR de la de abajo. La diagonal es la única geometría
+   ajena a un corte arquitectónico —aquí todo es ortogonal—, así que se
+   lee como intrusa sin necesidad de peso. Se dibuja ANTES de las
+   estancias: cada sala lo tapa, y el hilo solo asoma en el vacío.
+   Después, las brechas: dos mordiscos en el muro de cada sala que cruza. */
+function puntasEco(n, cx){
   var m=n.ecoDe;
-  if(!m) return;
-  var yA=n.y+Math.floor(n.h/2), yB=m.y+Math.floor(m.h/2);
-  var y0=Math.min(yA,yB), y1=Math.max(yA,yB);
-  var r0=Math.round(y0-scrollLogico), r1=Math.round(y1-scrollLogico);
+  if(!m) return null;
+  var arriba=(n.y<=m.y)?n:m, abajo=(n.y<=m.y)?m:n;
+  function anclaX(e, sal){
+    var x0=(e.lado<0)?cx-17-e.sep-e.w:cx+17+e.sep;
+    var t=0.2+((fnv(e.sig+sal)%1000)/1000)*0.6;      // 20%..80% del muro
+    return Math.round(x0+e.w*t);
+  }
+  return { ax:anclaX(arriba,"\u00b7hiloA"), ay:arriba.y+arriba.h,
+           bx:anclaX(abajo,"\u00b7hiloB"),  by:abajo.y };
+}
+function dibujarHiloEco(n, scrollLogico, cx){
+  var q=puntasEco(n, cx); if(!q) return;
+  var r0=q.ay-scrollLogico, r1=q.by-scrollLogico;
   if(r1<-20||r0>CH+20) return;
-  var gx=cx+(n.ecoX||0), an=9;
-  var iz=gx-Math.floor(an/2)+0.5, de=gx+Math.floor(an/2)+0.5;
-
-  ctx.strokeStyle=tin(0.50); ctx.lineWidth=1;
-  ctx.beginPath();
-  ctx.moveTo(iz,r0); ctx.lineTo(iz,r1);
-  ctx.moveTo(de,r0); ctx.lineTo(de,r1);
-  ctx.stroke();
-
-  /* travesaños espaciados: un conducto, no una escalera (la escalera ya
-     significa otra cosa en el mobiliario del campo) */
-  ctx.strokeStyle=tin(0.26); ctx.beginPath();
-  for(var t=Math.ceil(r0/12)*12; t<r1; t+=12){
-    if(t<-4||t>CH+4) continue;
-    ctx.moveTo(iz,t+0.5); ctx.lineTo(de,t+0.5);
-  }
-  ctx.stroke();
-
-  /* lo que viaja por dentro: un flujo punteado, el dialecto del pozo */
-  var d0=Math.max(0,r0), d1=Math.min(CH,r1);
-  for(var q=d0; q<d1; q++){
-    if((q+gx)%3!==0) continue;
-    ctx.fillStyle=tin(0.62);
-    ctx.fillRect(gx+Math.round((hash2(gx,Math.floor((q+scrollLogico)/7))-0.5)*3), q, 1, 1);
-  }
-
-  /* las dos bocas: talón horizontal hasta el muro interior + la brecha */
-  [[n,yA],[m,yB]].forEach(function(par){
-    var e=par[0], ry=Math.round(par[1]-scrollLogico);
-    if(ry<-6||ry>CH+6) return;
-    var xi=(e.lado<0)?cx-17-e.sep:cx+17+e.sep;
-    ctx.strokeStyle=tin(0.62); ctx.beginPath();
-    ctx.moveTo((e.lado<0?iz:de), ry+0.5); ctx.lineTo(xi, ry+0.5);
-    ctx.stroke();
-    ctx.clearRect(xi-(e.lado<0?1:0), ry-1, 2, 3);
+  ctx.strokeStyle=tin(0.45); ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(q.ax+0.5,r0+0.5); ctx.lineTo(q.bx+0.5,r1+0.5); ctx.stroke();
+}
+/* las brechas: donde el hilo atraviesa un muro, el muro queda mordido */
+function brechasEco(n, scrollLogico, cx){
+  var q=puntasEco(n, cx); if(!q) return;
+  var dy=q.by-q.ay; if(!dy) return;
+  noches.forEach(function(e){
+    var x0=(e.lado<0)?cx-17-e.sep-e.w:cx+17+e.sep;
+    [e.y, e.y+e.h].forEach(function(my){
+      if(my<Math.min(q.ay,q.by)-1||my>Math.max(q.ay,q.by)+1) return;
+      var t=(my-q.ay)/dy, mx=Math.round(q.ax+(q.bx-q.ax)*t);
+      if(mx<x0-4||mx>x0+e.w+4) return;
+      var ry=Math.round(my-scrollLogico);
+      if(ry<-4||ry>CH+4) return;
+      ctx.clearRect(mx-1, ry-1, 3, 3);
+      ctx.fillStyle=tin(0.7); ctx.fillRect(mx, ry, 1, 1);
+    });
   });
 }
 
@@ -1106,6 +1130,20 @@ function reanudarSenal(){
     requestAnimationFrame(cuadro);
   }
   requestAnimationFrame(cuadro);
+})();
+
+/* ---------- atajo: la vuelta a la sala de constantes ----------
+   Mismo umbral que el archivo (1.2 pantallas) para que los dos se
+   comporten igual: aparece cuando ya has bajado de verdad. */
+(function(){
+  var btn=document.getElementById("irConstantes");
+  if(!btn) return;
+  btn.addEventListener("click",function(){
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+  window.addEventListener("scroll",function(){
+    btn.classList.toggle("oculto", window.scrollY < window.innerHeight*1.2);
+  },{passive:true});
 })();
 
 /* ---------- brisa (la misma que el archivo) ---------- */
