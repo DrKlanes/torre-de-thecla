@@ -184,6 +184,42 @@
   h1{letter-spacing:normal}
   .f-sig{letter-spacing:normal}
   .cons b{letter-spacing:normal}
+
+  /* ==== v2.2 (28 jul) — LA PLACA ES UNA PUERTA ====
+     Las estancias vivían en --apagado: L35 sobre un fondo L5, ~2.5:1 de
+     contraste. Pero una placa no es un susurro, es el ÚNICO modo de abrir
+     una ficha; un control que no se ve no existe. Suben a --frio, que es
+     ya el color de lo clicable en el archivo (los enlaces del silencio),
+     y el hover se lleva --texto. La sellada se queda atrás A PROPÓSITO:
+     ahora la diferencia entre «esto se abre» y «esto está tapiado» se lee
+     de un vistazo, que antes era lo que no pasaba. */
+  .estancia{color:var(--frio);border-color:hsla(222,20%,45%,.40)}
+  .estancia .es-fecha{opacity:.62}
+  .estancia:hover,.estancia:focus{color:var(--texto);border-color:hsla(222,20%,58%,.55)}
+  .estancia.torre .es-sig{color:hsl(213,18%,62%)}
+  .estancia.sellada{opacity:.42}
+
+  /* ==== LAS GALERÍAS DEL ECO (§14) ====
+     Franja clicable sobre el conducto que dibuja el canvas dentro del pozo.
+     Rótulo vertical, como una anotación de sección. */
+  .galeria{
+    position:absolute;z-index:3;cursor:pointer;
+    background:none;border:none;padding:0;
+    display:flex;align-items:center;justify-content:center;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .galeria span{
+    writing-mode:vertical-rl;
+    font-family:'Courier New',monospace;font-size:.54rem;letter-spacing:.34em;
+    color:var(--apagado);transition:color .3s;
+  }
+  .galeria:hover span,.galeria:focus span{color:var(--frio)}
+  .galeria:focus{outline:none}
+  .f-eco{
+    margin:.5rem 0 .2rem;font-size:.95rem;line-height:1.7;
+    color:var(--frio);font-style:italic;
+    border-left:1px solid hsla(222,20%,45%,.4);padding-left:.8rem;
+  }
   @media (max-width:600px){
     :root{--apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)))}
     #fondoCorte{opacity:.85}
@@ -313,6 +349,33 @@ function preparar(registro, manifest){
     n.silencio = i>0 ? Math.max(0, diasEntre(registro[i-1].noche, e.noche)-1) : 0;
     lista.push(n);
   });
+  /* §14 — LOS ECOS: la única arista real entre dos noches. La que oyó
+     apunta a la que sonó (ecoDe); la que sonó guarda a quién despertó
+     (ecoHacia). El carril reparte los conductos dentro del pozo para que
+     dos ecos solapados no se pisen. */
+  var porSigN={};
+  lista.forEach(function(n){ if(n.reg.signatura) porSigN[n.reg.signatura]=n; });
+  lista.forEach(function(n){
+    if(!n.reg.eco) return;
+    var origen=porSigN[n.reg.eco];
+    if(!origen || origen===n) return;
+    n.ecoDe=origen;
+    n.ecoX=((fnv(n.sig+"\u00b7galeria")%3)-1)*7;
+    (origen.ecoHacia=origen.ecoHacia||[]).push(n);
+  });
+  /* ENSAYO DE AUTOR: ?ensayo finge un eco entre la noche más nueva y la más
+     antigua para poder ver la galería antes de que caiga el primero de verdad.
+     No toca datos: vive solo en memoria, en esta pestaña. */
+  if(/[?&]ensayo/.test(location.search)){
+    var conSig=lista.filter(function(n){return n.reg.signatura;});
+    if(conSig.length>1 && !lista.some(function(n){return n.ecoDe;})){
+      var nuevo=conSig[conSig.length-1], viejo=conSig[0];
+      nuevo.ecoDe=viejo; nuevo.ecoX=0;
+      nuevo.reg.eco=viejo.sig;
+      if(!nuevo.reg.eco_frase) nuevo.reg.eco_frase="Aqu\u00ed dentro nadie termina de irse del todo.";
+      viejo.ecoHacia=[nuevo];
+    }
+  }
   return lista;
 }
 
@@ -365,7 +428,7 @@ function layout(){
 
 /* ---------- etiquetas DOM ---------- */
 function colocarEtiquetas(){
-  corteEl.querySelectorAll(".estancia").forEach(function(e){e.remove();});
+  corteEl.querySelectorAll(".estancia,.galeria").forEach(function(e){e.remove();});
   var cx=W/2;
   noches.forEach(function(n){
     var b=document.createElement("button");
@@ -387,6 +450,28 @@ function colocarEtiquetas(){
     if(!n.sellada) b.addEventListener("click",function(){abrirFicha(n);});
     corteEl.appendChild(b);
   });
+  /* las galerías del eco: franja clicable sobre el conducto del pozo.
+     Tocarla es viajar a la noche que sonó (y, si la señal está puesta,
+     oírla: recorrer la galería es cruzar de una pieza a otra). */
+  noches.forEach(function(n){
+    if(!n.ecoDe) return;
+    var m=n.ecoDe;
+    var yA=n.y+n.h/2, yB=m.y+m.h/2;
+    var y0=Math.min(yA,yB), y1=Math.max(yA,yB);
+    var g=document.createElement("button");
+    g.className="galeria";
+    g.innerHTML='<span>eco</span>';
+    var rotulo="una voz de "+m.sig+" se oy\u00f3 en "+n.sig;
+    g.title=rotulo; g.setAttribute("aria-label", rotulo);
+    var gx=cx+(n.ecoX||0);
+    g.style.left=Math.round((gx-7)*PXL)+"px";
+    g.style.top=Math.round(y0*PXL)+"px";
+    g.style.width=(14*PXL)+"px";
+    g.style.height=Math.max(24, Math.round((y1-y0)*PXL))+"px";
+    g.addEventListener("click",function(){ abrirFicha(m); });
+    corteEl.appendChild(g);
+  });
+
   /* reencaje final: ninguna etiqueta asoma del viewport, se mida como se mida */
   requestAnimationFrame(function(){
     corteEl.querySelectorAll(".estancia").forEach(function(el){
@@ -534,6 +619,10 @@ function dibujar(){
     dibujarEstancia(n, ry0, cx);
   });
 
+  /* 3.5 las galerías del eco: van DESPUÉS de las estancias porque cada
+     estancia limpia su hueco (clearRect) y se comería el conducto. */
+  noches.forEach(function(n){ if(n.ecoDe) dibujarGaleria(n, scrollLogico, cx); });
+
   /* 4. la cristalización: todo trazo se vuelve píxel (como los planos) */
   ditherizar(scrollLogico);
 
@@ -546,6 +635,55 @@ function dibujar(){
     var p=0.5+0.5*Math.sin(tPulso/28+n.idx);
     ctx.fillStyle="hsl(46,70%,"+(46+p*22)+"%)";
     ctx.fillRect(x0+Math.floor(n.w*0.28), Math.round(ry0+n.h*0.6), 2, 2);
+  });
+}
+
+/* la galería del eco: un conducto vertical dentro del pozo, de la noche que
+   oyó a la noche que sonó. Va en el dialecto del delineante (dos muros y
+   travesaños), y muerde el muro interior de cada estancia en sus dos bocas:
+   para que un sonido suba siete plantas, tiene que romper siete suelos. */
+function dibujarGaleria(n, scrollLogico, cx){
+  var m=n.ecoDe;
+  if(!m) return;
+  var yA=n.y+Math.floor(n.h/2), yB=m.y+Math.floor(m.h/2);
+  var y0=Math.min(yA,yB), y1=Math.max(yA,yB);
+  var r0=Math.round(y0-scrollLogico), r1=Math.round(y1-scrollLogico);
+  if(r1<-20||r0>CH+20) return;
+  var gx=cx+(n.ecoX||0), an=9;
+  var iz=gx-Math.floor(an/2)+0.5, de=gx+Math.floor(an/2)+0.5;
+
+  ctx.strokeStyle=tin(0.50); ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(iz,r0); ctx.lineTo(iz,r1);
+  ctx.moveTo(de,r0); ctx.lineTo(de,r1);
+  ctx.stroke();
+
+  /* travesaños espaciados: un conducto, no una escalera (la escalera ya
+     significa otra cosa en el mobiliario del campo) */
+  ctx.strokeStyle=tin(0.26); ctx.beginPath();
+  for(var t=Math.ceil(r0/12)*12; t<r1; t+=12){
+    if(t<-4||t>CH+4) continue;
+    ctx.moveTo(iz,t+0.5); ctx.lineTo(de,t+0.5);
+  }
+  ctx.stroke();
+
+  /* lo que viaja por dentro: un flujo punteado, el dialecto del pozo */
+  var d0=Math.max(0,r0), d1=Math.min(CH,r1);
+  for(var q=d0; q<d1; q++){
+    if((q+gx)%3!==0) continue;
+    ctx.fillStyle=tin(0.62);
+    ctx.fillRect(gx+Math.round((hash2(gx,Math.floor((q+scrollLogico)/7))-0.5)*3), q, 1, 1);
+  }
+
+  /* las dos bocas: talón horizontal hasta el muro interior + la brecha */
+  [[n,yA],[m,yB]].forEach(function(par){
+    var e=par[0], ry=Math.round(par[1]-scrollLogico);
+    if(ry<-6||ry>CH+6) return;
+    var xi=(e.lado<0)?cx-17-e.sep:cx+17+e.sep;
+    ctx.strokeStyle=tin(0.62); ctx.beginPath();
+    ctx.moveTo((e.lado<0?iz:de), ry+0.5); ctx.lineTo(xi, ry+0.5);
+    ctx.stroke();
+    ctx.clearRect(xi-(e.lado<0?1:0), ry-1, 2, 3);
   });
 }
 
@@ -723,6 +861,7 @@ function constantes(reg){
 
 /* ---------- ficha ---------- */
 var ficha=document.getElementById("ficha");
+function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function abrirFicha(n){
   var e=n.reg;
   function f(k,v){ return (v===null||v===undefined||v==="")?"":'<div class="f-dato"><span>'+k+'</span><span>'+v+'</span></div>'; }
@@ -735,7 +874,10 @@ function abrirFicha(n){
     h+=f("señal", e.senal+" · temp "+e.temperatura);
     if(e.modificador) h+=f("modificador", e.modificador);
     if(e.tuercas&&e.tuercas.length) h+=f("vueltas de tuerca", e.tuercas.join(", "));
-    if(e.eco) h+=f("eco de", e.eco);
+    if(e.eco){
+      h+=f("oy\u00f3 una voz de", e.eco);
+      if(e.eco_frase) h+='<p class="f-eco">\u00ab'+esc(e.eco_frase)+'\u00bb</p>';
+    }
     h+=f("prohibidas", (e.prohibidas||[]).join(", ")||"—");
     if(e.violadas&&e.violadas.length) h+=f("desobedecidas", e.violadas.join(", "));
     if(e.corregidas&&e.corregidas.length) h+=f("corregidas en 2ª toma", e.corregidas.join(", "));
@@ -745,6 +887,13 @@ function abrirFicha(n){
     h+=f("palabras", e.palabras||"—");
   } else {
     h+=f("silencio roto", (e.silencio_roto||"?")+" noches");
+  }
+  if(n.ecoHacia && n.ecoHacia.length){
+    h+=f("su voz volvi\u00f3 en", n.ecoHacia.map(function(x){return x.sig;}).join(", "));
+  }
+  if(semillaDe(n)){
+    h+=f("su pieza", musica.activa ? "suena ahora"
+                                   : "espera a que sintonices la se\u00f1al");
   }
   if(e.esquirla) h+='<p class="f-esquirla">«'+e.esquirla+'»</p>';
   if(n.archivo){
@@ -768,18 +917,40 @@ function abrirFicha(n){
     });
   }
   ficha.classList.add("abierta");
+  entrarSala(n);                       // la sala manda sobre la se\u00f1al
 }
-document.getElementById("fichaCerrar").addEventListener("click",function(){
+function cerrarFicha(){
   ficha.classList.remove("abierta");
-});
+  salirSala();
+}
+document.getElementById("fichaCerrar").addEventListener("click", cerrarFicha);
 document.addEventListener("keydown",function(ev){
-  if(ev.key==="Escape") ficha.classList.remove("abierta");
+  if(ev.key==="Escape") cerrarFicha();
 });
 
 /* ---------- la señal: la BSO de la torre, el mismo ritual del archivo ---------- */
-var musica={ctx:null, vol:null, pieza:null, activa:false, temporizador:null, TRAMO:480, analizador:null};
+var musica={ctx:null, vol:null, pieza:null, sala:null, activa:false, temporizador:null, TRAMO:480, analizador:null};
 var desmudo=null;
+/* MÚSICA POR SALA (28 jul): cada noche tiene su pieza compuesta desde el
+   primer día — misma semilla, misma música, nota a nota. Hasta hoy solo
+   sonaba la última y las demás existían sin que nadie las hubiera oído.
+   Al entrar en una estancia suena la suya; al salir, vuelve la de anoche. */
+function semillaDe(n){
+  if(!n) return null;
+  if(n.reg && n.reg.signatura) return n.reg.signatura;
+  if(n.torre) return "TORRE";
+  return null;
+}
+function caracterDe(e){
+  if(!e) return "tragado";
+  if(e.carta==="TORRE") return "torre";
+  if(e.palo==="D") return "presencia";
+  if(e.senal==="clara") return "clara";
+  return "tragado";
+}
 function semillaMusical(){
+  var s=semillaDe(musica.sala);
+  if(s) return s;
   var r=window.__registro||[];
   for(var i=r.length-1;i>=0;i--){
     if(r[i].signatura) return r[i].signatura;
@@ -788,15 +959,44 @@ function semillaMusical(){
   return "SMET-0000";
 }
 function caracterMusical(){
+  if(musica.sala) return caracterDe(musica.sala.reg);
   var r=window.__registro||[];
-  if(!r.length) return "tragado";
-  var u=r[r.length-1];
-  if(u.carta==="TORRE") return "torre";
-  if(u.palo==="D") return "presencia";
-  if(u.senal==="clara") return "clara";
-  return "tragado";
+  return r.length ? caracterDe(r[r.length-1]) : "tragado";
 }
-function sonar(){
+/* el cruce: pieza vieja que se apaga mientras entra la nueva. Cada pieza
+   cuelga de su propia ganancia, así el fundido no toca a la otra. */
+var FUNDIDO=2.2;
+function apagarPieza(p, cruzar){
+  if(!p) return;
+  if(cruzar && musica.ctx){
+    try{
+      var t=musica.ctx.currentTime;
+      p.g.gain.cancelScheduledValues(t);
+      p.g.gain.setValueAtTime(p.g.gain.value, t);
+      p.g.gain.linearRampToValueAtTime(0.0001, t+FUNDIDO);
+    }catch(e){}
+    setTimeout(function(){
+      try{p.pieza.parar();}catch(e){}
+      try{p.g.disconnect();}catch(e){}
+    }, FUNDIDO*1000+150);
+  } else {
+    try{p.pieza.parar();}catch(e){}
+    try{p.g.disconnect();}catch(e){}
+  }
+}
+/* entrar en una sala: si la señal no está puesta, solo se recuerda —
+   jamás arrancamos audio que el lector no ha pedido. */
+function entrarSala(n){
+  if(musica.sala===n) return;
+  musica.sala = semillaDe(n) ? n : null;
+  if(musica.activa){ clearTimeout(musica.temporizador); sonar(true); }
+}
+function salirSala(){
+  if(!musica.sala) return;
+  musica.sala=null;
+  if(musica.activa){ clearTimeout(musica.temporizador); sonar(true); }
+}
+function sonar(cruzar){
   if(!musica.activa || typeof SENAL==="undefined") return;
   if(!musica.ctx){
     var AC=window.AudioContext||window.webkitAudioContext;
@@ -808,14 +1008,20 @@ function sonar(){
     musica.analizador=analizador;
   }
   if(musica.ctx.state!=="running"){ try{musica.ctx.resume();}catch(e){} }
-  if(musica.pieza){ try{musica.pieza.parar();}catch(e){} }
-  musica.pieza=SENAL.tocar(musica.ctx, musica.vol, semillaMusical(), caracterMusical(), musica.TRAMO);
+  apagarPieza(musica.pieza, !!cruzar);
+  var g=musica.ctx.createGain();
+  g.gain.value = cruzar ? 0.0001 : 1;
+  g.connect(musica.vol);
+  if(cruzar){
+    try{ g.gain.linearRampToValueAtTime(1, musica.ctx.currentTime+FUNDIDO); }catch(e){}
+  }
+  musica.pieza={g:g, pieza:SENAL.tocar(musica.ctx, g, semillaMusical(), caracterMusical(), musica.TRAMO)};
   musica.temporizador=setTimeout(sonar,(musica.TRAMO-1.5)*1000);
 }
 function cortar(){
   musica.activa=false;
   clearTimeout(musica.temporizador);
-  if(musica.pieza){ try{musica.pieza.parar();}catch(e){} musica.pieza=null; }
+  apagarPieza(musica.pieza, false); musica.pieza=null;
   if(musica.ctx){ try{musica.ctx.suspend();}catch(e){} }
   if(desmudo){ try{desmudo.pause();}catch(e){} }
 }
