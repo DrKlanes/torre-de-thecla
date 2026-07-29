@@ -74,38 +74,31 @@
      no son tres niveles, son un borrón. Y «noches transmitiendo» iba a
      .42em, que rompe la regla 2 (tracking ancho SOLO para palabra suelta
      en caps). Ahora manda el COLOR, como en todo el proyecto:
-       UN SOLO COLOR, --frio, y cuatro grados de presencia por opacidad:
-         1.00  la cifra          6.8:1
-         0.72  los hechos        5.2:1
-         0.45  el rótulo         3.4:1
-         0.38  la coda           3.0:1
-     Con dos tokens (--frio y --apagado) el bloque tenía dos tintas y la
-     coda caía a 1.91:1 — eso no es un susurro, es texto ilegible. Con uno
-     solo es una voz a cuatro distancias, y ninguna baja de 3:1.
-     El tamaño solo separa rótulo de frase. El aire hace el resto: la cifra
-     y su rótulo van pegados —son una sola cosa— y hay un salto grande
-     antes de los hechos. */
+       DOS NIVELES. Nada más.
+         la cifra   --frio op 1.00   6.8:1
+         los hechos --frio op 0.72   5.2:1   (incluido «noches transmitiendo»)
+     Un cuerpo, un color, una opacidad para todo lo que no es la cifra.
+     El rótulo no es un subtítulo: es el primer hecho de la lista y se
+     comporta como los demás. Lo único que lo distingue es el aire — va
+     pegado a la cifra porque sin él la cifra no significa nada.
+     Cuatro niveles eran tres de más. */
   #consLista{text-align:center}
   .ins-cifra{
     font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
     font-size:4.6rem;line-height:1;color:var(--frio);letter-spacing:normal;
   }
-  .ins-que{                       /* rótulo de la cifra: cuelga de ella */
-    font-size:.66rem;letter-spacing:.18em;text-indent:.18em;
-    color:var(--frio);opacity:.45;margin-top:.45rem;
-  }
-  .ins-susurro{                   /* los hechos: se LEEN, no susurran */
+  /* el rótulo y los hechos son EL MISMO RANGO, así que comparten
+     declaración: dos selectores con los mismos valores repetidos se
+     desincronizan a la primera (pasó: 13,1 contra 13,8 px). Lo único
+     que los distingue es el aire de arriba. */
+  .ins-que,.ins-susurro{
     font-size:.82rem;letter-spacing:.04em;line-height:1.9;
-    color:var(--frio);opacity:.72;margin-top:2.8rem;
+    color:var(--frio);opacity:.72;
   }
+  .ins-que{margin-top:.7rem}
+  .ins-susurro{margin-top:2.8rem}
   .ins-dato{white-space:nowrap}   /* que parta entre hechos, jamás dentro */
   .ins-sep{opacity:.45;margin:0 .5em}
-  .ins-coda{                      /* la única línea que no es un dato */
-    font-size:.66rem;letter-spacing:.08em;line-height:1.7;
-    color:var(--frio);opacity:.38;margin-top:1.5rem;
-  }
-  .cons-nota{font-size:.6rem;color:var(--apagado);letter-spacing:.2em;
-    text-align:center;margin-top:2rem;opacity:.65}
 
   /* ---- etiquetas de estancia (DOM sobre el canvas) ---- */
   .estancia{
@@ -210,8 +203,7 @@
   .sub{font-size:.7rem;letter-spacing:.35em;text-indent:.35em}
   .volver{font-size:.74rem}
   .cons-titulo{font-size:.66rem;letter-spacing:.35em;text-indent:.35em}
-  .ins-susurro{font-size:.86rem}
-  .cons-nota{font-size:.66rem}
+  .ins-que,.ins-susurro{font-size:.86rem}
   .estancia{font-size:.66rem;letter-spacing:.14em}
   .estancia .es-sig{font-size:.76rem}
   #fondoCorte{font-size:.68rem;letter-spacing:.3em;text-indent:.3em}
@@ -272,10 +264,7 @@
     .volver{font-size:.875rem;letter-spacing:.18em;padding:.4rem .2rem}
     .cons-titulo{font-size:.78rem;letter-spacing:.22em;text-indent:.22em}
     .ins-cifra{font-size:3.6rem}
-    .ins-que{font-size:.8rem;letter-spacing:.14em;text-indent:.14em}
-    .ins-susurro{font-size:.9rem;letter-spacing:.02em;line-height:2}
-    .ins-coda{font-size:.8rem;letter-spacing:.06em;line-height:1.8}
-    .cons-nota{font-size:.76rem;letter-spacing:.12em;line-height:1.6}
+    .ins-que,.ins-susurro{font-size:.9rem;letter-spacing:.02em;line-height:2}
     .estancia{font-size:.78rem;letter-spacing:.05em;padding:.32rem .45rem}
     .estancia .es-sig{font-size:.875rem;letter-spacing:.1em}
     #fondoCorte{font-size:.78rem;letter-spacing:.12em;text-indent:.12em}
@@ -304,14 +293,12 @@
 <div id="mundo">
   <header>
     <h1>el plano maestro</h1>
-    <div class="sub">sección vertical · de toren van thecla</div>
     <a class="volver" href="index.html">▴ el archivo</a>
   </header>
 
   <section id="constantes" aria-label="sala de constantes">
     <div class="cons-titulo">Sala de constantes</div>
     <div id="consLista"></div>
-    <div class="ins-coda">devorados en diez siglos: la cuenta se perdió</div>
   </section>
 
   <div id="corte" style="position:relative"><canvas id="corteCv"></canvas></div>
