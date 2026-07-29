@@ -159,5 +159,31 @@
     "signatura": "SMET-0007",
     "palabras": 189,
     "retrato": false
+  },
+  {
+    "noche": "2026-07-29",
+    "palo": "A",
+    "carta": "A39",
+    "estado": "E2",
+    "modificador": null,
+    "prohibidas": [
+      "muerte",
+      "sangre",
+      "vacío"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "muerte",
+      "sangre"
+    ],
+    "esquirla": "Las manos tienen el frío correcto para morir sin que lo note. Mis rutas ya giran hacia atrás, ahora con más fuerza porque antes eran los turistas deshechos en vez de yo…",
+    "signatura": "SMET-0008",
+    "palabras": 238,
+    "retrato": true
   }
 ]

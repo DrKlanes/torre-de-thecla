@@ -22,5 +22,13 @@
     "v": 0,
     "desde": "SMET-0007",
     "senal": "turbia"
+  },
+  "A39": {
+    "f": 3,
+    "m": 9,
+    "b": 14,
+    "v": -1,
+    "desde": "SMET-0008",
+    "senal": "abisal"
   }
 }
