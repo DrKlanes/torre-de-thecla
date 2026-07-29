@@ -16,11 +16,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
+    /* ==== SISTEMA TIPOGRAFICO (29 jul) =========================
+       Tres cuerpos y dos interletrados, definidos UNA vez. Cualquier
+       elemento que deba parecerse a otro usa el mismo token, y entonces
+       no pueden desincronizarse aunque alguien toque uno de los dos.
+       El movil solo redefine estos valores: cero reglas duplicadas. */
+    --t-micro:.72rem;        /* etiquetas, botones, susurros */
+    --t-base:.82rem;         /* lo que se lee de corrido */
+    --k-rotulo:.16em;        /* botones [ entre corchetes ], 3-5 palabras */
+    --k-frase:.12em;         /* frases de verdad: nunca mas de esto */
     --matiz:222; --luz:0%;
     --fondo:hsl(var(--matiz), 48%, calc(5% + var(--luz)));
     --texto:hsl(var(--matiz), 19%, calc(80% + var(--luz)));
     --frio:hsl(var(--matiz), 20%, calc(64% + var(--luz)));
-    --apagado:hsl(var(--matiz), 15%, calc(35% + var(--luz)));
+    --apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)));  /* 29 jul: un solo valor, escritorio y movil */
     --sedimento:hsl(var(--matiz), 52%, calc(51% + var(--luz)));
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -134,7 +143,7 @@
   #fondoCorte{
     position:relative;z-index:2;text-align:center;
     font-size:.62rem;letter-spacing:.4em;text-indent:.4em;color:var(--apagado);
-    padding:16vh 1rem 18vh;opacity:.6;
+    padding:16vh 1rem 18vh;opacity:.92;
   }
 
   /* ---- la ficha ---- */
@@ -182,7 +191,7 @@
   }
   .atajo{
     pointer-events:auto;background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.22em;
+    font-family:'Courier New',monospace;font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
     color:var(--frio);opacity:.85;padding:.4rem .2rem;
     transition:color .3s ease, opacity .6s ease;
   }
@@ -195,13 +204,24 @@
     z-index:6;text-align:center;cursor:pointer;padding:.3rem .8rem;
   }
   #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
-  #senalBtn{
-    background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
-    color:var(--frio);padding:.15rem 0 0;
-    animation:latSenal 5s ease-in-out infinite;
-    transition:color .3s;
+  /* EL BLOQUE DE LA SEÑAL — el boton y el enlace son el MISMO rango, asi
+     que comparten declaracion. Repetir los valores en dos reglas es como se
+     desincronizaron (11.5 contra 10.9 px). Lo unico propio de cada uno es
+     el latido del boton y la opacidad del enlace. */
+  #senalBtn,.senal-enlace{
+    font-family:'Courier New',monospace;
+    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
+    color:var(--frio);white-space:nowrap;
   }
+  #senalBtn{
+    background:none;border:none;cursor:pointer;padding:.15rem 0 0;
+    animation:latSenal 5s ease-in-out infinite;transition:color .3s;
+  }
+  .senal-enlace{
+    display:block;margin-top:.4rem;text-decoration:none;
+    opacity:.62;transition:opacity .3s,color .3s;
+  }
+  .senal-enlace:hover{opacity:1;color:var(--texto)}
   #senal:hover #senalBtn{animation-play-state:paused;opacity:1;color:var(--texto)}
   #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
@@ -212,20 +232,15 @@
      y twitter — y no es lo mismo: las redes se van fuera, el plano y el
      archivo son las dos mitades de la obra. Ahora es el segundo renglón
      del bloque fijo, con el formato del sintonizador. */
-  .senal-enlace{
-    display:block;margin-top:.35rem;text-decoration:none;
-    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
-    color:var(--frio);opacity:.62;transition:opacity .3s,color .3s;
-  }
-  .senal-enlace:hover{opacity:1;color:var(--texto)}
 
   /* la misma flecha del archivo, en el aire sobre el corte */
   .bajar{
     text-align:center;color:var(--apagado);font-family:'Courier New',monospace;
-    font-size:.8rem;opacity:.55;animation:lat 4s ease-in-out infinite;
+    font-size:var(--t-base);opacity:.8;animation:lat 4s ease-in-out infinite;
     margin:0 auto 7vh;
   }
-  @keyframes lat{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(8px);opacity:.7}}
+  /* el latido no baja de .62: por debajo, la flecha caia a 2.4:1 */
+  @keyframes lat{0%,100%{transform:translateY(0);opacity:.62}50%{transform:translateY(8px);opacity:.95}}
 
   /* ==== LEGIBILIDAD v2 (27 jul) — mismo sistema que el archivo.
      Las estancias son navegacion, no ornamento: en movil van a 12.5px
@@ -233,13 +248,12 @@
   .sub{font-size:.7rem;letter-spacing:.35em;text-indent:.35em}
   .volver{font-size:.74rem}
   .ins-que,.ins-susurro{font-size:.86rem}
-  .estancia{font-size:.66rem;letter-spacing:.14em}
+  .estancia{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
   .estancia .es-sig{font-size:.76rem}
-  #fondoCorte{font-size:.68rem;letter-spacing:.3em;text-indent:.3em}
-  .f-fecha{font-size:.7rem}
+  #fondoCorte{font-size:var(--t-micro);letter-spacing:var(--k-frase);text-indent:var(--k-frase)}
+  .f-fecha{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
   .f-dato{font-size:.76rem}
-  .f-leer{font-size:.7rem}
-  #senalBtn{font-size:.72rem;letter-spacing:.16em;white-space:nowrap}
+  .f-leer{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
   /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta */
   h1{letter-spacing:normal}
   .f-sig{letter-spacing:normal}
@@ -285,24 +299,25 @@
     border-left:1px solid hsla(222,20%,45%,.4);padding-left:.8rem;
   }
   @media (max-width:600px){
-    :root{--apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)))}
-    #fondoCorte{opacity:.85}
+    :root{
+    /* el suelo movil: 13px informativo, 14px interactivo (regla 1) */
+    --t-micro:.82rem; --t-base:.9rem;
+    --k-rotulo:.16em; --k-frase:.06em;
+    }
     .cons-titulo{opacity:.95}
     .estancia.sellada{opacity:.7}
     .sub{font-size:.8rem;letter-spacing:.14em;text-indent:.14em;line-height:1.6}
     .volver{font-size:.875rem;letter-spacing:.18em;padding:.4rem .2rem}
     .ins-cifra{font-size:3.6rem}
     .ins-que,.ins-susurro{font-size:.9rem;letter-spacing:.02em;line-height:2}
-    .estancia{font-size:.78rem;letter-spacing:.05em;padding:.32rem .45rem}
+    .estancia{padding:.32rem .45rem}
     .estancia .es-sig{font-size:.875rem;letter-spacing:.1em}
-    #fondoCorte{font-size:.78rem;letter-spacing:.12em;text-indent:.12em}
     #fichaCerrar{font-size:1.05rem;padding:.55rem .75rem}
     .f-sig{font-size:2.2rem}
-    .f-fecha{font-size:.82rem;letter-spacing:.2em}
     .f-dato{font-size:.875rem;letter-spacing:.05em}
     .f-esquirla{font-size:1rem}
     .f-texto{font-size:1.05rem}
-    .f-leer{font-size:.84rem;letter-spacing:.18em;padding:.65rem 1.05rem}
+    .f-leer{padding:.65rem 1.05rem}
     #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
     .atajo{font-size:.875rem;letter-spacing:.14em;padding:.5rem .6rem}
   }

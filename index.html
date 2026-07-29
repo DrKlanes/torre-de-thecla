@@ -19,6 +19,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
+    /* ==== SISTEMA TIPOGRAFICO (29 jul) =========================
+       Tres cuerpos y dos interletrados, definidos UNA vez. Cualquier
+       elemento que deba parecerse a otro usa el mismo token, y entonces
+       no pueden desincronizarse aunque alguien toque uno de los dos.
+       El movil solo redefine estos valores: cero reglas duplicadas. */
+    --t-micro:.72rem;        /* etiquetas, botones, susurros */
+    --t-base:.82rem;         /* lo que se lee de corrido */
+    --k-rotulo:.16em;        /* botones [ entre corchetes ], 3-5 palabras */
+    --k-frase:.12em;         /* frases de verdad: nunca mas de esto */
     /* la brisa: todo el color nace de un matiz que la tirada de la noche desplaza,
        y de una luz que la señal hunde o levanta (abisal se hunde, clara clarea) */
     --matiz:222;
@@ -26,7 +35,7 @@
     --fondo:hsl(var(--matiz), 48%, calc(5% + var(--luz)));
     --texto:hsl(var(--matiz), 19%, calc(80% + var(--luz)));
     --frio:hsl(var(--matiz), 20%, calc(64% + var(--luz)));
-    --apagado:hsl(var(--matiz), 15%, calc(35% + var(--luz)));
+    --apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)));  /* 29 jul: un solo valor, escritorio y movil */
     --mancha:hsl(var(--matiz), 40%, calc(11% + var(--luz)));
     --mancha-nucleo:hsl(var(--matiz), 47%, calc(8% + var(--luz)));
     --sedimento:hsl(var(--matiz), 52%, calc(51% + var(--luz)));
@@ -69,7 +78,7 @@
   }
   .sil-sub{
     font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.35em;text-indent:.35em;
-    color:var(--apagado);margin-top:1.6rem;opacity:.7;
+    color:var(--apagado);margin-top:1.6rem;opacity:.92;
   }
   /* los pregones: donde la señal también se oye, en susurro */
   .sil-ecos{
@@ -90,9 +99,10 @@
   .sil-ecos .eco-sep{color:var(--apagado);opacity:.5;margin:0 .9em}
   .bajar{
     margin-top:14vh;color:var(--apagado);font-family:'Courier New',monospace;
-    font-size:.8rem;opacity:.55;animation:lat 4s ease-in-out infinite;
+    font-size:var(--t-base);opacity:.8;animation:lat 4s ease-in-out infinite;
   }
-  @keyframes lat{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(8px);opacity:.7}}
+  /* el latido no baja de .62: por debajo, la flecha caia a 2.4:1 */
+  @keyframes lat{0%,100%{transform:translateY(0);opacity:.62}50%{transform:translateY(8px);opacity:.95}}
 
   /* ---- transmisiones ---- */
   #transmisiones{max-width:37em;margin:0 auto;padding:0 1.4rem 30vh}
@@ -165,7 +175,7 @@
   #fondoLista{height:1px}
   #finArchivo{
     text-align:center;color:var(--apagado);font-family:'Courier New',monospace;
-    font-size:.68rem;letter-spacing:.4em;text-indent:.4em;padding-bottom:22vh;opacity:.5;
+    font-size:.68rem;letter-spacing:.4em;text-indent:.4em;padding-bottom:22vh;opacity:.9;
   }
 
   /* ---- la señal (música procedural): onda arriba, centro ---- */
@@ -174,13 +184,24 @@
     z-index:6;text-align:center;cursor:pointer;padding:.3rem .8rem;
   }
   #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
-  #senalBtn{
-    background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
-    color:var(--frio);padding:.15rem 0 0;
-    animation:latSenal 5s ease-in-out infinite;
-    transition:color .3s;
+  /* EL BLOQUE DE LA SEÑAL — el boton y el enlace son el MISMO rango, asi
+     que comparten declaracion. Repetir los valores en dos reglas es como se
+     desincronizaron (11.5 contra 10.9 px). Lo unico propio de cada uno es
+     el latido del boton y la opacidad del enlace. */
+  #senalBtn,.senal-enlace{
+    font-family:'Courier New',monospace;
+    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
+    color:var(--frio);white-space:nowrap;
   }
+  #senalBtn{
+    background:none;border:none;cursor:pointer;padding:.15rem 0 0;
+    animation:latSenal 5s ease-in-out infinite;transition:color .3s;
+  }
+  .senal-enlace{
+    display:block;margin-top:.4rem;text-decoration:none;
+    opacity:.62;transition:opacity .3s,color .3s;
+  }
+  .senal-enlace:hover{opacity:1;color:var(--texto)}
   #senal:hover #senalBtn{animation-play-state:paused;opacity:1;color:var(--texto)}
   #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
@@ -191,12 +212,6 @@
      y twitter — y no es lo mismo: las redes se van fuera, el plano y el
      archivo son las dos mitades de la obra. Ahora es el segundo renglón
      del bloque fijo, con el formato del sintonizador. */
-  .senal-enlace{
-    display:block;margin-top:.35rem;text-decoration:none;
-    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
-    color:var(--frio);opacity:.62;transition:opacity .3s,color .3s;
-  }
-  .senal-enlace:hover{opacity:1;color:var(--texto)}
 
   /* ---- el hilo: la plomada que une los testimonios ---- */
   #transmisiones{position:relative}
@@ -264,7 +279,7 @@
   .poso-pie{
     text-align:center;font-family:'Courier New',monospace;font-size:.6rem;
     color:var(--apagado);letter-spacing:.3em;text-indent:.3em;
-    margin:.6rem 1rem 0;opacity:.55;padding-bottom:12vh;
+    margin:.6rem 1rem 0;opacity:.9;padding-bottom:12vh;
   }
 
   /* ---- atajos: el poso y la vuelta al silencio ---- */
@@ -275,7 +290,7 @@
   }
   .atajo{
     pointer-events:auto;background:none;border:none;cursor:pointer;
-    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.22em;
+    font-family:'Courier New',monospace;font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
     color:var(--frio);opacity:.85;padding:.4rem .2rem;
     transition:color .3s ease, opacity .6s ease;
   }
@@ -302,39 +317,38 @@
      las frases susurran por color, no por dispersion; (3) los ornamentos
      (el estrato) no se tocan. Todo lo tipografico vive en este bloque. */
   .sil-label{font-size:.74rem}
-  .sil-sub{font-size:.72rem;letter-spacing:.22em;text-indent:.22em}
+  .sil-sub{font-size:var(--t-micro);letter-spacing:var(--k-frase);text-indent:var(--k-frase)}
   .sil-ecos{font-size:.74rem}
   .tx-fecha{font-size:.72rem;letter-spacing:.25em;text-indent:.25em}
-  #finArchivo{font-size:.72rem;letter-spacing:.25em;text-indent:.25em}
-  #senalBtn{font-size:.72rem;letter-spacing:.16em;white-space:nowrap}
-  .poso-sub{font-size:.72rem}
-  .poso-info{font-size:.7rem}
-  .poso-pie{font-size:.68rem}
+  #finArchivo{font-size:var(--t-micro);letter-spacing:var(--k-frase);text-indent:var(--k-frase)}
+  .poso-sub{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
+  .poso-info{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
+  .poso-pie{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
   .atajo{font-size:.74rem}
   /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta */
   .sil-count{letter-spacing:normal}
   .tx-sig{letter-spacing:normal}
   .poso-titulo{letter-spacing:normal}
   @media (max-width:600px){
+    :root{
+    /* el suelo movil: 13px informativo, 14px interactivo (regla 1) */
+    --t-micro:.82rem; --t-base:.9rem;
+    --k-rotulo:.16em; --k-frase:.06em;
+    }
     /* en pantalla pequena el susurro sube de color: el --apagado gana 10 puntos
        de luz (la brisa sigue mandando via --luz) y las opacidades tienen suelo */
-    :root{--apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)))}
-    #finArchivo{opacity:.8}
-    .bajar{opacity:.8}
     #senalBtn.sonando{opacity:.75}
     .sil-label{font-size:.82rem;letter-spacing:.45em;text-indent:.45em}
-    .sil-sub{font-size:.82rem;letter-spacing:.12em;text-indent:.12em;line-height:1.6}
+    .sil-sub{line-height:1.6}
     .sil-ecos{font-size:.84rem;letter-spacing:.12em}
     .sil-ecos a{padding:.35rem .15rem;white-space:nowrap}
     .sil-ecos .eco-sep{margin:0 .45em}
     .tx-fecha{font-size:.82rem;letter-spacing:.18em;text-indent:.18em}
     .tx-cuerpo{font-size:1.1rem;line-height:1.78}
-    #finArchivo{font-size:.8rem;letter-spacing:.2em;text-indent:.2em}
     #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
     .bajar{font-size:.9rem}
-    .poso-sub{font-size:.82rem;letter-spacing:.14em}
-    .poso-info{font-size:.8rem;letter-spacing:.1em;line-height:1.6}
-    .poso-pie{font-size:.78rem;letter-spacing:.08em;line-height:1.6}
+    .poso-info{line-height:1.6}
+    .poso-pie{line-height:1.6}
     .atajo{font-size:.875rem;letter-spacing:.14em;padding:.5rem .6rem}
   }
 </style>
