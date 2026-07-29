@@ -65,9 +65,18 @@
     max-width:34em;margin:0 auto;padding:3vh 1.4rem 10vh;
     position:relative;z-index:2;
   }
+  /* el título habla la lengua de las signaturas del archivo (.tx-sig):
+     Jacquard, 2.3rem, --frio, sin interletraje (regla 4). Sin uppercase:
+     la gótica pixelada en caja alta se ensancha y grita. */
   .cons-titulo{
-    text-align:center;font-size:.62rem;letter-spacing:.55em;text-indent:.55em;
-    color:var(--apagado);text-transform:uppercase;margin-bottom:2.4rem;opacity:.8;
+    text-align:center;margin-bottom:2.2rem;
+    font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    /* clamp en vez de un tamaño fijo + media query: así el título nunca
+       desborda la caja aunque la Jacquard no cargue y entre la monoespaciada
+       de respaldo, que es más ancha. Tope arriba = 2.3rem, el de .tx-sig. */
+    font-size:clamp(1.55rem, 7.2vw, 2.3rem);
+    line-height:1.15;color:var(--frio);letter-spacing:normal;
+    opacity:.85;
   }
   /* LA INSCRIPCIÓN — jerarquía en DOS ejes, no en cuatro tamaños.
      El primer intento tenía .70 / .72 / .60rem: tres cuerpos casi iguales
@@ -96,7 +105,7 @@
     color:var(--frio);opacity:.72;
   }
   .ins-que{margin-top:.7rem}
-  .ins-susurro{margin-top:2.8rem}
+  .ins-susurro{margin-top:1rem}
   .ins-dato{white-space:nowrap}   /* que parta entre hechos, jamás dentro */
   .ins-sep{opacity:.45;margin:0 .5em}
 
@@ -202,7 +211,6 @@
      con el interletrado recogido, y la signatura a 14px. */
   .sub{font-size:.7rem;letter-spacing:.35em;text-indent:.35em}
   .volver{font-size:.74rem}
-  .cons-titulo{font-size:.66rem;letter-spacing:.35em;text-indent:.35em}
   .ins-que,.ins-susurro{font-size:.86rem}
   .estancia{font-size:.66rem;letter-spacing:.14em}
   .estancia .es-sig{font-size:.76rem}
@@ -258,11 +266,10 @@
   @media (max-width:600px){
     :root{--apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)))}
     #fondoCorte{opacity:.85}
-    .cons-titulo{opacity:1}
+    .cons-titulo{opacity:.95}
     .estancia.sellada{opacity:.7}
     .sub{font-size:.8rem;letter-spacing:.14em;text-indent:.14em;line-height:1.6}
     .volver{font-size:.875rem;letter-spacing:.18em;padding:.4rem .2rem}
-    .cons-titulo{font-size:.78rem;letter-spacing:.22em;text-indent:.22em}
     .ins-cifra{font-size:3.6rem}
     .ins-que,.ins-susurro{font-size:.9rem;letter-spacing:.02em;line-height:2}
     .estancia{font-size:.78rem;letter-spacing:.05em;padding:.32rem .45rem}
