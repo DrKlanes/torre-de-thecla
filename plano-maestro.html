@@ -48,7 +48,7 @@
 
   /* ---- cabecera ---- */
   header{
-    text-align:center;padding:9vh 1rem 4vh;position:relative;z-index:2;
+    text-align:center;padding:9vh 1rem 2vh;position:relative;z-index:2;
   }
   h1{
     font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
@@ -62,7 +62,7 @@
 
   /* ---- sala de constantes ---- */
   #constantes{
-    max-width:34em;margin:0 auto;padding:3vh 1.4rem 10vh;
+    max-width:34em;margin:0 auto;padding:2vh 1.4rem 6vh;
     position:relative;z-index:2;
   }
   /* el título habla la lengua de las signaturas del archivo (.tx-sig):
@@ -207,6 +207,26 @@
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
   @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
 
+  /* EL SALTO ENTRE PÁGINAS, PEGADO A LA SEÑAL (29 jul).
+     Antes vivía en la fila de redes sociales, al mismo nivel que bluesky
+     y twitter — y no es lo mismo: las redes se van fuera, el plano y el
+     archivo son las dos mitades de la obra. Ahora es el segundo renglón
+     del bloque fijo, con el formato del sintonizador. */
+  .senal-enlace{
+    display:block;margin-top:.35rem;text-decoration:none;
+    font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.22em;
+    color:var(--frio);opacity:.62;transition:opacity .3s,color .3s;
+  }
+  .senal-enlace:hover{opacity:1;color:var(--texto)}
+
+  /* la misma flecha del archivo, en el aire sobre el corte */
+  .bajar{
+    text-align:center;color:var(--apagado);font-family:'Courier New',monospace;
+    font-size:.8rem;opacity:.55;animation:lat 4s ease-in-out infinite;
+    margin:0 auto 7vh;
+  }
+  @keyframes lat{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(8px);opacity:.7}}
+
   /* ==== LEGIBILIDAD v2 (27 jul) — mismo sistema que el archivo.
      Las estancias son navegacion, no ornamento: en movil van a 12.5px
      con el interletrado recogido, y la signatura a 14px. */
@@ -296,18 +316,20 @@
 <div id="senal">
   <canvas id="ondaCv" width="75" height="14"></canvas>
   <button id="senalBtn" aria-label="sintonizar la señal">[ sintonizar la señal ]</button>
+  <a class="senal-enlace" href="index.html">[ el archivo ]</a>
 </div>
 
 <div id="mundo">
   <header>
     <h1>el plano maestro</h1>
-    <a class="volver" href="index.html">▴ el archivo</a>
   </header>
 
   <section id="constantes" aria-label="sala de constantes">
-    <div class="cons-titulo">Sala de constantes</div>
+    <div class="cons-titulo">sala de constantes</div>
     <div id="consLista"></div>
   </section>
+
+  <div class="bajar">↓</div>
 
   <div id="corte" style="position:relative"><canvas id="corteCv"></canvas></div>
 
@@ -1081,7 +1103,8 @@ function desenmudecer(){
   }
   try{ var p=desmudo.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){}
 }
-document.getElementById("senal").addEventListener("click",function(){
+document.getElementById("senal").addEventListener("click",function(ev){
+  if(ev.target.closest("a")) return;      // el enlace navega; no toca la señal
   var btn=document.getElementById("senalBtn");
   if(musica.activa){
     cortar();
