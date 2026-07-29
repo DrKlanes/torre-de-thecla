@@ -193,12 +193,15 @@
     font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
     color:var(--frio);white-space:nowrap;
   }
+  /* AREA PULSABLE (29 jul): el relleno es transparente, agranda la diana
+     sin mover nada. Los dos se reparten el alto en vez de solaparse: si se
+     pisaran, el de abajo robaria los toques del de arriba. */
   #senalBtn{
-    background:none;border:none;cursor:pointer;padding:.15rem 0 0;
+    background:none;border:none;cursor:pointer;padding:.75rem 1rem .5rem;
     animation:latSenal 5s ease-in-out infinite;transition:color .3s;
   }
   .senal-enlace{
-    display:block;margin-top:.4rem;text-decoration:none;
+    display:block;margin-top:0;text-decoration:none;padding:.62rem 1rem .75rem;
     opacity:.62;transition:opacity .3s,color .3s;
   }
   .senal-enlace:hover{opacity:1;color:var(--texto)}
@@ -296,8 +299,8 @@
   }
   .atajo:hover{color:var(--texto);opacity:1}
   @media (max-width:600px){
-    .atajo{font-size:.74rem;opacity:.95}
-    .sil-ecos{font-size:.72rem;opacity:.95}
+    .atajo{opacity:.95}
+    .sil-ecos{opacity:.95}
   }
   .atajo.oculto{opacity:0;pointer-events:none;animation:none}
   #irPoso{animation:latSenal 5s ease-in-out infinite}
@@ -341,15 +344,14 @@
     .sil-label{font-size:.82rem;letter-spacing:.45em;text-indent:.45em}
     .sil-sub{line-height:1.6}
     .sil-ecos{font-size:.84rem;letter-spacing:.12em}
-    .sil-ecos a{padding:.35rem .15rem;white-space:nowrap}
+    .sil-ecos a{padding:.92rem .3rem;white-space:nowrap}
     .sil-ecos .eco-sep{margin:0 .45em}
     .tx-fecha{font-size:.82rem;letter-spacing:.18em;text-indent:.18em}
     .tx-cuerpo{font-size:1.1rem;line-height:1.78}
-    #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
     .bajar{font-size:.9rem}
     .poso-info{line-height:1.6}
     .poso-pie{line-height:1.6}
-    .atajo{font-size:.875rem;letter-spacing:.14em;padding:.5rem .6rem}
+    .atajo{font-size:.875rem;letter-spacing:.14em;padding:.85rem .7rem}
   }
 </style>
 </head>

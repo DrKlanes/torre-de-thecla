@@ -63,11 +63,6 @@
     font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
     font-size:clamp(2.6rem,7vw,4.2rem);color:var(--frio);letter-spacing:.04em;
   }
-  .sub{font-size:.66rem;letter-spacing:.5em;text-indent:.5em;color:var(--apagado);
-    text-transform:uppercase;margin-top:.8rem}
-  .volver{display:inline-block;margin-top:2.2rem;font-size:.72rem;letter-spacing:.25em;
-    color:var(--frio);opacity:.9;text-decoration:none;transition:color .3s}
-  .volver:hover{color:var(--texto)}
 
   /* ---- sala de constantes ---- */
   #constantes{
@@ -132,7 +127,6 @@
   }
   @media (max-width:600px){
     header{padding-top:14vh}
-    .estancia{font-size:.56rem;letter-spacing:.12em;padding:.25rem .3rem}
   }
   .estancia:hover,.estancia:focus{color:var(--frio);border-color:hsla(222,20%,45%,.35);outline:none}
   .estancia .es-sig{display:block;font-size:.72rem;letter-spacing:.14em}
@@ -213,12 +207,15 @@
     font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
     color:var(--frio);white-space:nowrap;
   }
+  /* AREA PULSABLE (29 jul): el relleno es transparente, agranda la diana
+     sin mover nada. Los dos se reparten el alto en vez de solaparse: si se
+     pisaran, el de abajo robaria los toques del de arriba. */
   #senalBtn{
-    background:none;border:none;cursor:pointer;padding:.15rem 0 0;
+    background:none;border:none;cursor:pointer;padding:.75rem 1rem .5rem;
     animation:latSenal 5s ease-in-out infinite;transition:color .3s;
   }
   .senal-enlace{
-    display:block;margin-top:.4rem;text-decoration:none;
+    display:block;margin-top:0;text-decoration:none;padding:.62rem 1rem .75rem;
     opacity:.62;transition:opacity .3s,color .3s;
   }
   .senal-enlace:hover{opacity:1;color:var(--texto)}
@@ -245,8 +242,6 @@
   /* ==== LEGIBILIDAD v2 (27 jul) — mismo sistema que el archivo.
      Las estancias son navegacion, no ornamento: en movil van a 12.5px
      con el interletrado recogido, y la signatura a 14px. */
-  .sub{font-size:.7rem;letter-spacing:.35em;text-indent:.35em}
-  .volver{font-size:.74rem}
   .ins-que,.ins-susurro{font-size:.86rem}
   .estancia{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
   .estancia .es-sig{font-size:.76rem}
@@ -306,20 +301,17 @@
     }
     .cons-titulo{opacity:.95}
     .estancia.sellada{opacity:.7}
-    .sub{font-size:.8rem;letter-spacing:.14em;text-indent:.14em;line-height:1.6}
-    .volver{font-size:.875rem;letter-spacing:.18em;padding:.4rem .2rem}
     .ins-cifra{font-size:3.6rem}
     .ins-que,.ins-susurro{font-size:.9rem;letter-spacing:.02em;line-height:2}
     .estancia{padding:.32rem .45rem}
     .estancia .es-sig{font-size:.875rem;letter-spacing:.1em}
-    #fichaCerrar{font-size:1.05rem;padding:.55rem .75rem}
+    #fichaCerrar{font-size:1.05rem;padding:.8rem .95rem}
     .f-sig{font-size:2.2rem}
     .f-dato{font-size:.875rem;letter-spacing:.05em}
     .f-esquirla{font-size:1rem}
     .f-texto{font-size:1.05rem}
     .f-leer{padding:.65rem 1.05rem}
-    #senalBtn{font-size:.82rem;letter-spacing:.16em;padding:.35rem .55rem}
-    .atajo{font-size:.875rem;letter-spacing:.14em;padding:.5rem .6rem}
+    .atajo{font-size:.875rem;letter-spacing:.14em;padding:.85rem .7rem}
   }
 </style>
 </head>
