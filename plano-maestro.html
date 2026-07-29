@@ -104,6 +104,7 @@
     font-size:.82rem;letter-spacing:.04em;line-height:1.9;
     color:var(--frio);opacity:.72;
   }
+  .ins-susurro{display:flex;flex-wrap:wrap;justify-content:center;row-gap:.15em}
   .ins-que{margin-top:.7rem}
   .ins-susurro{margin-top:1rem}
   .ins-dato{white-space:nowrap}   /* que parta entre hechos, jamás dentro */
@@ -883,9 +884,17 @@ function constantes(reg){
     : "ningún silencio todavía");
   if(maxSil>0) susurro.push("el silencio más largo duró "+maxSil+(maxSil===1?" noche":" noches"));
   if(torres) susurro.push(torres===1?"una vez habló la torre":torres+" veces habló la torre");
+  /* cada dato es indivisible, pero la FILA tiene que poder saltar de línea.
+     Con spans pegados y nowrap no había ni un solo punto de ruptura y la fila
+     se salía (y #mundo la recorta, así que ni siquiera se veía). Flex con
+     wrap sí rompe entre items. El · viaja DENTRO del dato que le precede,
+     para que se quede al final del renglón y no huérfano al principio. */
   h+='<div class="ins-susurro">'
-     + susurro.map(function(x){return '<span class="ins-dato">'+x+'</span>';})
-              .join('<span class="ins-sep">\u00b7</span>')
+     + susurro.map(function(x,i){
+         return '<span class="ins-dato">'+x
+              + (i<susurro.length-1 ? '<span class="ins-sep">\u00b7</span>' : '')
+              + '</span>';
+       }).join('')
      + '</div>';
 
   document.getElementById("consLista").innerHTML=h;

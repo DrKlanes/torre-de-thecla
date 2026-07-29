@@ -76,6 +76,11 @@
     font-family:'Courier New',monospace;font-size:.68rem;
     letter-spacing:.35em;text-indent:.35em;
     margin-top:2.6rem;opacity:.85;
+    /* mismo fallo que tenía el plano (29 jul): enlaces nowrap pegados sin
+       espacio = ni un punto de ruptura, y en pantalla estrecha la fila se
+       sale. Flex con wrap rompe entre enlaces. */
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
+    row-gap:.2em;
   }
   .sil-ecos a{
     color:var(--frio);text-decoration:none;
@@ -334,7 +339,7 @@
   <div class="sil-ecos">
     <a href="https://bsky.app/profile/torredethecla.bsky.social" target="_blank" rel="noopener">bluesky</a><span class="eco-sep">·</span><a href="https://x.com/torredethecla" target="_blank" rel="noopener">twitter</a><span class="eco-sep">·</span><a href="plano-maestro.html">plano maestro</a>
   </div>
-  <div class="bajar">▾</div>
+  <div class="bajar">🡣</div>
 </section>
 
 <main id="transmisiones"><div id="hilo" aria-hidden="true"><div id="hiloLeido"></div><div id="hiloPlomada"></div></div></main>
