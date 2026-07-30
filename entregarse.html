@@ -65,12 +65,16 @@
     padding:3vh 1.2rem 3vh;text-align:center;
   }
 
-  /* EL ESPEJO DEL ZAGUAN son cuatro palabras: la ley 4 baja el interletrado
-     al tope de rotulo. El .65em de SILENCIO solo vale para una palabra sola. */
-  .z-rotulo{
-    font-family:'Courier New',monospace;
-    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
-    color:var(--apagado);text-transform:uppercase;
+  /* EL TITULO — los mismos valores que el h1 del plano maestro. No se parece:
+     es el mismo. (La ley 1 pide compartir declaracion; entre dos archivos no
+     se puede, asi que se copian los valores y se anota de donde vienen.)
+     SIN caja alta, por la doctrina de la propia .cons-titulo: «la gotica
+     pixelada en caja alta se ensancha y grita». Y sin interletrado en movil,
+     que es lo que hace el plano maestro: la Jacquard tiene mas fuerza compacta. */
+  .z-titulo{
+    font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:clamp(2.6rem, 7vw, 4.2rem);
+    color:var(--frio);letter-spacing:.04em;line-height:1.05;
   }
   .z-entrada{
     font-size:var(--t-base);letter-spacing:var(--k-frase);
@@ -163,6 +167,112 @@
   .z-aviso.se-ve{opacity:1}
   #marco.ocupado{border-color:hsl(var(--matiz), 34%, 44%)}
 
+
+  /* ============================================================
+     LA ENTREGA — las seis preguntas y el campo libre
+     ------------------------------------------------------------
+     Un paso por pantalla. Al elegir se avanza y NO se vuelve: lo
+     que dices, dicho esta. Se avisa antes, que es lo justo.
+     El rostro no desaparece mientras contestas: se encoge y se
+     queda mirando. Te estan preguntando y tu cara esta delante.
+     ============================================================ */
+  #zaguan.contestando{justify-content:flex-start;padding-top:5vh}
+  /* Al contestar, el titulo se va. Dos goticas en la misma pantalla —el
+     titulo arriba y la pregunta debajo— compiten, y ademas el titulo es
+     mas grande: le robaba el foco justo a lo unico que hay que leer.
+     Una pantalla, un titular. El ancla ya no es el nombre: es tu cara. */
+  #zaguan.contestando .z-entrada,#zaguan.contestando .z-pie,
+  #zaguan.contestando .z-titulo{display:none}
+  /* el espejo encogido: sigue siendo un multiplo entero del pixel */
+  #zaguan.contestando #marco{margin-top:1.2rem}
+  #zaguan.contestando #mandos{display:none}
+
+  #entrega{width:100%;max-width:34em;margin:2rem auto 0}
+  #entrega[hidden]{display:none}
+
+  /* las marcas del avance: ni un «3 de 6», que es de formulario */
+  .pasos{
+    display:flex;justify-content:center;gap:.9em;margin-bottom:2.2rem;
+    font-family:'Courier New',monospace;font-size:var(--t-micro);
+    color:var(--apagado);line-height:1;
+  }
+  /* la marca dada y la pendiente se separan por COLOR, no por opacidad: a .35
+     los puntos caian a 1,42:1 y la ley 2 cuenta tambien el ornamento con texto.
+     Y la ley 9 pide justo esto — color antes que cualquier otra cosa. */
+  .pasos b{font-weight:normal;color:var(--apagado);transition:color .6s ease}
+  .pasos b.dado{color:var(--frio)}
+
+  /* LA PREGUNTA — los valores de .cons-titulo del plano maestro («sala de
+     constantes»). El clamp en vez de un tamaño fijo evita que desborde si la
+     Jacquard no carga y entra la monoespaciada de respaldo, que es mas ancha. */
+  .q-torre{
+    font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:clamp(1.55rem, 7.2vw, 2.3rem);
+    line-height:1.15;color:var(--frio);letter-spacing:normal;
+    opacity:.85;margin-bottom:2.2rem;
+  }
+  .q-lista{display:flex;flex-direction:column;gap:.5rem}
+  /* ley 1: la opcion y el campo libre comparten declaracion. Ley 6: 48px. */
+  .op,#libre{
+    -webkit-appearance:none;appearance:none;
+    width:100%;min-height:48px;padding:.85rem 1.1rem;
+    background:none;border:1px solid hsl(var(--matiz), 18%, 22%);
+    font-family:'Noticia Text',Georgia,serif;
+    font-size:var(--t-base);letter-spacing:var(--k-frase);
+    color:var(--frio);text-align:left;line-height:1.5;
+    transition:color .3s ease, border-color .3s ease, background-color .3s ease;
+  }
+  .op{cursor:pointer}
+  .op:hover,.op:focus-visible{
+    color:var(--texto);border-color:hsl(var(--matiz), 22%, 40%);
+    background:hsl(var(--matiz), 40%, 8%);outline:none;
+  }
+  .op.elegida{color:var(--texto);border-color:hsl(var(--matiz), 34%, 46%)}
+  .q-nota{
+    margin-top:1.6rem;font-size:var(--t-micro);letter-spacing:var(--k-frase);
+    color:var(--apagado);line-height:1.8;
+  }
+  /* el campo libre */
+  #libre{text-align:center;letter-spacing:.06em}
+  #libre:focus{outline:none;border-color:hsl(var(--matiz), 34%, 46%);color:var(--texto)}
+  #libre::placeholder{color:var(--apagado);opacity:.7}
+  .q-cuenta{
+    margin-top:.7rem;font-family:'Courier New',monospace;
+    font-size:var(--t-micro);color:var(--apagado);letter-spacing:.14em;
+  }
+  /* ==== NIVEL NUEVO DEL SISTEMA: EL BOTON LLENO ====
+     Hasta ahora todos los botones eran susurros: sin caja, en --frio, con la
+     firma de los corchetes. Eso vale para «otra cara», que se puede pulsar
+     cincuenta veces sin consecuencia. No vale para los dos umbrales de la
+     pagina — pasar a las preguntas, y entregarse — que son puertas de una
+     sola direccion.
+     LA REGLA DE LAS DOS FAMILIAS: caja solida = accion que no se deshace;
+     susurro entre corchetes = accion reversible. Por eso el lleno NO lleva
+     corchetes: los corchetes son la marca de lo tenue. */
+  .boton-lleno{
+    -webkit-appearance:none;appearance:none;cursor:pointer;
+    display:block;margin:1.8rem auto 0;padding:1rem 2rem;min-height:52px;
+    background:hsl(var(--matiz), 26%, 17%);
+    border:1px solid hsl(var(--matiz), 24%, 34%);
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
+    color:var(--texto);
+    transition:background-color .35s ease, border-color .35s ease;
+  }
+  .boton-lleno:hover,.boton-lleno:focus-visible{
+    background:hsl(var(--matiz), 30%, 25%);
+    border-color:hsl(var(--matiz), 26%, 50%);outline:none;
+  }
+  .boton-lleno:focus-visible{text-decoration:underline;text-underline-offset:.45em}
+  .boton-lleno[disabled]{
+    background:hsl(var(--matiz), 20%, 11%);border-color:hsl(var(--matiz), 16%, 22%);
+    color:var(--apagado);cursor:default;
+  }
+
+  .paso{animation:entra .55s ease both}
+  @keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){ .paso{animation:none} }
+
   /* ---- LA TAPIA: lo que hay los 353 días que la torre no abre ----
      Decision suya, 30 jul: «esta experiencia es liminal y experimental, no es
      un cozy-game; la torre es aspera y esquiva. El espejo no es accesible,
@@ -202,6 +312,9 @@
          el zoom entero. */
       --mandos:min(20rem, 100%);
     }
+    /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta.
+       Es lo mismo que hace el plano maestro en su bloque de movil. */
+    .z-titulo{letter-spacing:normal}
     #zaguan{padding:2vh 1.1rem 2vh}
     /* SIN padding: el marco ya no es una caja de CSS con relleno, es un canvas.
        Un padding aqui empuja el dibujo del marco pero NO las capas absolutas de
@@ -218,7 +331,7 @@
 <div id="grano"></div>
 
 <main id="zaguan">
-  <p class="z-rotulo">El espejo del zaguán</p>
+  <h1 class="z-titulo">El espejo del zaguán</h1>
   <p class="z-entrada">Antes de que entres, la torre permite que te mires una última vez.</p>
 
   <div id="marco">
@@ -244,6 +357,11 @@
       <button class="fl" data-banda="2" data-paso="1" aria-label="Barbilla siguiente">›</button>
     </div>
     <button id="dado">[ dame una nueva cara ]</button>
+  </div>
+
+  <div id="entrega" hidden>
+    <div class="pasos" id="pasos" aria-hidden="true"></div>
+    <div id="paso"></div>
   </div>
 
   <p class="z-tapia" id="tapia" hidden></p>
@@ -405,10 +523,20 @@ function ventanaDeHoy(cal){
   return null;
 }
 
-/* TEXTO PROVISIONAL — la frase de la tapia es suya, no mia. Marcada para que
-   se vea que falta. Son DOS cierres distintos y hara falta el segundo en la
-   fase 3: fuera de fecha (esto) y cupo agotado (la torre ya se sacio). */
-var TAPIA = "Hoy no.";
+/* ---- LOS TRES CIERRES ----
+   Tres maneras de no entrar, y son distintas. Las tres hablan de numeros y de
+   tiempo, nunca de negativas: por eso suenan a la misma boca. La torre constata
+   y no se disculpa; tampoco se regodea, porque no sabe que hace daño.
+   PROVISIONALES: el texto definitivo es suyo.
+     1. fuera de fecha   — su visita no tenia nada de particular
+     2. cupo agotado     — la cifra, sin explicaciones (§SOUL-TORRE: nunca redondea)
+     3. se lleno mientras contestaba — hara falta en la fase 3, con el buzon */
+var CIERRE = {
+  fecha:    "Hoy no guardo a nadie.",
+  cupo:     "Ya hay dos dentro. Están a salvo.",
+  a_medias: "Otros dos terminaron antes. Ya están a salvo."
+};
+var TAPIA = CIERRE.fecha;
 
 function tapiar(){
   var t = $("#tapia");
@@ -502,6 +630,178 @@ function barajar(){
   repintar(true);
 }
 
+
+/* ============================================================
+   LA ENTREGA — la encuesta
+   ------------------------------------------------------------
+   El banco vive en preguntas.json y se genera desde el .md con
+   banco.bat: aqui no hay ni una pregunta escrita a mano.
+   De las 11 se muestran 6: las 2 fijas y 4 sorteadas de las 9
+   rotatorias. 126 cuestionarios distintos.
+   Al elegir se avanza y no se vuelve. Se avisa antes.
+   FASE 2: al final NO se envia nada. Se escupe por consola lo
+   que se mandaria, que es donde acaba esta fase.
+   ============================================================ */
+var BANCO = null, GUION = [], PASO = 0, RESPUESTAS = [], LIBRE = "";
+
+function revolver(a){                      // Fisher-Yates, sin sorpresas
+  for(var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function montarGuion(){
+  var fijas = BANCO.preguntas.filter(function(q){ return q.fija; });
+  var rot   = revolver(BANCO.preguntas.filter(function(q){ return !q.fija; }));
+  var n     = (BANCO.muestra && BANCO.muestra.rotatorias) || 4;
+  /* las fijas primero (la herida y la voz), y las sorteadas detras */
+  GUION = fijas.concat(rot.slice(0, n));
+  GUION.push({id:"__libre", libre:true});
+}
+
+function marcas(){
+  var c = $("#pasos"), s = "";
+  for(var i = 0; i < GUION.length; i++) s += '<b class="' + (i <= PASO ? "dado" : "") + '">·</b>';
+  c.innerHTML = s;
+}
+
+function el(t, c, txt){
+  var e = document.createElement(t);
+  if(c) e.className = c;
+  if(txt != null) e.textContent = txt;
+  return e;
+}
+
+function pintarPaso(){
+  var caja = $("#paso");
+  caja.innerHTML = "";
+  marcas();
+  var q = GUION[PASO];
+  var d = el("div", "paso");
+
+  if(q.libre){
+    var enun = BANCO.libre.enunciados[Math.floor(Math.random() * BANCO.libre.enunciados.length)];
+    d.appendChild(el("p", "q-torre", enun));
+    var inp = document.createElement("input");
+    inp.type = "text"; inp.id = "libre"; inp.maxLength = BANCO.libre.max;
+    inp.setAttribute("autocomplete", "off");
+    inp.setAttribute("autocapitalize", "none");
+    inp.setAttribute("spellcheck", "false");
+    inp.setAttribute("aria-label", enun);
+    d.appendChild(inp);
+    var cuenta = el("p", "q-cuenta", BANCO.libre.max + " caracteres");
+    d.appendChild(cuenta);
+    var btn = el("button", "boton-lleno", "entregarme");
+    btn.disabled = true;
+    d.appendChild(btn);
+    inp.addEventListener("input", function(){
+      LIBRE = inp.value.trim();
+      cuenta.textContent = LIBRE.length
+        ? (BANCO.libre.max - inp.value.length) + " caracteres"
+        : BANCO.libre.max + " caracteres";
+      btn.disabled = LIBRE.length < 2;
+    });
+    inp.addEventListener("keydown", function(ev){
+      if(ev.key === "Enter" && !btn.disabled){ ev.preventDefault(); entregar(); }
+    });
+    btn.addEventListener("click", entregar);
+    caja.appendChild(d);
+    setTimeout(function(){ inp.focus(); }, 350);
+    return;
+  }
+
+  d.appendChild(el("p", "q-torre", q.torre));
+  var lista = el("div", "q-lista");
+  revolver(q.opciones.slice()).forEach(function(o){
+    var b = el("button", "op", o.texto);
+    b.addEventListener("click", function(){
+      if(b.classList.contains("elegida")) return;
+      b.classList.add("elegida");
+      [].forEach.call(lista.querySelectorAll(".op"), function(x){ x.disabled = true; });
+      RESPUESTAS.push({pregunta: q.id, texto: o.texto, carta: o.carta, voz: o.voz || null});
+      setTimeout(avanzar, 420);            // que se vea lo que ha elegido
+    });
+    lista.appendChild(b);
+  });
+  d.appendChild(lista);
+  if(PASO === 0) d.appendChild(el("p", "q-nota", "Lo que elijas no se puede deshacer."));
+  caja.appendChild(d);
+}
+
+function avanzar(){
+  PASO++;
+  if(PASO >= GUION.length) return;
+  pintarPaso();
+  $("#entrega").scrollIntoView({behavior: quieto ? "instant" : "smooth", block: "start"});
+}
+
+/* FASE 2: no hay buzon todavia. Se enseña por consola lo que se mandaria. */
+function entregar(){
+  /* El sobre NO es un montón de respuestas: viene ordenado por importancia,
+     porque el §10 pone dos techos que hay que respetar en la fase 4.
+     · LA CARTA: «una linea de catalogo, maximo 15 palabras». Encadenar los
+       seis fragmentos da 45 palabras y seis «que» seguidos. Los dos primeros
+       (la herida y la voz) son el NUCLEO; los otros cuatro son COLOR, y Big
+       Tiger destila, no concatena.
+     · LA VOZ: «dos o tres rasgos de habla en telegrama». Seis rasgos no
+       anclan nada. Manda la de `boca`, que es la pregunta escrita para eso. */
+  function de(id){
+    for(var i = 0; i < RESPUESTAS.length; i++) if(RESPUESTAS[i].pregunta === id) return RESPUESTAS[i];
+    return null;
+  }
+  var rBoca = de("boca"), rPuerta = de("puerta");
+  var sobre = {
+    rostro: {f: sel[0], m: sel[1], b: sel[2]},
+    nucleo: [rPuerta && rPuerta.carta, rBoca && rBoca.carta].filter(Boolean),
+    color:  RESPUESTAS.filter(function(r){ return r.pregunta !== "puerta" && r.pregunta !== "boca"; })
+                      .map(function(r){ return r.carta; }),
+    voz:    rBoca ? rBoca.voz : null,
+    vozExtra: RESPUESTAS.filter(function(r){ return r.voz && r.pregunta !== "boca"; })
+                        .map(function(r){ return r.voz; }),
+    libre: LIBRE,
+    respuestas: RESPUESTAS.map(function(r){ return {pregunta: r.pregunta, texto: r.texto}; }),
+    banco: BANCO.version
+  };
+  console.log("%c EL SOBRE QUE SE MANDARIA AL BUZON ", "background:#1e2638;color:#c2c8d6");
+  console.log(JSON.stringify(sobre, null, 2));
+  console.log("MATERIA PRIMA de su carta (Big Tiger destila esto en <=15 palabras, NO lo encadena):");
+  console.log("   nucleo: " + sobre.nucleo.join(" · "));
+  console.log("   color:  " + sobre.color.join(" · "));
+  console.log("   voz:    " + (sobre.voz || "—"));
+
+  var caja = $("#paso");
+  caja.innerHTML = "";
+  var d = el("div", "paso");
+  d.appendChild(el("p", "q-torre", "Aquí acaba la fase 2: todavía no hay buzón."));
+  d.appendChild(el("p", "q-nota",
+    "El sobre está en la consola del navegador (F12). Lleva tu rostro, tus seis "
+    + "respuestas, el campo libre y la línea con la que la torre te escribiría."));
+  caja.appendChild(d);
+  $("#pasos").innerHTML = "";
+}
+
+/* el paso de mirarse a contestar.
+   Se entra UNA vez: los dos botones del espejo se van del documento, no se
+   ocultan. Ocultarlos dejaba «asi me recordaran» pulsable por debajo, y
+   volver a pulsarlo reiniciaba el cuestionario y se llevaba por delante las
+   respuestas ya dadas. */
+var _dentro = false;
+function abrirEntrega(){
+  if(_dentro) return;
+  _dentro = true;
+  document.getElementById("zaguan").classList.add("contestando");
+  document.documentElement.style.setProperty("--zoom", 2);   // el rostro se encoge y mira
+  $("#entrega").hidden = false;
+  ["#dado", "#asiSoy"].forEach(function(s){
+    var e = $(s); if(e) e.remove();
+  });
+  montarGuion();
+  PASO = 0;
+  pintarPaso();
+}
+
 /* ---- arranque: el atlas y el censo llegan por la puerta ---- */
 /* Si el atlas o el censo no llegan (red caida, archivo movido), la pagina se
    quedaria muda y en blanco. A los 8 s habla, en su voz. */
@@ -560,6 +860,21 @@ R.listo(function(_atlas, censo){
     });
   });
   $("#dado").addEventListener("click", barajar);
+
+  /* el banco se pide en cuanto el espejo esta en pie */
+  fetch("preguntas.json?v=" + Date.now())
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .catch(function(){ return null; })
+    .then(function(b){
+      if(!b || !b.preguntas || !b.preguntas.length) return;   // sin banco, solo espejo
+      BANCO = b;
+      var paso = document.createElement("button");
+      paso.className = "boton-lleno";
+      paso.id = "asiSoy";
+      paso.textContent = "así me recordarán";
+      $("#mandos").insertAdjacentElement("afterend", paso);
+      paso.addEventListener("click", abrirEntrega);
+    });
 
   /* teclado: izquierda y derecha mueven la banda enfocada; si no hay ninguna
      enfocada, mueven la frente. Espacio sobre el boton ya lo da el navegador. */

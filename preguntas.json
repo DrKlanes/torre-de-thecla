@@ -1,0 +1,374 @@
+{
+  "_": "GENERADO desde BANCO-PREGUNTAS-v1.md por banco.bat. NO editar a mano: se escribe en el .md y se vuelve a generar.",
+  "version": 1,
+  "muestra": {
+    "fijas": 2,
+    "rotatorias": 4
+  },
+  "libre": {
+    "max": 24,
+    "enunciados": [
+      "Escribe un lugar. Al que quisieras regresar.",
+      "Un nombre. El que quieras que quede.",
+      "Algo corto, para el expediente.",
+      "Di cómo te llamaban. Con eso basta."
+    ]
+  },
+  "preguntas": [
+    {
+      "id": "puerta",
+      "opciones": [
+        {
+          "texto": "A por algo que era mío",
+          "carta": "que entró a cobrar lo suyo",
+          "voz": "todo lo tasa; habla de lo que se le debe; terco"
+        },
+        {
+          "texto": "Me dijeron que no me atrevería",
+          "carta": "que entró porque le dijeron que no se atrevería",
+          "voz": "se hace el duro y no le sale"
+        },
+        {
+          "texto": "Me estaba escondiendo de algo de fuera",
+          "carta": "que entró huyendo de algo que dejó en la calle",
+          "voz": "mira hacia atrás a media frase"
+        },
+        {
+          "texto": "Quería comprobar si era verdad",
+          "carta": "que entró a comprobar si era verdad",
+          "voz": "razona en voz alta; busca la explicación"
+        },
+        {
+          "texto": "Ya no tenía otro sitio donde estar",
+          "carta": "que entró porque no le quedaba otro sitio",
+          "voz": "resignada, sin queja; constata"
+        },
+        {
+          "texto": "Me equivoqué de puerta",
+          "carta": "que se equivocó de puerta y ya no encontró la suya",
+          "voz": "se disculpa demasiado"
+        }
+      ],
+      "fija": true,
+      "torre": "¿Por qué cruzaste el umbral?"
+    },
+    {
+      "id": "boca",
+      "opciones": [
+        {
+          "texto": "Recé",
+          "carta": "que reza sin acordarse del final",
+          "voz": "salmos a medias; le habla a lo alto; ritmo de letanía, temor de Dios"
+        },
+        {
+          "texto": "Insulté",
+          "carta": "que insultó a la piedra y siguió",
+          "voz": "bronca y corta; los tacos duelen, no rellenan; crudeza y violencia"
+        },
+        {
+          "texto": "Llamé a alguien por su nombre",
+          "carta": "que sigue llamando a alguien que no entró con él",
+          "voz": "le habla a una persona concreta que no está"
+        },
+        {
+          "texto": "Me callé",
+          "carta": "que se calló y no ha vuelto a decidir cuándo hablar",
+          "voz": "parca, casi telegráfica; dice menos de lo que sabe"
+        },
+        {
+          "texto": "Empecé a explicarlo en voz alta",
+          "carta": "que le explica la torre a nadie",
+          "voz": "ordena y clasifica lo que ve; tono didáctico que se agrieta"
+        },
+        {
+          "texto": "Me reí",
+          "carta": "que se rió primero y lo entendió después",
+          "voz": "rápida y sarcástica; se ríe antes de sentir; se ríe a mitad de frase"
+        },
+        {
+          "texto": "Empecé a negociar",
+          "carta": "que todavía cree que aquí se puede tratar con alguien",
+          "voz": "elocuente; promete, halaga, nunca a la defensiva, taimada"
+        }
+      ],
+      "fija": true,
+      "torre": "Cuando entendiste, ¿qué salió por tu boca?"
+    },
+    {
+      "id": "bolsillo",
+      "opciones": [
+        {
+          "texto": "Las llaves de una casa que era un hogar",
+          "carta": "que aún lleva las llaves de una casa a la que no vuelve"
+        },
+        {
+          "texto": "Un teléfono al cuatro por ciento",
+          "carta": "que vio apagarse su teléfono y siguió mirándolo"
+        },
+        {
+          "texto": "Algo que me regalaron y llevo siempre, por si acaso",
+          "carta": "que aún lleva encima el regalo que iba a protegerle"
+        },
+        {
+          "texto": "Algo que no era mío",
+          "carta": "que entró con algo que no era suyo"
+        },
+        {
+          "texto": "Nada. Ni los bolsillos",
+          "carta": "que entró sin nada encima, ni bolsillos"
+        },
+        {
+          "texto": "Una foto que aquí no pienso mirar",
+          "carta": "que lleva una foto y no la mira"
+        }
+      ],
+      "torre": "¿Qué llevabas encima?"
+    },
+    {
+      "id": "fuera",
+      "opciones": [
+        {
+          "texto": "Alguien que dijo que me esperaba pidiendo las bebidas",
+          "carta": "a quien esperan en una barra desde entonces"
+        },
+        {
+          "texto": "Alguien a quien acababa de mentir",
+          "carta": "que dejó fuera a alguien a quien acababa de mentir"
+        },
+        {
+          "texto": "Alguien que ni sabe que entré aquí",
+          "carta": "a quien nadie sabe buscar, porque nadie sabe que entró"
+        },
+        {
+          "texto": "Alguien que se iba a enfadar",
+          "carta": "que se fue sabiendo que alguien se enfadaría"
+        },
+        {
+          "texto": "Nadie. Vine solo",
+          "carta": "que entró solo y no le dijo a nadie"
+        },
+        {
+          "texto": "Toda la cola. Me colé",
+          "carta": "que se coló y entró antes que nadie"
+        },
+        {
+          "texto": "Dos que se alegrarán si no vuelvo nunca",
+          "carta": "que sabe que dos estarán felices si no regresa"
+        }
+      ],
+      "torre": "¿Quién se quedó fuera?"
+    },
+    {
+      "id": "reloj",
+      "opciones": [
+        {
+          "texto": "Lo que tarden en echarme de menos",
+          "carta": "que mide su tiempo en lo que tarden en echarle de menos"
+        },
+        {
+          "texto": "Hasta que amanezca",
+          "carta": "que espera un amanecer que aquí no llega"
+        },
+        {
+          "texto": "Ya llevo más de lo que creía",
+          "carta": "que perdió la cuenta el primer día"
+        },
+        {
+          "texto": "Ni pienso en ello: voy a salir",
+          "carta": "que sigue seguro de que va a salir",
+          "voz": "asertivo; no admite la duda"
+        },
+        {
+          "texto": "El tiempo aquí no me sirve",
+          "carta": "que dejó de contar porque el tiempo no le servía"
+        }
+      ],
+      "torre": "¿Cuánto crees que aguantarás dentro?"
+    },
+    {
+      "id": "oido",
+      "opciones": [
+        {
+          "texto": "Un bajo que venía de debajo del suelo",
+          "carta": "que oyó el bajo venir de debajo del suelo"
+        },
+        {
+          "texto": "Alguien cantando lejos, en otro idioma",
+          "carta": "que sigue un cántico que no entiende y no encuentra"
+        },
+        {
+          "texto": "Mi nombre",
+          "carta": "que oyó su nombre y aún no sabe quién lo dijo"
+        },
+        {
+          "texto": "Nada. Y eso fue lo raro",
+          "carta": "al que le extrañó el silencio antes que la piedra"
+        },
+        {
+          "texto": "Agua",
+          "carta": "que oye agua donde no puede haberla"
+        },
+        {
+          "texto": "Alguien respirando cerca",
+          "carta": "que oyó respirar a alguien que no estaba"
+        }
+      ],
+      "torre": "¿Qué oíste justo antes de entender?"
+    },
+    {
+      "id": "animo",
+      "opciones": [
+        {
+          "texto": "Con prisa",
+          "carta": "que entró con prisa y ya no tiene adónde llegar"
+        },
+        {
+          "texto": "Con la sensación de haber estado aquí antes",
+          "carta": "que jura haber estado aquí antes"
+        },
+        {
+          "texto": "Enfadado con alguien",
+          "carta": "que entró enfadado y ya no recuerda con quién"
+        },
+        {
+          "texto": "Celebrando algo",
+          "carta": "que estaba celebrando algo cuando cruzó"
+        },
+        {
+          "texto": "Sin dormir desde hacía dos días",
+          "carta": "que llevaba dos días sin dormir cuando cruzó",
+          "voz": "cadencia acelerada; se le van las frases"
+        },
+        {
+          "texto": "Convencido de que controlaba la situación",
+          "carta": "que entró convencido de que controlaba la situación"
+        }
+      ],
+      "torre": "¿Con qué entraste?"
+    },
+    {
+      "id": "cuerpo",
+      "opciones": [
+        {
+          "texto": "Las manos",
+          "carta": "al que se lo dijeron las manos"
+        },
+        {
+          "texto": "Los pies, que ya no pisaban lo mismo",
+          "carta": "al que se lo dijeron los pies antes que los ojos"
+        },
+        {
+          "texto": "El estómago",
+          "carta": "al que se lo dijo el estómago"
+        },
+        {
+          "texto": "Los oídos",
+          "carta": "al que se lo dijeron los oídos"
+        },
+        {
+          "texto": "La nuca",
+          "carta": "al que se lo dijo la nuca"
+        },
+        {
+          "texto": "Ninguna. Lo entendí mucho después",
+          "carta": "que tardó mucho en darse cuenta"
+        }
+      ],
+      "torre": "¿Qué parte de ti se dio cuenta primero?"
+    },
+    {
+      "id": "costumbre",
+      "opciones": [
+        {
+          "texto": "Cuento cosas",
+          "carta": "que cuenta cosas para no pensar",
+          "voz": "numera, enumera, lleva la cuenta en voz alta"
+        },
+        {
+          "texto": "Hablo solo",
+          "carta": "que habla solo desde antes de entrar",
+          "voz": "se responde a sí mismo"
+        },
+        {
+          "texto": "Toco las paredes",
+          "carta": "que va tocando las paredes",
+          "voz": "describe por el tacto, no por la vista"
+        },
+        {
+          "texto": "Me quedo quieto",
+          "carta": "que aprendió a quedarse quieto",
+          "voz": "frases largas y lentas; no se mueve"
+        },
+        {
+          "texto": "Camino",
+          "carta": "que no ha dejado de caminar",
+          "voz": "habla al ritmo del paso; frases que no se detienen"
+        },
+        {
+          "texto": "Busco una explicación",
+          "carta": "que sigue buscándole una explicación a esto",
+          "voz": "razona, deduce, se corrige"
+        }
+      ],
+      "torre": "¿Qué haces cuando no sabes qué hacer?"
+    },
+    {
+      "id": "medias",
+      "opciones": [
+        {
+          "texto": "Una discusión",
+          "carta": "que dejó una discusión a medias"
+        },
+        {
+          "texto": "Algo que entregaba el lunes",
+          "carta": "que sigue pensando en algo que entregaba el lunes"
+        },
+        {
+          "texto": "Una canción que estaba sonando",
+          "carta": "al que se le quedó una canción sin acabar"
+        },
+        {
+          "texto": "Una deuda",
+          "carta": "que dejó una deuda sin pagar"
+        },
+        {
+          "texto": "Una disculpa",
+          "carta": "que no llegó a pedir perdón"
+        },
+        {
+          "texto": "Nada. Todo estaba cerrado",
+          "carta": "que lo tenía todo cerrado y aun así entró"
+        }
+      ],
+      "torre": "¿Qué dejaste a medias?"
+    },
+    {
+      "id": "mentira",
+      "opciones": [
+        {
+          "texto": "La verdad",
+          "carta": "que contaría la verdad si alguien preguntara"
+        },
+        {
+          "texto": "Que me perdí",
+          "carta": "que dice que se perdió"
+        },
+        {
+          "texto": "Que me trajeron",
+          "carta": "que jura que le trajeron"
+        },
+        {
+          "texto": "Que llevo aquí desde siempre",
+          "carta": "que dice llevar aquí desde siempre",
+          "voz": "habla como si el tiempo fuera suyo"
+        },
+        {
+          "texto": "No pienso contestar a eso",
+          "carta": "que no piensa contestar a eso",
+          "voz": "esquiva; deja las preguntas sin recoger"
+        }
+      ],
+      "torre": "Si alguien te preguntara cómo llegaste aquí, ¿qué dirías?"
+    }
+  ]
+}
