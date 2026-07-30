@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- huerfano a proposito hasta la fase 2: nadie enlaza aqui todavia, y lo que
+     no tiene puerta tampoco tiene por que salir en un buscador. -->
+<meta name="robots" content="noindex,nofollow">
+<title>EL ESPEJO DEL ZAGUÁN — La Torre de Thecla</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ==== EL SISTEMA DE TOKENS (DISENO.md) ======================
+       Los mismos cuatro valores que el archivo y el plano maestro, y
+       definidos UNA vez. El movil de abajo SOLO los redefine: aqui no
+       hay ni una regla duplicada por anchura. */
+    --t-micro:.72rem;        /* etiquetas, susurros */
+    --t-base:.82rem;         /* lo que se lee de corrido Y todo lo pulsable */
+    --t-icono:1.15rem;       /* las flechas: son controles, no texto corrido */
+    --k-rotulo:.16em;        /* rotulos de 2-5 palabras */
+    --k-frase:.12em;         /* frases de verdad */
+    /* EL ZOOM. El marco mide 60x84 pixeles logicos y la cara 44x64: si el factor
+       de escala no es ENTERO, unos pixeles salen de 3 y otros de 4, y ademas cada
+       canvas redondea su borde por su cuenta — de ahi que la barbilla se montara
+       2-3 px sobre el marco en movil. Lo fija el JS segun el hueco que haya; el
+       CSS solo multiplica. Pixel art se escala en enteros o no se escala. */
+    --zoom:4;
+    --espejo:calc(var(--zoom) * 60px);   /* ancho TOTAL del marco */
+    --mandos:var(--espejo);  /* las flechas, en los bordes exactos del reflejo */
+
+    /* la brisa. El zaguan es del palo A: el engullido nace tragado. */
+    --matiz:222;
+    --luz:0%;
+    --fondo:hsl(var(--matiz), 48%, calc(5% + var(--luz)));
+    --texto:hsl(var(--matiz), 19%, calc(80% + var(--luz)));
+    --frio:hsl(var(--matiz), 20%, calc(64% + var(--luz)));
+    --apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)));
+    --mancha:hsl(var(--matiz), 40%, calc(11% + var(--luz)));
+    --sedimento:hsl(var(--matiz), 52%, calc(51% + var(--luz)));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--fondo);
+    color:var(--texto);
+    font-family:'Noticia Text', Georgia, serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  #vig{position:fixed;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(ellipse at 50% 42%, transparent 42%, rgba(0,0,0,.55) 100%);}
+  #grano{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");}
+
+  /* ---- la columna: todo el zaguan es una sola vertical ---- */
+  /* El zaguan cabe en una pantalla: es un sitio donde se pasa, no una pagina
+     que se recorre. Todo se mide para que no haya que bajar. */
+  #zaguan{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:3vh 1.2rem 3vh;text-align:center;
+  }
+
+  /* EL ESPEJO DEL ZAGUAN son cuatro palabras: la ley 4 baja el interletrado
+     al tope de rotulo. El .65em de SILENCIO solo vale para una palabra sola. */
+  .z-rotulo{
+    font-family:'Courier New',monospace;
+    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
+    color:var(--apagado);text-transform:uppercase;
+  }
+  .z-entrada{
+    font-size:var(--t-base);letter-spacing:var(--k-frase);
+    color:var(--frio);margin-top:1.1rem;max-width:44em;line-height:1.65;
+  }
+
+  /* ---- el espejo ----
+     El marco NO es un borde de CSS: se dibuja pixel a pixel en su propio canvas,
+     a la MISMA rejilla que la cara y con la MISMA rampa. Un stroke de 1px es de
+     otra epoca que el pixel art de dentro; asi el marco y el rostro son la misma
+     materia. Lienzo 60x84, el cristal ocupa 44x64 en (8,8). */
+  #marco{
+    position:relative;width:var(--espejo);margin:1.8rem auto 0;
+    line-height:0;
+  }
+  #cvMarco{
+    width:var(--espejo);height:calc(var(--zoom) * 84px);display:block;
+  }
+  /* el cristal y lo que flota sobre el: el hueco esta en (8,8) y mide 44x64
+     pixeles logicos. En px enteros no hay redondeo que valga. */
+  .espejo-cara,#cvReflejo{
+    position:absolute;
+    left:calc(var(--zoom) * 8px);top:calc(var(--zoom) * 8px);
+    width:calc(var(--zoom) * 44px);height:calc(var(--zoom) * 64px);
+  }
+  #cvReflejo{pointer-events:none;opacity:.30;z-index:2}
+  .espejo-cara{z-index:1}
+  #cvMarco,#cvReflejo,.espejo-cara canvas{
+    image-rendering:pixelated;image-rendering:crisp-edges;
+  }
+  .espejo-cara canvas{width:100%;height:100%;display:block}
+
+  /* ---- los controles: a los lados exactos del reflejo ---- */
+  #mandos{width:var(--mandos);margin:1.1rem auto 0}
+  /* UNA linea por control: etiqueta y cifra en la misma fila, y las flechas en
+     los extremos exactos del reflejo. En dos lineas las flechas quedaban
+     flotando entre el nombre y el numero y no se sabia cual movia que. */
+  .ctrl{
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    row-gap:.3rem;
+  }
+  /* ley 1: las dos flechas y el boton comparten declaracion. Si mañana sube
+     el cuerpo de una, suben las tres o no sube ninguna. */
+  .fl,#dado{
+    -webkit-appearance:none;appearance:none;background:none;border:0;cursor:pointer;
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    color:var(--frio);transition:color .35s ease, opacity .35s ease;
+  }
+  .fl{
+    width:46px;height:46px;line-height:46px;   /* ley 6: diana 46px, sin excusas */
+    flex:0 0 46px;font-size:var(--t-icono);   /* ley 5: un control se ve */
+  }
+  .fl:hover,.fl:focus-visible,#dado:hover,#dado:focus-visible{color:var(--texto);outline:none}
+  .fl:focus-visible,#dado:focus-visible{text-decoration:underline;text-underline-offset:.4em}
+  .fl:active{opacity:.6}
+  .ct{
+    flex:1 1 auto;display:flex;align-items:baseline;justify-content:center;gap:.85em;
+    min-width:7em;
+  }
+  .ct b{
+    /* la etiqueta mas larga (BARBILLA) manda el ancho de la columna: si se
+       queda corto, la fila envuelve y las cifras bailan de fila en fila. */
+    flex:0 0 auto;min-width:6.2em;text-align:right;
+    font-family:'Courier New',monospace;font-weight:normal;
+    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
+    color:var(--apagado);text-transform:uppercase;
+  }
+  .ct i{
+    flex:0 0 auto;min-width:2.4em;text-align:left;
+    font-family:'Jacquard 12','Courier New',monospace;font-style:normal;
+    font-size:1.2rem;line-height:1;color:var(--frio);letter-spacing:.06em;
+  }
+  /* el «/15» sale del token, no de un multiplo suelto: a .62em caia a 11,9px
+     en movil y se comia el suelo informativo de la ley 3. */
+  .ct i em{font-style:normal;color:var(--apagado);font-size:var(--t-micro)}
+
+  #dado{
+    display:block;margin:1rem auto 0;padding:.6rem 1.2rem;
+    letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
+    min-height:46px;                            /* ley 6 otra vez */
+  }
+
+  /* ---- lo que la torre contesta ---- */
+  .z-aviso{
+    margin-top:1.1rem;min-height:1.5em;        /* reservado: el aviso no empuja nada */
+    font-size:var(--t-base);letter-spacing:var(--k-frase);
+    color:var(--frio);
+    opacity:0;transition:opacity .5s ease;
+  }
+  .z-aviso.se-ve{opacity:1}
+  #marco.ocupado{border-color:hsl(var(--matiz), 34%, 44%)}
+
+  .z-pie{
+    margin-top:1.3rem;max-width:40em;
+    font-size:var(--t-micro);letter-spacing:var(--k-frase);
+    color:var(--apagado);line-height:1.75;
+  }
+  .z-pie span{display:block}
+  .z-pie span + span{margin-top:.45rem}
+
+  @media (prefers-reduced-motion: reduce){
+    .z-aviso{transition:none}
+  }
+
+  /* ==== EL MOVIL — solo redefine tokens y anchuras. Ni una regla nueva de
+     color ni de cuerpo: si algo se ve mal aqui, se arregla arriba. ==== */
+  @media (max-width:700px){
+    :root{
+      --t-micro:.82rem;      /* 13,1px: suelo informativo de la ley 3 */
+      --t-base:.90rem;       /* 14,4px: suelo interactivo de la ley 3 */
+      --t-icono:1.25rem;
+      --k-frase:.06em;
+      /* a 176px «LA BARBILLA» no cabe entre las dos flechas y cada control se
+         partia en dos lineas: 382px de mandos en vez de 205. En el movil los
+         mandos se sueltan del ancho del reflejo — y de paso las flechas caen
+         donde llega el pulgar. El ancho del marco ya no se toca aqui: lo decide
+         el zoom entero. */
+      --mandos:min(20rem, 100%);
+    }
+    #zaguan{padding:2vh 1.1rem 2vh}
+    /* SIN padding: el marco ya no es una caja de CSS con relleno, es un canvas.
+       Un padding aqui empuja el dibujo del marco pero NO las capas absolutas de
+       encima, y la cara se monta sobre la moldura. Era el fallo de los 2-3 px. */
+    #marco{margin-top:1.2rem}
+    #mandos{margin-top:.8rem}
+    .ct{min-width:5.5em;gap:.5em}
+    .z-pie{margin-top:1rem}
+  }
+</style>
+</head>
+<body>
+<div id="vig"></div>
+<div id="grano"></div>
+
+<main id="zaguan">
+  <p class="z-rotulo">El espejo del zaguán</p>
+  <p class="z-entrada">Antes de que entres, la torre permite que te mires una última vez.</p>
+
+  <div id="marco">
+    <canvas id="cvMarco"></canvas>
+    <div id="espejo" class="espejo-cara"></div>
+    <canvas id="cvReflejo"></canvas>
+  </div>
+
+  <div id="mandos">
+    <div class="ctrl">
+      <button class="fl" data-banda="0" data-paso="-1" aria-label="Frente anterior">‹</button>
+      <span class="ct"><b>Frente</b><i id="nF">1<em>/1</em></i></span>
+      <button class="fl" data-banda="0" data-paso="1" aria-label="Frente siguiente">›</button>
+    </div>
+    <div class="ctrl">
+      <button class="fl" data-banda="1" data-paso="-1" aria-label="Ojos anteriores">‹</button>
+      <span class="ct"><b>Ojos</b><i id="nM">1<em>/1</em></i></span>
+      <button class="fl" data-banda="1" data-paso="1" aria-label="Ojos siguientes">›</button>
+    </div>
+    <div class="ctrl">
+      <button class="fl" data-banda="2" data-paso="-1" aria-label="Barbilla anterior">‹</button>
+      <span class="ct"><b>Barbilla</b><i id="nB">1<em>/1</em></i></span>
+      <button class="fl" data-banda="2" data-paso="1" aria-label="Barbilla siguiente">›</button>
+    </div>
+    <button id="dado">[ dame una nueva cara ]</button>
+  </div>
+
+  <p class="z-aviso" id="aviso" role="status" aria-live="polite"></p>
+
+  <p class="z-pie">
+    <span id="quedan">&nbsp;</span>
+    <span>El tinte lo pondrá la noche en que hables.</span>
+    <span>El espejo aún no da a ninguna parte.</span>
+  </p>
+</main>
+
+<!-- El motor de rostros es UNO. Aqui no se pinta un pixel que no pinte el
+     archivo: entramos por la puerta de retratos.js y nada mas. -->
+<script>window.__registro = [];</script>
+<script src="retratos.js"></script>
+<script>
+(function(){
+"use strict";
+
+var R = window.__retratos;
+var PALO = "A";            // el engullido nace tragado: su carta sera del palo A
+var SENAL = "turbia";      // el espejo no juzga: nitidez 0, la noche ya decidira
+var quieto = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+var $ = function(s){ return document.querySelector(s); };
+var marco = $("#marco"), hueco = $("#espejo"), aviso = $("#aviso");
+var ordinal = [$("#nF"), $("#nM"), $("#nB")];
+
+var N = [1,1,1];           // variantes por banda, contadas del atlas
+var sel = [0,0,0];         // la cara que se esta mirando
+var ocupados = Object.create(null);
+var atlas = null, caja = null, estado = null;
+
+
+/* ============================================================
+   EL MARCO Y EL REFLEJO — pixel crudo, misma rejilla que la cara
+   ------------------------------------------------------------
+   Nada de esto inventa color: la rampa y la trama Bayer vienen por la
+   puerta de retratos.js, que es donde vive la doctrina. Aqui solo se
+   decide DONDE va cada tono.
+   Lienzo 60x84. El cristal: 44x64 en (8,8). Marco de 8 px a los lados y
+   arriba, 12 abajo — un espejo siempre pesa mas por abajo.
+   ============================================================ */
+var MW = 60, MH = 84, MX = 8, MY = 8, CW = 44, CH = 64;
+
+/* un tono continuo de la rampa, resuelto con la trama Bayer 4x4: asi el
+   degradado no es un degradado, es un dither. Old school de verdad. */
+function tono(x, y, v){
+  var base = Math.floor(v), frac = v - base;
+  var b = (R.BAYER4[(y & 3) * 4 + (x & 3)] + 0.5) / 16;
+  var i = base + (b < frac ? 1 : 0);
+  return "#" + R.RAMPA[i < 0 ? 0 : (i > 9 ? 9 : i)];
+}
+/* desgaste fijo: la misma mota en el mismo sitio siempre, sin Math.random,
+   para que el marco no hierva al repintar la cara. */
+function mota(x, y){
+  var h = (x * 374761393 + y * 668265263) >>> 0;
+  h = Math.imul(h ^ (h >>> 13), 1274126177) >>> 0;
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+
+function dibujarMarco(cv){
+  cv.width = MW; cv.height = MH;
+  var cx = cv.getContext("2d");
+  cx.imageSmoothingEnabled = false;
+  var x0 = MX, x1 = MX + CW - 1, y0 = MY, y1 = MY + CH - 1;
+
+  for(var y = 0; y < MH; y++){
+    for(var x = 0; x < MW; x++){
+      var v;
+      if(x >= x0 && x <= x1 && y >= y0 && y <= y1){
+        /* EL CRISTAL. Casi el fondo de la pagina: un velo, no una mancha.
+           Solo un soplo de claridad hacia arriba-izquierda. */
+        var gy = (y - y0) / (CH - 1);
+        v = 1.15 + (1 - gy) * 0.30;      // un soplo de luz arriba, nada mas
+      } else {
+        var d = Math.min(x, y, MW - 1 - x, MH - 1 - y);   // distancia al filo
+        if(d === 0){
+          v = 0.35;                                       // el filo, casi negro
+        } else if(x >= x0 - 1 && x <= x1 + 1 && y >= y0 - 1 && y <= y1 + 1){
+          /* EL BISEL: el cristal esta HUNDIDO, asi que la luz de arriba-izquierda
+             deja sombra en el borde de arriba y aclara el de abajo. */
+          v = (x === x0 - 1 || y === y0 - 1) ? 1.0 : 3.9;
+        } else {
+          /* EL CUERPO DEL MARCO: madera vieja. Volumen por luz direccional,
+             grano por mota, y un anillo mas oscuro cerca del cristal. */
+          var luz = ((MW - x) / MW + (MH - y) / MH) / 2;
+          v = 1.35 + luz * 2.75 + mota(x, y) * 0.38;
+          var dh = Math.max(x0 - 1 - x, y0 - 1 - y, x - (x1 + 1), y - (y1 + 1));
+          if(dh <= 1) v -= 0.75;                          // sombra junto al hueco
+          if(d === 1) v += 0.55;                          // brillo del canto
+        }
+      }
+      cx.fillStyle = tono(x, y, v);
+      cx.fillRect(x, y, 1, 1);
+    }
+  }
+
+  /* los cuatro remaches: dos pixeles de luz y uno de sombra. Lo que convierte
+     un rectangulo en un objeto. */
+  [[3,3],[MW-5,3],[3,MH-5],[MW-5,MH-5]].forEach(function(p){
+    cx.fillStyle = "#" + R.RAMPA[5];
+    cx.fillRect(p[0], p[1], 2, 2);
+    cx.fillStyle = "#" + R.RAMPA[1];
+    cx.fillRect(p[0] + 1, p[1] + 1, 1, 1);
+  });
+}
+
+/* ---- EL REFLEJO: las dos franjas del cristal ----
+   A 45 grados, como en cualquier espejo dibujado a mano desde 1985. La
+   transparencia NO se hace con alfa: se hace con trama, que es como se hacia
+   cuando no habia alfa. El alfa solo baja el conjunto entero (.24 en el CSS). */
+function dibujarReflejo(cv){
+  cv.width = CW; cv.height = CH;
+  var cx = cv.getContext("2d");
+  cx.imageSmoothingEnabled = false;
+  var id = cx.createImageData(CW, CH), d = id.data;
+  var luz = R.RAMPA[9], r = parseInt(luz.substr(0,2),16),
+      g = parseInt(luz.substr(2,2),16), b = parseInt(luz.substr(4,2),16);
+  for(var y = 0; y < CH; y++){
+    for(var x = 0; x < CW; x++){
+      var t = x + y, densidad = 0;                 // la diagonal
+      if(t >= 9 && t < 25)       densidad = (t < 13 || t >= 22) ? 0.20 : 0.50;
+      else if(t >= 31 && t < 38) densidad = (t < 33 || t >= 36) ? 0.16 : 0.38;
+      if(!densidad) continue;
+      if((R.BAYER4[(y & 3) * 4 + (x & 3)] + 0.5) / 16 >= densidad) continue;
+      var o = (y * CW + x) * 4;
+      d[o] = r; d[o+1] = g; d[o+2] = b; d[o+3] = 255;
+    }
+  }
+  cx.putImageData(id, 0, 0);
+}
+
+/* ---- EL ZOOM: el factor de escala del espejo, SIEMPRE ENTERO ----
+   Se elige el mayor que quepa: por ancho, y por la altura que el espejo puede
+   ocupar sin empujar los mandos bajo el pliegue. Entre 3 y 6. Se recalcula al
+   girar el telefono o cambiar de ventana. */
+function calibrar(){
+  var caja = document.getElementById("zaguan"), dado = document.getElementById("dado");
+  var pad = parseFloat(getComputedStyle(caja).paddingLeft) || 0;
+  var k = Math.min(6, Math.floor((caja.clientWidth - pad * 2) / MW));
+  if(k < 3) k = 3;
+  /* y ahora se MIDE, en vez de estimarlo con un factor magico: se prueba el zoom
+     y si los mandos caen bajo el pliegue se baja uno. Un getBoundingClientRect
+     fuerza el recalculo, que es justo lo que hace falta. */
+  while(k > 3){
+    document.documentElement.style.setProperty("--zoom", k);
+    if(dado.getBoundingClientRect().bottom <= window.innerHeight) break;
+    k--;
+  }
+  document.documentElement.style.setProperty("--zoom", k);
+  return k;
+}
+calibrar();
+/* las webfonts cambian la altura del texto al llegar: se vuelve a medir */
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(calibrar);
+var _remedir;
+window.addEventListener("resize", function(){
+  clearTimeout(_remedir);
+  _remedir = setTimeout(calibrar, 150);
+}, {passive:true});
+
+/* ---- el reflejo ---- */
+function trio(){ return sel[0] + "," + sel[1] + "," + sel[2]; }
+function exp(){ return {f:sel[0], m:sel[1], b:sel[2], v:0}; }
+
+function repintar(rehacer){
+  /* si ya hay una emision en marcha (dedo rapido en las flechas) no se encadena
+     otra: la de dentro ya esta leyendo la imagen nueva. La revelacion por lineas
+     se reserva para cuando la mano se para. */
+  var enCurso = estado.revelado === false;
+  estado.base = R.pintar(atlas, exp(), PALO, SENAL);
+  estado.id = estado.base;
+  estado.t = 0; estado.sed = null;
+  if(rehacer && !quieto && !enCurso){ estado.revelado = false; R.emitir(estado, 260); }
+  else { R.volcar(estado); estado.revelado = true; }
+  cantar();
+}
+
+/* El punto de millar a mano: Chromium sin ICU completo devuelve "2921" con
+   toLocaleString y en el navegador de al lado "2.921". Un numero que cambia de
+   forma segun donde se lea no es un numero, es una sorpresa. */
+function millares(n){
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function cantar(){
+  for(var i = 0; i < 3; i++){
+    ordinal[i].firstChild.nodeValue = String(sel[i] + 1);
+    ordinal[i].querySelector("em").textContent = "/" + N[i];
+  }
+  var tomada = !!ocupados[trio()];
+  marco.classList.toggle("ocupado", tomada);
+  aviso.textContent = tomada ? "Esa cara ya tiene dueño dentro." : "";
+  aviso.classList.toggle("se-ve", tomada);
+}
+
+function mover(banda, paso){
+  sel[banda] = (sel[banda] + paso + N[banda]) % N[banda];
+  repintar(true);
+}
+
+/* Al azar de verdad: se sortea hasta caer en una cara sin dueño, con tope de
+   intentos por si el censo se llenara algun dia (2.925 rostros dan para rato). */
+function barajar(){
+  for(var i = 0; i < 200; i++){
+    var c = [Math.floor(Math.random()*N[0]),
+             Math.floor(Math.random()*N[1]),
+             Math.floor(Math.random()*N[2])];
+    if(!ocupados[c.join(",")]){ sel = c; repintar(true); return; }
+  }
+  sel = [Math.floor(Math.random()*N[0]), Math.floor(Math.random()*N[1]), Math.floor(Math.random()*N[2])];
+  repintar(true);
+}
+
+/* ---- arranque: el atlas y el censo llegan por la puerta ---- */
+/* Si el atlas o el censo no llegan (red caida, archivo movido), la pagina se
+   quedaria muda y en blanco. A los 8 s habla, en su voz. */
+var llego = false;
+setTimeout(function(){
+  if(llego) return;
+  aviso.textContent = "El espejo no ha llegado. Vuelve más tarde.";
+  aviso.classList.add("se-ve");
+}, 8000);
+
+R.listo(function(_atlas, censo){
+  llego = true;
+  atlas = _atlas;
+  N = R.variantes(atlas);
+
+  /* Lo que el censo ocupa son TRIOS, no piezas sueltas: tres de los cuatro
+     expedientes de hoy comparten la frente F3, y tachar piezas se llevaria
+     por delante 195 caras libres. Se bloquea la coincidencia exacta. */
+  var tomadas = 0;
+  for(var carta in censo){
+    var e = censo[carta];
+    if(e && typeof e.f === "number"){ ocupados[e.f + "," + e.m + "," + e.b] = carta; tomadas++; }
+  }
+  var total = N[0] * N[1] * N[2];
+  $("#quedan").textContent = "Quedan " + millares(total - tomadas) + " caras sin dueño.";
+
+  dibujarMarco($("#cvMarco"));
+  dibujarReflejo($("#cvReflejo"));
+
+  caja = R.montar(atlas, exp(), {palo:PALO, senal:SENAL}, "espejo-cara");
+  hueco.parentNode.replaceChild(caja, hueco);
+  caja.id = "espejo";
+  estado = caja.__retrato;
+
+  R.volcar(estado); estado.revelado = true;
+  R.titilar(estado);            // el reflejo nunca esta del todo sujeto
+  barajar();
+
+  document.querySelectorAll(".fl").forEach(function(b){
+    b.addEventListener("click", function(){
+      mover(+b.dataset.banda, +b.dataset.paso);
+    });
+  });
+  $("#dado").addEventListener("click", barajar);
+
+  /* teclado: izquierda y derecha mueven la banda enfocada; si no hay ninguna
+     enfocada, mueven la frente. Espacio sobre el boton ya lo da el navegador. */
+  document.addEventListener("keydown", function(ev){
+    if(ev.key !== "ArrowLeft" && ev.key !== "ArrowRight") return;
+    var foco = document.activeElement;
+    var banda = (foco && foco.classList && foco.classList.contains("fl"))
+              ? +foco.dataset.banda : 0;
+    mover(banda, ev.key === "ArrowRight" ? 1 : -1);
+    ev.preventDefault();
+  });
+});
+
+})();
+</script>
+</body>
+</html>

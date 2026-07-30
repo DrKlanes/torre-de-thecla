@@ -223,17 +223,67 @@ function estilos(){
   document.head.appendChild(st);
 }
 
-/* ---- datos: el registro ya viaja en __registro; el censo se pide una vez ---- */
-function conDatos(cb){
-  var censo = null, reg = null, esperas = 0;
+/* ---- datos: el registro ya viaja en __registro; el censo se pide una vez ----
+   30 jul 2026: el atlas y el censo se guardan aparte y se sirven por cola, para
+   que una pagina SIN registro (el zaguan) pueda pedir el motor sin esperar 15 s
+   a un archivo que ahi no existe. El archivo y el plano maestro siguen
+   entrando por conDatos(), y ven exactamente lo mismo que antes. */
+var _atlas = null, _censo = null, _cola = [];
+
+function _pedirCenso(){
   fetch("censo.json?v=" + Date.now())
     .then(function(r){ return r.ok ? r.json() : {}; })
-    .then(function(c){ censo = c; listo(); })
-    .catch(function(){ censo = {}; listo(); });
+    .then(function(c){ _censo = c; _servir(); })
+    .catch(function(){ _censo = {}; _servir(); });
+}
+function _servir(){
+  if(!_atlas || _censo === null) return;
+  var q = _cola; _cola = [];
+  q.forEach(function(cb){ cb(_atlas, _censo); });
+}
+/* conCenso(cb) -> cb(atlas, censo) en cuanto los dos estan. Si ya lo estan,
+   se sirve en el acto. */
+function conCenso(cb){ _cola.push(cb); _servir(); }
+
+function conDatos(cb){
+  var esperas = 0;
   var t = setInterval(function(){
-    if(window.__registro || ++esperas > 60){ clearInterval(t); reg = window.__registro || []; listo(); }
+    if(window.__registro || ++esperas > 60){
+      clearInterval(t);
+      var reg = window.__registro || [];
+      conCenso(function(atlas, censo){ cb(censo, reg); });
+    }
   }, 250);
-  function listo(){ if(censo !== null && reg !== null) cb(censo, reg); }
+}
+
+/* ---- cuantas variantes hay DIBUJADAS de cada banda ----
+   Se leen del propio atlas: la ultima fila con carne de cada columna manda.
+   Asi nadie tiene que acordarse de actualizar un numero al dibujar caras
+   nuevas — construir-lab.bat copia partes.png y el conteo se entera solo.
+   (Hoy, 30 jul 2026: F 15 · M 13 · B 15 = 2.925 rostros posibles.) */
+var _variantes = null;
+function variantes(atlas){
+  if(_variantes) return _variantes;
+  var filas = Math.floor((atlas.naturalHeight || atlas.height) / H) || 1;
+  var cv = document.createElement("canvas");
+  cv.width = 3 * W; cv.height = filas * H;
+  var cx = cv.getContext("2d", {willReadFrequently:true});
+  cx.imageSmoothingEnabled = false;
+  cx.drawImage(atlas, 0, 0);
+  var d = cx.getImageData(0, 0, cv.width, cv.height).data, n = [0, 0, 0];
+  for(var c = 0; c < 3; c++){
+    for(var r = 0; r < filas; r++){
+      var hay = false;
+      for(var y = r*H; y < (r+1)*H && !hay; y++){
+        for(var x = c*W; x < (c+1)*W; x++){
+          if(d[(y*cv.width + x)*4 + 3]){ hay = true; break; }
+        }
+      }
+      if(hay) n[c] = r + 1;
+    }
+  }
+  _variantes = n;
+  return n;
 }
 
 function porSignatura(reg){
@@ -338,7 +388,16 @@ function ficha(atlas, censo, reg){
 }
 
 /* gancho de autor, como la tecla G de los planos: desde la consola,
-   __retratos.revelar(document.querySelector(".retrato-noche")) re-emite. */
+   __retratos.revelar(document.querySelector(".retrato-noche")) re-emite.
+
+   ---- LA PUERTA (30 jul 2026) -------------------------------------------
+   El motor de rostros, abierto. Nace para el zaguan del engullido
+   (entregarse.html), que tiene que pintar un trio ARBITRARIO bajo demanda y
+   no tenia por donde entrar. Todo lo de abajo es ADITIVO: ni el archivo ni
+   el plano maestro llaman a nada de esto, y no se mueve un solo pixel de lo
+   ya publicado. La ley que defiende es la primera del contrato de diseño,
+   aplicada a un archivo entero: UN motor de rostros, jamas dos.
+   ------------------------------------------------------------------------ */
 window.__retratos = {
   revelar: function(caja, dur){
     var e = caja && caja.__retrato;
@@ -346,14 +405,29 @@ window.__retratos = {
     e.revelado = false;
     revelar(e, dur || 1400);
     return true;
-  }
+  },
+  W: W, H: H,
+  /* la paleta y la trama, para que lo que se dibuje ALREDEDOR de una cara
+     (marcos, reflejos, velos) salga de los mismos valores que la cara y no de
+     una copia que se desincroniza. Ley 1 del contrato, aplicada al color. */
+  RAMPA: RAMPA, BAYER4: BAYER4, LUZ: LUZ,
+  listo: conCenso,        // cb(atlas, censo) — el atlas ya cargado y el censo leido
+  variantes: variantes,   // (atlas) -> [nF, nM, nB], contadas del propio atlas
+  pintar: pintar,         // (atlas, {f,m,b,v}, palo, senal) -> ImageData
+  montar: montar,         // (atlas, exp, {palo,senal}, clase) -> div con .__retrato
+  volcar: volcar,         // (estado) — vuelca la imagen al canvas
+  titilar: titilar,       // (estado) — la señal nunca esta del todo sujeta
+  emitir: revelar         // (estado, dur) — la revelacion por lineas
 };
 
 /* ---- arranque ---- */
 function arrancar(){
   estilos();
+  _pedirCenso();
   var atlas = new Image();
   atlas.onload = function(){
+    _atlas = atlas;
+    _servir();
     conDatos(function(censo, reg){
       archivo(atlas, censo, reg);
       ficha(atlas, censo, reg);
