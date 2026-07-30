@@ -163,6 +163,18 @@
   .z-aviso.se-ve{opacity:1}
   #marco.ocupado{border-color:hsl(var(--matiz), 34%, 44%)}
 
+  /* ---- LA TAPIA: lo que hay los 353 días que la torre no abre ----
+     Decision suya, 30 jul: «esta experiencia es liminal y experimental, no es
+     un cozy-game; la torre es aspera y esquiva. El espejo no es accesible,
+     solo la noche que engulle.» Sin fecha, sin cuenta atras, sin promesa: una
+     fecha debajo seria un cartel de comercio. */
+  .z-tapia{
+    margin-top:2.4rem;max-width:34em;
+    font-size:var(--t-base);letter-spacing:var(--k-frase);
+    color:var(--frio);line-height:1.9;
+  }
+  .z-tapia[hidden],#marco[hidden],#mandos[hidden]{display:none}
+
   .z-pie{
     margin-top:1.3rem;max-width:40em;
     font-size:var(--t-micro);letter-spacing:var(--k-frase);
@@ -233,6 +245,8 @@
     </div>
     <button id="dado">[ dame una nueva cara ]</button>
   </div>
+
+  <p class="z-tapia" id="tapia" hidden></p>
 
   <p class="z-aviso" id="aviso" role="status" aria-live="polite"></p>
 
@@ -365,6 +379,47 @@ function dibujarReflejo(cv){
   cx.putImageData(id, 0, 0);
 }
 
+/* ============================================================
+   LA VENTANA — la torre abre cuatro veces al año, tres días
+   ------------------------------------------------------------
+   Las fechas viven en calendario.json, que es una lista y se edita a mano.
+   Aqui solo se mira si hoy cae dentro. La fecha la pone el reloj del
+   visitante, asi que esto es PRESENTACION, no seguridad: quien adelante el
+   movil vera el espejo y nada mas — el buzon valida la ventana por su cuenta
+   y rechaza lo que llegue fuera (fase 3).
+   ?ensayo  fuerza abierto  ·  ?tapia  fuerza cerrado   (herramientas de autor)
+   ============================================================ */
+var FORZAR = location.search.indexOf("ensayo") >= 0 ? "abre"
+           : location.search.indexOf("tapia")  >= 0 ? "cierra" : null;
+
+function hoyISO(){
+  var d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0")
+         + "-" + String(d.getDate()).padStart(2,"0");
+}
+function ventanaDeHoy(cal){
+  var hoy = hoyISO(), v = (cal && cal.ventanas) || [];
+  for(var i = 0; i < v.length; i++){
+    if(hoy >= v[i].abre && hoy <= v[i].cierra) return v[i];
+  }
+  return null;
+}
+
+/* TEXTO PROVISIONAL — la frase de la tapia es suya, no mia. Marcada para que
+   se vea que falta. Son DOS cierres distintos y hara falta el segundo en la
+   fase 3: fuera de fecha (esto) y cupo agotado (la torre ya se sacio). */
+var TAPIA = "Hoy no.";
+
+function tapiar(){
+  var t = $("#tapia");
+  t.textContent = TAPIA;
+  t.hidden = false;
+  $("#marco").hidden = true;
+  $("#mandos").hidden = true;
+  document.querySelector(".z-pie").hidden = true;
+  document.querySelector(".z-entrada").hidden = true;
+}
+
 /* ---- EL ZOOM: el factor de escala del espejo, SIEMPRE ENTERO ----
    Se elige el mayor que quepa: por ancho, y por la altura que el espejo puede
    ocupar sin empujar los mandos bajo el pliegue. Entre 3 y 6. Se recalcula al
@@ -451,12 +506,26 @@ function barajar(){
 /* Si el atlas o el censo no llegan (red caida, archivo movido), la pagina se
    quedaria muda y en blanco. A los 8 s habla, en su voz. */
 var llego = false;
-setTimeout(function(){
+var _espera = setTimeout(function(){
   if(llego) return;
   aviso.textContent = "El espejo no ha llegado. Vuelve más tarde.";
   aviso.classList.add("se-ve");
 }, 8000);
 
+/* la ventana se decide ANTES de montar nada: si la torre no abre, el espejo
+   no se enciende siquiera. */
+fetch("calendario.json?v=" + Date.now())
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .catch(function(){ return null; })
+  .then(function(cal){
+    var abierta = FORZAR === "abre" ? {noche:"ensayo"}
+                : FORZAR === "cierra" ? null
+                : ventanaDeHoy(cal);
+    if(!abierta){ clearTimeout(_espera); tapiar(); return; }
+    encender();
+  });
+
+function encender(){
 R.listo(function(_atlas, censo){
   llego = true;
   atlas = _atlas;
@@ -503,6 +572,7 @@ R.listo(function(_atlas, censo){
     ev.preventDefault();
   });
 });
+}
 
 })();
 </script>

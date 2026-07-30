@@ -1,0 +1,117 @@
+{
+  "_": "EL CALENDARIO DE LA TORRE. Cuatro ventanas al año, tres días cada una, o hasta el cupo. Las cuatro noches en que el tiempo hace algo raro. Se edita a mano: es una lista de fechas. Añadir una ventana es añadir una línea. Ver CALENDARIO.md (fuera del repo) para el porqué de cada una.",
+  "cupo": 2,
+  "_cupo": "personas por ventana. La torre se sacia. Lo hace cumplir el buzón (fase 3), no la web.",
+  "ventanas": [
+    {
+      "abre": "2026-10-24",
+      "cierra": "2026-10-26",
+      "noche": "La hora que se repite"
+    },
+    {
+      "abre": "2026-12-21",
+      "cierra": "2026-12-23",
+      "noche": "La noche más larga"
+    },
+    {
+      "abre": "2027-03-27",
+      "cierra": "2027-03-29",
+      "noche": "La hora que no existe"
+    },
+    {
+      "abre": "2027-06-21",
+      "cierra": "2027-06-23",
+      "noche": "La noche más corta"
+    },
+    {
+      "abre": "2027-10-30",
+      "cierra": "2027-11-01",
+      "noche": "La hora que se repite"
+    },
+    {
+      "abre": "2027-12-21",
+      "cierra": "2027-12-23",
+      "noche": "La noche más larga"
+    },
+    {
+      "abre": "2028-03-25",
+      "cierra": "2028-03-27",
+      "noche": "La hora que no existe"
+    },
+    {
+      "abre": "2028-06-21",
+      "cierra": "2028-06-23",
+      "noche": "La noche más corta"
+    },
+    {
+      "abre": "2028-10-28",
+      "cierra": "2028-10-30",
+      "noche": "La hora que se repite"
+    },
+    {
+      "abre": "2028-12-21",
+      "cierra": "2028-12-23",
+      "noche": "La noche más larga"
+    },
+    {
+      "abre": "2029-03-24",
+      "cierra": "2029-03-26",
+      "noche": "La hora que no existe"
+    },
+    {
+      "abre": "2029-06-21",
+      "cierra": "2029-06-23",
+      "noche": "La noche más corta"
+    },
+    {
+      "abre": "2029-10-27",
+      "cierra": "2029-10-29",
+      "noche": "La hora que se repite"
+    },
+    {
+      "abre": "2029-12-21",
+      "cierra": "2029-12-23",
+      "noche": "La noche más larga"
+    },
+    {
+      "abre": "2030-03-30",
+      "cierra": "2030-04-01",
+      "noche": "La hora que no existe"
+    },
+    {
+      "abre": "2030-06-21",
+      "cierra": "2030-06-23",
+      "noche": "La noche más corta"
+    },
+    {
+      "abre": "2030-10-26",
+      "cierra": "2030-10-28",
+      "noche": "La hora que se repite"
+    },
+    {
+      "abre": "2030-12-21",
+      "cierra": "2030-12-23",
+      "noche": "La noche más larga"
+    },
+    {
+      "abre": "2031-03-29",
+      "cierra": "2031-03-31",
+      "noche": "La hora que no existe"
+    },
+    {
+      "abre": "2031-06-21",
+      "cierra": "2031-06-23",
+      "noche": "La noche más corta"
+    },
+    {
+      "abre": "2031-10-25",
+      "cierra": "2031-10-27",
+      "noche": "La hora que se repite"
+    },
+    {
+      "abre": "2031-12-21",
+      "cierra": "2031-12-23",
+      "noche": "La noche más larga"
+    }
+  ]
+}
