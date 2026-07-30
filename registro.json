@@ -185,5 +185,34 @@
     "signatura": "SMET-0008",
     "palabras": 238,
     "retrato": true
+  },
+  {
+    "noche": "2026-07-30",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E11",
+    "modificador": null,
+    "prohibidas": [
+      "podrido",
+      "piedra",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T13"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "podrido",
+      "piedra"
+    ],
+    "carta_inventada": "La desesperación congelada de un astrónomo que olvidó la luna dentro del silencio eterno",
+    "esquirla": "Hueso helado bajo los dedos temblorosos. Cumpleaños sangrando en la boca, un cuervo ciego contra esta grieta perfecta… Robaron las estrellas primero. No sé quién me ató aquí a lo muerto: ¿volverá? Miedo eterno de vacío.",
+    "signatura": "SMET-0009",
+    "palabras": 127,
+    "retrato": false
   }
 ]
