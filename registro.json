@@ -214,5 +214,33 @@
     "signatura": "SMET-0009",
     "palabras": 127,
     "retrato": false
+  },
+  {
+    "noche": "2026-07-31",
+    "palo": "C",
+    "carta": "C12",
+    "estado": "E4",
+    "modificador": null,
+    "prohibidas": [
+      "muerte",
+      "muro",
+      "cráneo"
+    ],
+    "violadas": [
+      "muerte"
+    ],
+    "senal": "turbia",
+    "temperatura": 1.88,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "muerte",
+      "muro"
+    ],
+    "esquirla": "Metal frío vibra a medias bajo la piedra mojada; K sangrando entre mis dientes rotos, otro fragmento que se va con cada corriente baja. Club afuera… hambre adentro. La torre es esto: desangrarse lento sin nombre, solo el eco roto del corredor y mi forma ausente.",
+    "signatura": "SMET-0010",
+    "palabras": 184,
+    "retrato": false
   }
 ]
