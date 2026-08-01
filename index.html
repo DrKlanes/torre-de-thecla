@@ -78,31 +78,37 @@
   }
   .sil-sub{
     font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.35em;text-indent:.35em;
-    color:var(--apagado);margin-top:1.6rem;opacity:.92;
+    color:var(--apagado);margin-top:1.6rem;
   }
   /* los pregones: donde la señal también se oye, en susurro */
   .sil-ecos{
     font-family:'Courier New',monospace;font-size:.68rem;
     letter-spacing:.35em;text-indent:.35em;
-    margin-top:2.6rem;opacity:.85;
+    margin-top:2.6rem;
     /* mismo fallo que tenía el plano (29 jul): enlaces nowrap pegados sin
        espacio = ni un punto de ruptura, y en pantalla estrecha la fila se
        sale. Flex con wrap rompe entre enlaces. */
     display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
     row-gap:.2em;
   }
+  /* la opacidad vive en los ENLACES, no en la fila: el punto medio es
+     --apagado, que ya es el suelo del contraste y no admite atenuarse
+     (a .5 caia a 1,56:1 — auditoria 1 ago, ley 2). El relleno agranda la
+     diana a ~44px sin mover nada, como en el boton de la senal. */
   .sil-ecos a{
-    color:var(--frio);text-decoration:none;
-    transition:color .4s ease;
+    color:var(--frio);text-decoration:none;opacity:.85;
+    transition:color .4s ease;padding:.95rem .3rem;white-space:nowrap;
   }
   .sil-ecos a:hover{color:var(--texto)}
-  .sil-ecos .eco-sep{color:var(--apagado);opacity:.5;margin:0 .9em}
+  .sil-ecos .eco-sep{color:var(--apagado);margin:0 .9em}
   .bajar{
-    margin-top:14vh;color:var(--apagado);font-family:'Courier New',monospace;
+    margin-top:14vh;color:var(--frio);font-family:'Courier New',monospace;
     font-size:var(--t-base);opacity:.8;animation:lat 4s ease-in-out infinite;
   }
-  /* el latido no baja de .62: por debajo, la flecha caia a 2.4:1 */
-  @keyframes lat{0%,100%{transform:translateY(0);opacity:.62}50%{transform:translateY(8px);opacity:.95}}
+  /* en --frio y con suelo .65: en --apagado el ciclo entero quedaba bajo
+     3:1 (1,95-2,85 medido en vivo, auditoria 1 ago). --frio a .65 da 3,2:1
+     en la peor noche (C abisal), y el valle del latido no baja de ahi. */
+  @keyframes lat{0%,100%{transform:translateY(0);opacity:.65}50%{transform:translateY(8px);opacity:.95}}
 
   /* ---- transmisiones ---- */
   #transmisiones{max-width:37em;margin:0 auto;padding:0 1.4rem 30vh}
@@ -165,11 +171,19 @@
     .plano{height:50vh;margin:-10vh 0 -10vh}
   }
 
-  /* separador entre estratos */
+  /* separador entre estratos. Era texto («···») a .35 de opacidad: 1,34:1,
+     y la ley 2 no exceptua los ornamentos CON TEXTO. La salida no es gritar:
+     es dejar de ser texto. Tres puntos dibujados, mismo susurro exacto,
+     y el hueco sigue observando la misma caja. */
   .estrato{
     text-align:center;color:var(--apagado);opacity:.35;
-    font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.9em;text-indent:.9em;
+    font-family:'Courier New',monospace;font-size:.7rem;line-height:1.2;
     margin:0 0 42vh;user-select:none;
+  }
+  .estrato::before{
+    content:"";display:inline-block;width:3px;height:3px;background:currentColor;
+    box-shadow:14px 0 currentColor,28px 0 currentColor;margin-right:28px;
+    vertical-align:middle;
   }
 
   #fondoLista{height:1px}
@@ -180,8 +194,13 @@
 
   /* ---- la señal (música procedural): onda arriba, centro ---- */
   #senal{
-    position:fixed;top:.9rem;left:50%;transform:translateX(-50%);
-    z-index:6;text-align:center;cursor:pointer;padding:.3rem .8rem;
+    position:fixed;top:0;left:50%;transform:translateX(-50%);
+    z-index:6;text-align:center;cursor:pointer;padding:1.2rem 2.4rem .9rem;
+    /* LA PLACA (1 ago, auditoria): la caja es fija y sin fondo el contenido
+       le pasaba POR DENTRO al hacer scroll (el reloj impreso sobre el boton,
+       medido en las tres paginas). Un radial del color del fondo, anclado al
+       borde superior, la vuelve superficie: lo que sube se hunde detras. */
+    background:radial-gradient(ellipse 115% 108% at 50% 0%, var(--fondo) 62%, transparent 100%);
   }
   #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
   /* EL BLOQUE DE LA SEÑAL — el boton y el enlace son el MISMO rango, asi
@@ -190,7 +209,9 @@
      el latido del boton y la opacidad del enlace. */
   #senalBtn,.senal-enlace{
     font-family:'Courier New',monospace;
-    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
+    /* el token de lo pulsable es --t-base (1 ago): con --t-micro se quedaba
+       en 13,12px en movil y la ley 3 pide 14 para lo interactivo */
+    font-size:var(--t-base);letter-spacing:var(--k-rotulo);
     color:var(--frio);white-space:nowrap;
   }
   /* AREA PULSABLE (29 jul): el relleno es transparente, agranda la diana
@@ -202,13 +223,14 @@
   }
   .senal-enlace{
     display:block;margin-top:0;text-decoration:none;padding:.62rem 1rem .75rem;
-    opacity:.62;transition:opacity .3s,color .3s;
+    opacity:.65;transition:opacity .3s,color .3s;
   }
   .senal-enlace:hover{opacity:1;color:var(--texto)}
   #senal:hover #senalBtn{animation-play-state:paused;opacity:1;color:var(--texto)}
-  #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
+  #senalBtn.sonando{animation:none;opacity:.65;color:var(--frio)}
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
-  @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
+  /* suelo .65 tambien aqui: a .4 el valle del latido caia bajo 2:1 */
+  @keyframes latSenal{0%,100%{opacity:.65}50%{opacity:.85}}
 
   /* EL SALTO ENTRE PÁGINAS, PEGADO A LA SEÑAL (29 jul).
      Antes vivía en la fila de redes sociales, al mismo nivel que bluesky
@@ -282,7 +304,7 @@
   .poso-pie{
     text-align:center;font-family:'Courier New',monospace;font-size:.6rem;
     color:var(--apagado);letter-spacing:.3em;text-indent:.3em;
-    margin:.6rem 1rem 0;opacity:.9;padding-bottom:12vh;
+    margin:.6rem 1rem 0;padding-bottom:12vh;
   }
 
   /* ---- atajos: el poso y la vuelta al silencio ---- */
@@ -300,7 +322,7 @@
   .atajo:hover{color:var(--texto);opacity:1}
   @media (max-width:600px){
     .atajo{opacity:.95}
-    .sil-ecos{opacity:.95}
+    .sil-ecos a{opacity:.95}
   }
   .atajo.oculto{opacity:0;pointer-events:none;animation:none}
   #irPoso{animation:latSenal 5s ease-in-out infinite}
@@ -474,8 +496,7 @@
     #senalBtn.sonando{opacity:.75}
     .sil-label{font-size:.82rem;letter-spacing:.45em;text-indent:.45em}
     .sil-sub{line-height:1.6}
-    .sil-ecos{font-size:.84rem;letter-spacing:.12em}
-    .sil-ecos a{padding:.92rem .3rem;white-space:nowrap}
+    .sil-ecos{font-size:var(--t-base);letter-spacing:.12em}
     .sil-ecos .eco-sep{margin:0 .45em}
     .tx-fecha{font-size:.82rem;letter-spacing:.18em;text-indent:.18em}
     .tx-cuerpo{font-size:1.1rem;line-height:1.78}
@@ -655,7 +676,7 @@
     cont.appendChild(art);
     quizasPlano(entrada, cont);
     var sep = el("div","estrato");
-    sep.textContent = "···";
+    sep.setAttribute("aria-hidden","true");
     cont.appendChild(sep);
   }
 

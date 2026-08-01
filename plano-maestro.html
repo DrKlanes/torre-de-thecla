@@ -63,7 +63,10 @@
 
   /* ---- cabecera ---- */
   header{
-    text-align:center;padding:9vh 1rem 2vh;position:relative;z-index:2;
+    /* el despeje iba en vh y la caja fija mide en rem: a 900px de alto eran
+       81px de despeje contra 119px de caja — el titulo nacia DEBAJO de los
+       botones (medido, auditoria 1 ago). El suelo en rem los desacopla. */
+    text-align:center;padding:max(9vh,9.5rem) 1rem 2vh;position:relative;z-index:2;
   }
   h1{
     font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
@@ -118,7 +121,9 @@
   .ins-que{margin-top:.7rem}
   .ins-susurro{margin-top:1rem}
   .ins-dato{white-space:nowrap}   /* que parta entre hechos, jamás dentro */
-  .ins-sep{opacity:.45;margin:0 .5em}
+  /* el separador hereda el --frio de la fila y no se atenua: a .45 sobre
+     la fila a .72 caia a 1,60:1 (ley 2, auditoria 1 ago) */
+  .ins-sep{margin:0 .5em}
 
   /* ---- etiquetas de estancia (DOM sobre el canvas) ---- */
   .estancia{
@@ -132,7 +137,7 @@
     max-width:42vw;white-space:nowrap;
   }
   @media (max-width:600px){
-    header{padding-top:14vh}
+    header{padding-top:max(14vh,9.5rem)}
   }
   .estancia:hover,.estancia:focus{color:var(--frio);border-color:hsla(222,20%,45%,.35);outline:none}
   .estancia .es-sig{display:block;font-size:.72rem;letter-spacing:.14em}
@@ -143,7 +148,7 @@
   #fondoCorte{
     position:relative;z-index:2;text-align:center;
     font-size:.62rem;letter-spacing:.4em;text-indent:.4em;color:var(--apagado);
-    padding:16vh 1rem 18vh;opacity:.92;
+    padding:16vh 1rem 18vh;
   }
 
   /* ---- la ficha ---- */
@@ -156,9 +161,11 @@
   }
   #ficha.abierta{transform:none}
   #fichaCerrar{
-    position:absolute;top:1rem;right:1.2rem;background:none;border:none;
+    position:absolute;top:.6rem;right:.8rem;background:none;border:none;
     color:var(--apagado);font-family:'Courier New',monospace;font-size:.9rem;
-    cursor:pointer;letter-spacing:.2em;padding:.4rem;
+    /* interletrado del token de rotulos (ley 4) y relleno transparente
+       hasta la diana de 44 (ley 6), como el boton de la senal */
+    cursor:pointer;letter-spacing:var(--k-rotulo);padding:.95rem;
   }
   #fichaCerrar:hover{color:var(--frio)}
   .f-sig{font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
@@ -203,7 +210,7 @@
     font-size:.92rem;line-height:1.7;color:var(--texto);font-style:italic;opacity:.9}
   .f-leer{display:inline-block;margin-top:1.8rem;font-size:.66rem;letter-spacing:.25em;
     color:var(--frio);cursor:pointer;background:none;border:1px solid hsla(222,18%,30%,.5);
-    padding:.5rem .9rem;font-family:'Courier New',monospace}
+    padding:1.05rem 1.2rem;font-family:'Courier New',monospace}
   .f-leer:hover{color:#fff;border-color:var(--frio)}
   .f-texto{margin-top:1.6rem;font-family:'Noticia Text',Georgia,serif;
     font-size:.98rem;line-height:1.8;color:var(--texto);display:none}
@@ -230,8 +237,12 @@
 
   /* ---- la señal: el mismo sintonizador del archivo ---- */
   #senal{
-    position:fixed;top:.9rem;left:50%;transform:translateX(-50%);
-    z-index:6;text-align:center;cursor:pointer;padding:.3rem .8rem;
+    position:fixed;top:0;left:50%;transform:translateX(-50%);
+    z-index:6;text-align:center;cursor:pointer;padding:1.2rem 2.4rem .9rem;
+    /* LA PLACA (1 ago, auditoria): sin fondo, el titulo y las constantes se
+       imprimian DENTRO de la caja al hacer scroll — y en escritorio, en
+       reposo. Mismo radial que en el archivo: superficie, no cristal. */
+    background:radial-gradient(ellipse 115% 108% at 50% 0%, var(--fondo) 62%, transparent 100%);
   }
   #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
   /* EL BLOQUE DE LA SEÑAL — el boton y el enlace son el MISMO rango, asi
@@ -240,7 +251,9 @@
      el latido del boton y la opacidad del enlace. */
   #senalBtn,.senal-enlace{
     font-family:'Courier New',monospace;
-    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);
+    /* el token de lo pulsable es --t-base (1 ago): con --t-micro se quedaba
+       en 13,12px en movil y la ley 3 pide 14 para lo interactivo */
+    font-size:var(--t-base);letter-spacing:var(--k-rotulo);
     color:var(--frio);white-space:nowrap;
   }
   /* AREA PULSABLE (29 jul): el relleno es transparente, agranda la diana
@@ -252,13 +265,14 @@
   }
   .senal-enlace{
     display:block;margin-top:0;text-decoration:none;padding:.62rem 1rem .75rem;
-    opacity:.62;transition:opacity .3s,color .3s;
+    opacity:.65;transition:opacity .3s,color .3s;
   }
   .senal-enlace:hover{opacity:1;color:var(--texto)}
   #senal:hover #senalBtn{animation-play-state:paused;opacity:1;color:var(--texto)}
-  #senalBtn.sonando{animation:none;opacity:.5;color:var(--apagado)}
+  #senalBtn.sonando{animation:none;opacity:.65;color:var(--frio)}
   #senal:hover #senalBtn.sonando{opacity:.9;color:var(--frio)}
-  @keyframes latSenal{0%,100%{opacity:.4}50%{opacity:.85}}
+  /* suelo .65: a .4 el valle del latido caia bajo 2:1 (ley 2) */
+  @keyframes latSenal{0%,100%{opacity:.65}50%{opacity:.85}}
 
   /* EL SALTO ENTRE PÁGINAS, PEGADO A LA SEÑAL (29 jul).
      Antes vivía en la fila de redes sociales, al mismo nivel que bluesky
@@ -268,12 +282,14 @@
 
   /* la misma flecha del archivo, en el aire sobre el corte */
   .bajar{
-    text-align:center;color:var(--apagado);font-family:'Courier New',monospace;
+    /* en --frio y con suelo .65 (ley 2): en --apagado el ciclo entero del
+       latido quedaba bajo 3:1 — mismo arreglo que en el archivo (1 ago) */
+    text-align:center;color:var(--frio);font-family:'Courier New',monospace;
     font-size:var(--t-base);opacity:.8;animation:lat 4s ease-in-out infinite;
     margin:0 auto 7vh;
   }
   /* el latido no baja de .62: por debajo, la flecha caia a 2.4:1 */
-  @keyframes lat{0%,100%{transform:translateY(0);opacity:.62}50%{transform:translateY(8px);opacity:.95}}
+  @keyframes lat{0%,100%{transform:translateY(0);opacity:.65}50%{transform:translateY(8px);opacity:.95}}
 
   /* ==== LEGIBILIDAD v2 (27 jul) — mismo sistema que el archivo.
      Las estancias son navegacion, no ornamento: en movil van a 12.5px
@@ -284,7 +300,7 @@
   #fondoCorte{font-size:var(--t-micro);letter-spacing:var(--k-frase);text-indent:var(--k-frase)}
   .f-fecha{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
   .f-dato{font-size:.76rem}
-  .f-leer{font-size:var(--t-micro);letter-spacing:var(--k-frase)}
+  .f-leer{font-size:var(--t-base);letter-spacing:var(--k-frase)}
   /* la gotica pixelada, sin aire: la Jacquard tiene mas fuerza compacta */
   h1{letter-spacing:normal}
   .f-sig{letter-spacing:normal}
@@ -299,7 +315,9 @@
      ahora la diferencia entre «esto se abre» y «esto está tapiado» se lee
      de un vistazo, que antes era lo que no pasaba. */
   .estancia{color:var(--frio);border-color:hsla(222,20%,45%,.40)}
-  .estancia .es-fecha{opacity:.62}
+  /* .65 es el suelo de --frio atenuado (3,2:1 en la peor noche); y la fecha
+     es parte de la puerta: cuerpo interactivo tambien en movil (ley 3) */
+  .estancia .es-fecha{opacity:.65}
   .estancia:hover,.estancia:focus{color:var(--texto);border-color:hsla(222,20%,58%,.55)}
   .estancia.torre .es-sig{color:hsl(213,18%,62%)}
   .estancia.sellada{opacity:.42}
@@ -321,8 +339,10 @@
   .galeria:hover span,.galeria:focus span{opacity:.92}
   .galeria:focus{outline:none}
   .f-pieza{
-    font-size:.68rem;letter-spacing:.16em;color:var(--apagado);
-    margin:1.6rem 0 .2rem;opacity:.75;
+    /* --apagado ya es el suelo del contraste: a .75 caia a 2,50:1. Y el
+       cuerpo sale del sistema: a .68rem quedaba en 10,9px en movil (ley 3). */
+    font-size:var(--t-micro);letter-spacing:var(--k-frase);color:var(--apagado);
+    margin:1.6rem 0 .2rem;
   }
   .f-eco{
     margin:.5rem 0 .2rem;font-size:.95rem;line-height:1.7;
@@ -341,12 +361,13 @@
     .ins-que,.ins-susurro{font-size:.9rem;letter-spacing:.02em;line-height:2}
     .estancia{padding:.32rem .45rem}
     .estancia .es-sig{font-size:.875rem;letter-spacing:.1em}
+    .estancia .es-fecha{font-size:.875rem}
     #fichaCerrar{font-size:1.05rem;padding:.8rem .95rem}
     .f-sig{font-size:2.2rem}
     .f-dato{font-size:.875rem;letter-spacing:.05em}
     .f-esquirla{font-size:1rem}
     .f-texto{font-size:1.05rem}
-    .f-leer{padding:.65rem 1.05rem}
+    .f-leer{padding:.95rem 1.05rem}
     .atajo{font-size:.875rem;letter-spacing:.14em;padding:.85rem .7rem}
   }
 </style>

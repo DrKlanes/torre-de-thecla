@@ -108,14 +108,19 @@ function depositNight(night, animar){
   var nFocos=2+Math.floor(rng()*2), focos=[], i;
   for(i=0;i<nFocos;i++) focos.push(8+rng()*(W-16));
   var placed=[];
-  for(var g=0; g<night.words; g++){
+  /* §19: la crecida suelta EL DOBLE de granos — la montana archiva las
+     mareas como estratos gordos. El rotulo sigue diciendo las palabras
+     reales; solo la materia se duplica. (1 ago, auditoria: el DIRECTOR
+     lo prometia y el poso no lo hacia.) */
+  var granos = night.words * (night.crecida ? 2 : 1);
+  for(var g=0; g<granos; g++){
     var foco=focos[g%nFocos];
     var spread=(rng()+rng()+rng()+rng()-2)*20;
     var p=settleGrain(Math.round(foco+spread), rng);
     if(!p) break;
     commitGrain(p.x,p.y,ni);
     placed.push(p);
-    if(night.lucid && g===Math.floor(night.words/2))
+    if(night.lucid && g===Math.floor(granos/2))
       lucidCells.push({x:p.x,y:p.y,ni:ni});
   }
   if(animar) animateFall(placed, ni);
@@ -383,7 +388,7 @@ function nochesDesdeRegistro(reg){
     out.push({
       sig:e.signatura, palo:e.palo||"A", senal:e.senal||"abisal",
       words:e.palabras||PALABRAS_FALLBACK,
-      fecha:e.noche, lucid:!!e.lucidez
+      fecha:e.noche, lucid:!!e.lucidez, crecida:!!e.crecida
     });
   }
   return out;
