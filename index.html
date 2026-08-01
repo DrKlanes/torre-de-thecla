@@ -312,6 +312,92 @@
     .tx-cuerpo{font-size:1.05rem}
   }
 
+  /* ==== EL HUECO — la torre ofrece sitio (EL VISITANTE ENGULLIDO, fase 2) ====
+     Solo existe dentro de una ventana del calendario. Sin boton de cerrar a
+     proposito: se va con Escape o pulsando fuera. El unico control que se ve
+     es el que lleva al zaguan, y va entre corchetes porque NO es irreversible
+     — la caja llena se reserva para lo que no se deshace (doctrina del boton
+     lleno, 30 jul). Todo el color sale de los tokens: ni un valor suelto. */
+  #hueco{
+    position:fixed;inset:0;z-index:60;
+    display:flex;align-items:center;justify-content:center;
+    padding:2rem 1.4rem;
+    /* el velo no es plano: denso donde va el texto, mas leve en los bordes.
+       A opacidad uniforme la gotica de la signatura se colaba justo entre el
+       paso y el pie (lo vio la captura, no los numeros). Asi la torre se sigue
+       intuyendo por las esquinas y no compite con una sola palabra. */
+    background:radial-gradient(ellipse at center,
+      hsla(var(--matiz), 52%, calc(1% + var(--luz)), .995) 0%,
+      hsla(var(--matiz), 52%, calc(1% + var(--luz)), .992) 42%,
+      hsla(var(--matiz), 52%, calc(2% + var(--luz)), .945) 100%);
+    opacity:0;transition:opacity 1.5s ease;
+    overscroll-behavior:contain;
+  }
+  #hueco[hidden]{display:none}
+  #hueco.visible{opacity:1}
+  .hueco-caja{max-width:32em;text-align:center}
+  /* LA TORRE — pixel art del autor, dibujado a mano. Nace oculta: si el PNG no
+     existe todavia, el hueco se ve exactamente igual que sin ella.
+     --zoom-torre es un ENTERO que fija el JS midiendo el sitio que hay; el CSS
+     solo multiplica (ley 10: el pixel art se escala en enteros o no se escala).
+     Nada en porcentajes y nada de max-width, que redondearia por su cuenta. */
+  .hueco-torre{
+    display:block;margin:0 auto 2.6rem;
+    width:calc(var(--torre-w, 0) * var(--zoom-torre, 1) * 1px);
+    height:calc(var(--torre-h, 0) * var(--zoom-torre, 1) * 1px);
+    image-rendering:pixelated;image-rendering:crisp-edges;
+  }
+  .hueco-torre[hidden]{display:none}
+  .hueco-caja:focus{outline:none}
+  /* el rotulo comparte rango con el de la seccion del silencio (ley 1) */
+  .hueco-rotulo{
+    font-family:'Courier New',monospace;
+    font-size:var(--t-micro);letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
+    color:var(--frio);text-transform:uppercase;margin:0 0 2.4rem;
+  }
+  /* la torre habla con la misma letra que las transmisiones: es la misma boca */
+  .hueco-voz{font-size:1.16rem;line-height:1.85;color:var(--texto);margin:0 0 1.35em}
+  .hueco-voz.hueco-lejos{color:var(--frio)}
+  /* EL PASO — CAJA LLENA (1 ago, correccion suya). Lo tenia entre corchetes
+     razonando que el enlace es reversible: del zaguan se vuelve atras. Me
+     equivocaba de sujeto. Lo irreversible aqui no es el destino, es EL MOMENTO
+     — «esto no vuelve a abrirse». La caja solida dice la verdad, y ademas saca
+     al unico control de la pantalla del rango de los susurros (ley 5).
+     Mismos valores que `.boton-lleno` del zaguan, mismo nombre de clase: son
+     paginas distintas y no pueden compartir declaracion, pero si lenguaje.
+     Por eso el lleno NO lleva corchetes: los corchetes son la marca de lo tenue. */
+  .boton-lleno{
+    -webkit-appearance:none;appearance:none;cursor:pointer;
+    display:block;width:max-content;max-width:100%;
+    margin:1.8rem auto 0;padding:1rem 2rem;min-height:52px;
+    box-sizing:border-box;
+    background:hsl(var(--matiz), 26%, 17%);
+    border:1px solid hsl(var(--matiz), 24%, 34%);
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    letter-spacing:var(--k-rotulo);text-indent:var(--k-rotulo);
+    color:var(--texto);text-decoration:none;text-align:center;
+    transition:background-color .35s ease, border-color .35s ease;
+  }
+  .boton-lleno:hover,.boton-lleno:focus-visible{
+    background:hsl(var(--matiz), 30%, 25%);
+    border-color:hsl(var(--matiz), 26%, 50%);outline:none;
+  }
+  .boton-lleno:focus-visible{text-decoration:underline;text-underline-offset:.45em}
+  .hueco-pie{
+    font-family:'Courier New',monospace;
+    font-size:var(--t-micro);letter-spacing:var(--k-frase);text-indent:var(--k-frase);
+    color:var(--apagado);margin:2.6rem 0 0;
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;
+    row-gap:.4em;
+  }
+  /* el punto medio SIN opacidad: a .5 caia a 1,6:1 y la ley 2 no exceptua los
+     ornamentos con texto. (Aviso: «.sil-ecos .eco-sep», ya publicado, lleva ese
+     mismo opacity:.5 y esta en el mismo caso.) */
+  .hueco-pie .hueco-sep{color:var(--apagado);margin:0 .9em}
+  @media (prefers-reduced-motion:reduce){
+    #hueco{transition:none}
+  }
+
   /* ==== LEGIBILIDAD v2 (27 jul) ====
      Sistema, no parche. El interletrado en em se come la caja en movil:
      a 13px, .3em son 4px de aire por letra y la frase se disuelve.
@@ -352,6 +438,10 @@
     .poso-info{line-height:1.6}
     .poso-pie{line-height:1.6}
     .atajo{font-size:.875rem;letter-spacing:.14em;padding:.85rem .7rem}
+    .hueco-voz{font-size:1.1rem;line-height:1.78}
+    .hueco-pie{line-height:1.6}
+    .boton-lleno{padding:1.05rem 1.4rem}
+    .hueco-pie{letter-spacing:var(--k-frase)}
   }
 </style>
 </head>
@@ -394,6 +484,21 @@
   <button id="irSilencio" class="atajo oculto" aria-label="volver al silencio">▴ el silencio</button>
   <button id="irPoso" class="atajo" aria-label="bajar al poso">el poso ▾</button>
 </nav>
+
+<!-- EL HUECO. Nace oculto y el JS decide si la torre abre hoy. El texto es
+     un borrador del 1 ago 2026: la voz de la torre es suya y esto se destroza. -->
+<div id="hueco" hidden role="dialog" aria-modal="true" aria-labelledby="huecoRotulo">
+  <div class="hueco-caja" tabindex="-1">
+    <!-- LA TORRE. Sin src a proposito: lo pone el JS cuando el hueco aparece,
+         asi la home no pide el archivo 353 dias al ano para nada. -->
+    <img class="hueco-torre" id="huecoTorre" data-src="torre.png" alt="" hidden>
+    <p class="hueco-rotulo" id="huecoRotulo">Queda sitio</p>
+    <p class="hueco-voz">Hoy puedo guardar a alguien más.</p>
+    <p class="hueco-voz hueco-lejos">No sabría decirte cuándo hablarías. Aquí dentro nadie lleva la cuenta de los días, y yo tampoco. A veces son meses. A veces son años.</p>
+    <a class="boton-lleno" id="huecoPaso" href="entregarse.html">mírate antes de entrar</a>
+    <p class="hueco-pie"><span>esto no vuelve a abrirse</span><span class="hueco-sep">·</span><span>pulsa fuera para dejarlo pasar</span></p>
+  </div>
+</div>
 
 <script src="motor.js"></script>
 <svg width="0" height="0" style="position:absolute">
@@ -1125,5 +1230,6 @@
 <script src="el-hilo.js"></script>
 <script src="el-poso.js"></script>
 <script src="retratos.js"></script>
+<script src="el-hueco.js"></script>
 </body>
 </html>

@@ -2,6 +2,8 @@
   "_": "EL CALENDARIO DE LA TORRE. Cuatro ventanas al año, tres días cada una, o hasta el cupo. Las cuatro noches en que el tiempo hace algo raro. Se edita a mano: es una lista de fechas. Añadir una ventana es añadir una línea. Ver CALENDARIO.md (fuera del repo) para el porqué de cada una.",
   "cupo": 2,
   "_cupo": "personas por ventana. La torre se sacia. Lo hace cumplir el buzón (fase 3), no la web.",
+  "trasTestimonios": 2,
+  "_trasTestimonios": "testimonios que hay que TERMINAR de leer antes de que la torre ofrezca sitio. Se cuenta desde arriba, asi que 2 = el de anoche y el de anteanoche. Subirlo hace la propuesta mas rara y mas ganada.",
   "ventanas": [
     {
       "abre": "2026-10-24",
