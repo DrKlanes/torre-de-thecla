@@ -196,11 +196,16 @@
   #senal{
     position:fixed;top:0;left:50%;transform:translateX(-50%);
     z-index:6;text-align:center;cursor:pointer;padding:1.2rem 2.4rem .9rem;
-    /* LA PLACA (1 ago, auditoria): la caja es fija y sin fondo el contenido
-       le pasaba POR DENTRO al hacer scroll (el reloj impreso sobre el boton,
-       medido en las tres paginas). Un radial del color del fondo, anclado al
-       borde superior, la vuelve superficie: lo que sube se hunde detras. */
-    background:radial-gradient(ellipse 115% 108% at 50% 0%, var(--fondo) 62%, transparent 100%);
+  }
+  /* LA PLACA (1 ago, auditoria; afinada por el autor esa noche): banda de
+     ANCHO COMPLETO —una franja cortada al ancho de la caja se veia como un
+     parche— y al 60%: velo, no muro. Lo que sube se hunde detras, en
+     fantasma. pointer-events:none: la diana sigue siendo la caja, no la banda. */
+  #senal::before{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:100vw;height:130%;z-index:-1;pointer-events:none;
+    background:linear-gradient(180deg,var(--fondo) 45%,transparent 100%);
+    opacity:.6;
   }
   #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
   /* EL BLOQUE DE LA SEÑAL — el boton y el enlace son el MISMO rango, asi
