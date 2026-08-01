@@ -242,5 +242,31 @@
     "signatura": "SMET-0010",
     "palabras": 184,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-01",
+    "palo": "C",
+    "carta": "C22",
+    "estado": "E8",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "torre",
+      "eterno"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sombras",
+      "torre"
+    ],
+    "esquirla": "Queman las manos demasiado calmas abajo donde casi nada toca… Fuego come rápido, no nombra el gas dulce que llora la memoria o algo peor en lo gastado entre los huecos vacíos sin aire limpio. Ardo yo primero.",
+    "signatura": "SMET-0011",
+    "palabras": 150,
+    "retrato": false
   }
 ]
