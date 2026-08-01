@@ -327,26 +327,71 @@
        paso y el pie (lo vio la captura, no los numeros). Asi la torre se sigue
        intuyendo por las esquinas y no compite con una sola palabra. */
     background:radial-gradient(ellipse at center,
-      hsla(var(--matiz), 52%, calc(1% + var(--luz)), .995) 0%,
-      hsla(var(--matiz), 52%, calc(1% + var(--luz)), .992) 42%,
-      hsla(var(--matiz), 52%, calc(2% + var(--luz)), .945) 100%);
+      hsla(var(--matiz), 52%, calc(1% + var(--luz)), .998) 0%,
+      hsla(var(--matiz), 52%, calc(1% + var(--luz)), .996) 55%,
+      hsla(var(--matiz), 52%, calc(2% + var(--luz)), .988) 100%);
+    /* .945 en el borde bastaba cuando debajo solo habia texto. Con la torre
+       arriba, la caja creció y el borde del radial cae ahora sobre los planos
+       procedurales, que tienen lineas claras y se colaban por las esquinas.
+       Lo vio la captura, no los numeros. */
     opacity:0;transition:opacity 1.5s ease;
     overscroll-behavior:contain;
   }
   #hueco[hidden]{display:none}
   #hueco.visible{opacity:1}
   .hueco-caja{max-width:32em;text-align:center}
-  /* LA TORRE — pixel art del autor, dibujado a mano. Nace oculta: si el PNG no
-     existe todavia, el hueco se ve exactamente igual que sin ella.
-     --zoom-torre es un ENTERO que fija el JS midiendo el sitio que hay; el CSS
-     solo multiplica (ley 10: el pixel art se escala en enteros o no se escala).
-     Nada en porcentajes y nada de max-width, que redondearia por su cuenta. */
-  .hueco-torre{
-    display:block;margin:0 auto 2.6rem;
-    width:calc(var(--torre-w, 0) * var(--zoom-torre, 1) * 1px);
-    height:calc(var(--torre-h, 0) * var(--zoom-torre, 1) * 1px);
+  /* ==== LA TORRE — pixel art del autor, dibujado a mano (1 ago 2026) ====
+     Un solo bloque para los DOS sitios donde sale: encima del testimonio las
+     noches que la torre habla, y en el hueco. Ley 1: si deben parecerse,
+     comparten declaracion.
+     --torre-zoom es un ENTERO (ley 10: el pixel art se escala en enteros o no
+     se escala). En el archivo lo fija el CSS; en el hueco lo mide el JS.
+     Nada en porcentajes: un factor fraccionario parte unos pixeles en 3 y
+     otros en 4. */
+  /* `pixel-torre`, NO `.torre`: esta obra ya usaba esa palabra en dos sitios
+     —`.estancia.torre` en el plano maestro y `.hilo-nudo.torre` aqui mismo— y
+     una clase generica de una palabra se los comia. Le convirtio a la placa
+     del plano en una caja de 176x256 con velo pulsante, y a los nudos del
+     hilo les habria puesto position:relative. Nombre propio o nada. */
+  .pixel-torre{
+    position:relative;display:block;margin:0 auto;
+    width:calc(var(--torre-w, 44) * var(--torre-zoom, 5) * 1px);
+    height:calc(var(--torre-h, 64) * var(--torre-zoom, 5) * 1px);
+  }
+  .pixel-torre img{
+    position:relative;z-index:1;display:block;width:100%;height:100%;
     image-rendering:pixelated;image-rendering:crisp-edges;
   }
+  /* EL VELO QUE PULSA. Su GIF alternaba el fondo entre #000000 y #110d16: un
+     salto de luminancia de 0,005 — dramatico por vibracion, no por destello.
+     Aqui es una capa detras del dibujo, no un rectangulo opaco, y por eso
+     (a) se funde con la brisa, que cambia de matiz cada noche, (b) no deja un
+     borde recto al escalar x5 y (c) puede pararse. Toda la velocidad vive en
+     --torre-pulso: un solo valor, un solo sitio. */
+  .pixel-torre::before{
+    content:"";position:absolute;inset:-10%;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 46%,
+      hsla(var(--matiz), 34%, calc(16% + var(--luz)), .92) 0%,
+      hsla(var(--matiz), 34%, calc(14% + var(--luz)), .55) 52%,
+      transparent 76%);
+    animation:torreVelo var(--torre-pulso, .12s) steps(2, jump-none) infinite;
+  }
+  @keyframes torreVelo{from{opacity:.18}to{opacity:1}}
+  /* quien pide menos movimiento se queda el velo quieto, no sin velo */
+  @media (prefers-reduced-motion:reduce){
+    .pixel-torre::before{animation:none;opacity:.62}
+  }
+  /* encima del testimonio, donde estaba la mancha. Mismo criterio de tamano
+     que los rostros de retratos.js: x5 en escritorio, x4 en movil. */
+  /* x3 EN TODAS LAS ANCHURAS (1 ago, segunda correccion suya: «en desktop aun
+     mas pequena»). 132x192, el 60% de un retrato.
+     A x5 medía EXACTAMENTE lo que un retrato —220x320, mismo lienzo de 44x64—;
+     pero en la cabecera pesa mas que ahi: llega antes de leer, sola en el aire,
+     y sustituye a una mancha de 150x54. Dos pasos menos.
+     Al quedar igual en las dos anchuras, el bloque movil ya no la redefine:
+     un valor, un sitio (ley 1). */
+  .torre-cab{--torre-zoom:3;margin-bottom:2.6rem}
+  .hueco-torre{margin:0 auto 2.6rem}
   .hueco-torre[hidden]{display:none}
   .hueco-caja:focus{outline:none}
   /* el rotulo comparte rango con el de la seccion del silencio (ley 1) */
@@ -491,7 +536,7 @@
   <div class="hueco-caja" tabindex="-1">
     <!-- LA TORRE. Sin src a proposito: lo pone el JS cuando el hueco aparece,
          asi la home no pide el archivo 353 dias al ano para nada. -->
-    <img class="hueco-torre" id="huecoTorre" data-src="torre.png" alt="" hidden>
+    <span class="pixel-torre hueco-torre" id="huecoTorre" hidden><img id="huecoTorreImg" data-src="torre.png" alt=""></span>
     <p class="hueco-rotulo" id="huecoRotulo">Queda sitio</p>
     <p class="hueco-voz">Hoy puedo guardar a alguien más.</p>
     <p class="hueco-voz hueco-lejos">No sabría decirte cuándo hablarías. Aquí dentro nadie lleva la cuenta de los días, y yo tampoco. A veces son meses. A veces son años.</p>
@@ -576,7 +621,7 @@
     var head = el("div","tx-head");
 
     if(entrada.torre){
-      head.appendChild(mancha());
+      head.appendChild(laTorre());
     } else {
       var sig = el("span","tx-sig");
       sig.textContent = entrada.signatura || "";
@@ -612,6 +657,26 @@
     var sep = el("div","estrato");
     sep.textContent = "···";
     cont.appendChild(sep);
+  }
+
+  /* ---------- la torre: encima del testimonio las noches que habla ----------
+     Decision suya (1 ago): sustituye a la mancha y va ARRIBA, no debajo como
+     los rostros de los engullidos. Si el archivo no carga, vuelve la mancha:
+     la cabecera no se queda vacia nunca. */
+  function laTorre(){
+    var cv = el("span", "pixel-torre torre-cab");
+    var img = document.createElement("img");
+    img.alt = "";
+    img.addEventListener("error", function(){
+      if(cv.parentNode) cv.parentNode.replaceChild(mancha(), cv);
+    });
+    img.addEventListener("load", function(){
+      cv.style.setProperty("--torre-w", img.naturalWidth);
+      cv.style.setProperty("--torre-h", img.naturalHeight);
+    });
+    img.src = "torre.png";
+    cv.appendChild(img);
+    return cv;
   }
 
   /* ---------- carga de textos ---------- */
@@ -1207,6 +1272,18 @@
     lista = (datos.transmisiones || []).slice().sort(function(a,b){
       return new Date(b.fecha) - new Date(a.fecha);
     });
+    /* ?torre — HERRAMIENTA DE AUTOR (1 ago 2026).
+       La torre solo habla tras siete noches de silencio (§11), asi que su
+       ilustracion podria tardar semanas en verse en la cabecera. Este flag
+       duplica el testimonio de arriba y lo pinta como noche de la torre: la
+       composicion es la real y no hay ni una palabra inventada en el repo.
+       Vive solo en el navegador; no toca el manifest ni el registro. */
+    if(/[?&]torre\b/.test(location.search) && lista.length){
+      var ens = {};
+      for(var k in lista[0]) ens[k] = lista[0][k];
+      ens.torre = true; ens.signatura = null;
+      lista.unshift(ens);
+    }
     iniciarContador(lista.length ? lista[0].fecha : null);
     cargarLote().then(function(){
       var centinela = document.getElementById("fondoLista");

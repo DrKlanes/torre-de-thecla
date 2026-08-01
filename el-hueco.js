@@ -25,6 +25,12 @@
              : location.search.indexOf("tapia")  >= 0 ? "cierra" : null;
 
   var LLAVE = "thecla.hueco.";
+  /* EL MISMO TAMANO EN TODA LA OBRA (1 ago, tercera correccion suya: en el
+     modal seguia grande). x3 sobre un lienzo de 44 son 132x192, exactamente lo
+     que mide `.torre-cab` en el archivo. La torre es la misma en todas partes;
+     el hueco solo puede quedarse POR DEBAJO si la pantalla no da para mas
+     —en 320px la caja no cabria—, nunca por encima. */
+  var TOPE_ZOOM = 3;
   var ventana = null, abierto = false, focoPrevio = null, obs = null;
 
   function hoyISO(){
@@ -57,18 +63,19 @@
      el mismo motivo (un factor fraccionario parte unos pixeles en 3 y otros en
      4). Si no cabe ni a 1, no se ensena: antes que una torre encogida, ninguna.
      Y si el archivo no esta, el hueco se ve exactamente igual que sin ella. */
-  var torre = document.getElementById("huecoTorre");
+  var torre    = document.getElementById("huecoTorre");
+  var torreImg = document.getElementById("huecoTorreImg");
 
   function calibrarTorre(){
-    if(!torre) return;
+    if(!torre || !torreImg) return;
     /* el archivo se pide la primera vez que el hueco se abre, no antes */
-    if(!torre.src && torre.dataset.src){ torre.src = torre.dataset.src; return; }
-    if(!torre.naturalWidth) return;
-    var W = torre.naturalWidth, H = torre.naturalHeight;
-    caja.style.setProperty("--torre-w", W);
-    caja.style.setProperty("--torre-h", H);
+    if(!torreImg.src && torreImg.dataset.src){ torreImg.src = torreImg.dataset.src; return; }
+    if(!torreImg.naturalWidth) return;
+    var W = torreImg.naturalWidth, H = torreImg.naturalHeight;
+    torre.style.setProperty("--torre-w", W);
+    torre.style.setProperty("--torre-h", H);
     torre.hidden = false;
-    torre.style.setProperty("--zoom-torre", 1);
+    torre.style.setProperty("--torre-zoom", 1);
     /* el sitio que queda es el alto libre CON la torre a zoom 1 ya contada */
     var pad = parseFloat(getComputedStyle(caja).paddingTop)
             + parseFloat(getComputedStyle(caja).paddingBottom);
@@ -77,12 +84,17 @@
     var ancho = dentro.getBoundingClientRect().width;
     var k = Math.min(Math.floor(ancho / W), Math.floor(alto / H));
     if(k < 1){ torre.hidden = true; return; }
-    torre.style.setProperty("--zoom-torre", Math.min(k, 8));
+    /* TOPE x5 (1 ago, correccion suya). Sin tope llegaba a x8 en tablet
+       —352x512— y ahi es donde la vio «demasiado grande»: en el archivo la
+       torre y un retrato miden lo mismo, pero el hueco calibraba al hueco que
+       hubiera. x5 = 220x320 = EXACTAMENTE un retrato de `.retrato-noche`.
+       La regla, en un sitio: la torre no pasa nunca del tamano de un rostro. */
+    torre.style.setProperty("--torre-zoom", Math.min(k, TOPE_ZOOM));
   }
 
-  if(torre){
-    torre.addEventListener("error", function(){ torre.hidden = true; });
-    torre.addEventListener("load", function(){ if(abierto) calibrarTorre(); });
+  if(torre && torreImg){
+    torreImg.addEventListener("error", function(){ torre.hidden = true; });
+    torreImg.addEventListener("load", function(){ if(abierto) calibrarTorre(); });
     var reZoom = null;
     window.addEventListener("resize", function(){
       clearTimeout(reZoom);

@@ -164,6 +164,36 @@
   .f-sig{font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
     font-size:2rem;color:var(--frio)}
   .f-fecha{font-size:.66rem;letter-spacing:.3em;color:var(--apagado);margin:.5rem 0 1.6rem}
+  /* ==== LA TORRE en la ficha (1 ago 2026) ====
+     Donde el rostro de un engullido, la torre. Mismo ancho que
+     `.retrato-ficha` de retratos.js —176px, que en un lienzo de 44 son x4—
+     porque en la ficha son lo mismo: quien hablo esa noche.
+     Mismos valores que el bloque de index.html: paginas distintas no pueden
+     compartir declaracion, pero si lenguaje. */
+  /* OJO CON EL NOMBRE: `.torre` a secas ya existia aqui como `.estancia.torre`
+     y una clase generica se la comia — la placa salia convertida en una caja de
+     176x256 con velo pulsante. Por eso `pixel-torre`, que no colisiona con nada. */
+  .pixel-torre{
+    position:relative;display:block;margin:0 0 1.6rem;
+    width:calc(var(--torre-w, 44) * var(--torre-zoom, 3) * 1px);
+    height:calc(var(--torre-h, 64) * var(--torre-zoom, 3) * 1px);
+  }
+  .pixel-torre img{
+    position:relative;z-index:1;display:block;width:100%;height:100%;
+    image-rendering:pixelated;image-rendering:crisp-edges;
+  }
+  .pixel-torre::before{
+    content:"";position:absolute;inset:-10%;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 46%,
+      hsla(var(--matiz), 34%, calc(16% + var(--luz)), .92) 0%,
+      hsla(var(--matiz), 34%, calc(14% + var(--luz)), .55) 52%,
+      transparent 76%);
+    animation:torreVelo var(--torre-pulso, .12s) steps(2, jump-none) infinite;
+  }
+  @keyframes torreVelo{from{opacity:.18}to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){
+    .pixel-torre::before{animation:none;opacity:.62}
+  }
   .f-dato{display:flex;justify-content:space-between;gap:1rem;
     font-size:.72rem;letter-spacing:.1em;padding:.4rem 0;
     border-bottom:1px dotted hsla(222,20%,40%,.2)}
@@ -479,13 +509,13 @@ function layout(){
     var pal = n.reg.palabras || 150;
     n.w = Math.round(44 + Math.min(1,(pal-60)/290)*40);   // 44..84
     n.h = n.reg.crecida ? 62 : 32;
-    if(n.torre) { n.w=70; n.h=18; }
+    if(n.torre) { n.w=24; n.h=30; }                      // la campana, no una sala
     if(n.sellada){ n.w=52; n.h=24; }
     n.lado = (fnv(n.sig+"·lado")%2===0)?-1:1;             // izquierda o derecha
     /* distancia al tubo: algunas pegadas, otras retiradas con galería */
     var rs=(fnv(n.sig+"·sep")%100)/100;
     n.sep = rs<0.45?0 : rs<0.75?7 : rs<0.9?13 : 21;
-    if(n.torre) n.sep=0;                                  // la torre pega a su pozo
+    if(n.torre){ n.sep=0; n.lado=-1; }                    // cuelga del eje, no de un lado
     /* que quepa: primero cede la separación, luego la anchura */
     while(n.sep>0 && 17+n.sep+n.w > mitad) n.sep=Math.max(0,n.sep-7);
     if(17+n.sep+n.w > mitad) n.w=Math.max(28, mitad-17-n.sep);
@@ -513,9 +543,13 @@ function colocarEtiquetas(){
     b.className="estancia"+(n.torre?" torre":"")+(n.sellada?" sellada":"");
     b.innerHTML='<span class="es-sig">'+n.sig+'</span><span class="es-fecha">'+fechaBonita(n.fecha)+'</span>';
     var margen = 14;
-    var px = (n.lado<0)
-      ? (cx - 17 - n.sep - n.w - margen)*PXL
-      : (cx + 17 + n.sep + margen)*PXL;
+    /* la placa de la torre se cuelga del eje, porque su campana esta ahi.
+       Y es UNA PLACA MAS: ni caja rara ni efecto, igual que las demas. */
+    var px = n.torre
+      ? (cx - 12 - margen - 46)*PXL
+      : (n.lado<0)
+        ? (cx - 17 - n.sep - n.w - margen)*PXL
+        : (cx + 17 + n.sep + margen)*PXL;
     if(n.lado<0){
       /* nunca fuera del viewport: se fija como mínimo a 4px del borde */
       b.style.right=Math.max(4, window.innerWidth-px)+"px";
@@ -699,7 +733,7 @@ function dibujar(){
   noches.forEach(function(n){
     var ry0=n.y-scrollLogico;
     if(ry0+n.h<-24||ry0>CH+24) return;
-    dibujarEstancia(n, ry0, cx);
+    if(n.torre) dibujarCampana(n, ry0, cx); else dibujarEstancia(n, ry0, cx);
   });
 
   /* 3.5 las brechas: van después, sobre el muro ya dibujado */
@@ -766,6 +800,68 @@ function brechasEco(n, scrollLogico, cx){
       ctx.fillStyle=tin(0.7); ctx.fillRect(mx, ry, 1, 1);
     });
   });
+}
+
+/* ---------- LA CAMPANA: la noche que habla la torre (1 ago 2026) ----------
+   Peticion suya: «cuando habla la torre no tiene sentido que anada una sala».
+   Y tiene razon — una sala al lado del pozo dice que la torre es una estancia
+   mas, y no lo es: es el continente. Asi que no hay sala. Cuelga una campana
+   DENTRO del tubo, en el eje, y el tubo se abre para dejarle sitio.
+   Misma gramatica que todo lo demas: contorno de delineante, poche rayado en
+   el yugo y la trama Bayer global encima. Sin puerta y sin galeria: a una
+   campana no se entra.
+   Y encaja con el SOUL — «la torre no habla, es muda como una boca abierta».
+   Una campana es exactamente eso: una boca abierta que suena sin decir nada. */
+function dibujarCampana(n, ry0, cx){
+  ry0=Math.round(ry0);
+  var bw=24, bh=n.h;
+  var cor=4, labio=2, cuerpo=bh-cor-labio;   // corona, cuerpo, labio
+  var rmax=bw/2;
+
+  /* el hueco: el tubo y sus hebras no la atraviesan */
+  ctx.clearRect(Math.round(cx)-rmax-6, ry0-4, bw+12, bh+8);
+
+  /* EL PERFIL. Una campana es CONVEXA: el hombro se ensancha de golpe y el
+     cuerpo baja casi recto. Con un exponente >1 sale un cono —una copa, una
+     mesa— que es justo lo que salio al primer intento. El exponente va por
+     debajo de 1 y el hombro se come el primer tercio. */
+  function radio(t){ return 3.5 + (rmax-3.5)*Math.pow(t, 0.42); }
+
+  var yv=ry0+cor, yb=yv+cuerpo;
+  ctx.beginPath();
+  ctx.moveTo(cx-radio(0), yv);
+  for(var s=0;s<=cuerpo;s++) ctx.lineTo(cx-radio(s/cuerpo), yv+s);
+  for(var s2=cuerpo;s2>=0;s2--) ctx.lineTo(cx+radio(s2/cuerpo), yv+s2);
+  ctx.closePath();
+  ctx.fillStyle="hsla("+HUE.T+",32%,"+(7+luzActual())+"%,0.55)";
+  ctx.fill();
+  ctx.strokeStyle=tin(0.85); ctx.lineWidth=1; ctx.stroke();
+
+  /* la corona: el asa de la que cuelga. Pequena —un yugo ancho la volvia una
+     mesa de patas— y RELLENA, no contorneada: un strokeRect de 3 px de lado en
+     coordenadas .5 dibujaba mas borde que asa y salia torcida a la derecha. */
+  var cxr=Math.round(cx);
+  ctx.fillStyle=tin(0.9);
+  ctx.fillRect(cxr-2, ry0, 4, 1);          // el travesano
+  ctx.fillRect(cxr-2, ry0+1, 1, cor-2);    // los dos montantes
+  ctx.fillRect(cxr+1, ry0+1, 1, cor-2);
+  ctx.fillRect(cxr-4, ry0+cor-1, 9, 1);    // el hombro del que pende
+
+  /* el labio: la boca, mas gruesa, y ABIERTA — no se cierra por abajo */
+  ctx.fillStyle=tin(0.82);
+  ctx.fillRect(Math.round(cx-rmax), yb, bw, labio);
+
+  /* el badajo, asomando */
+  ctx.fillStyle=tin(0.7);
+  ctx.fillRect(Math.round(cx), yv+4, 1, cuerpo-3);
+  ctx.fillRect(Math.round(cx)-1, yb+labio, 3, 2);
+
+  /* dos rayas de sombra dentro del vaso: el poche de la casa, en vertical */
+  ctx.fillStyle=tin(0.28);
+  for(var yy=yv+6; yy<yb-2; yy+=3){
+    ctx.fillRect(Math.round(cx-radio((yy-yv)/cuerpo))+3, yy, 2, 1);
+    ctx.fillRect(Math.round(cx+radio((yy-yv)/cuerpo))-5, yy, 2, 1);
+  }
 }
 
 function dibujarEstancia(n, ry0, cx){
@@ -960,6 +1056,7 @@ function abrirFicha(n){
   } else {
     h+=f("silencio roto", (e.silencio_roto||"?")+" noches");
   }
+  document.getElementById("fichaCuerpo").dataset.torre = n.torre ? "1" : "";
   if(n.ecoHacia && n.ecoHacia.length){
     h+=f("su voz volvi\u00f3 en", n.ecoHacia.map(function(x){return x.sig;}).join(", "));
   }
@@ -974,7 +1071,24 @@ function abrirFicha(n){
     h+='<button class="f-leer" id="fLeer">[ leer la transmisión ]</button>';
     h+='<div class="f-texto" id="fTexto"></div>';
   }
-  document.getElementById("fichaCuerpo").innerHTML=h;
+  var cuerpo=document.getElementById("fichaCuerpo");
+  cuerpo.innerHTML=h;
+  /* LA TORRE deja constancia tambien aqui (peticion suya, 1 ago): en la ficha,
+     donde el rostro de un engullido, va su ilustracion. Se pide solo la noche
+     que hace falta, y si el archivo no esta, la ficha sigue igual de valida. */
+  if(n.torre){
+    var cv=document.createElement("span"); cv.className="pixel-torre torre-ficha";
+    var im=document.createElement("img"); im.alt="";
+    im.addEventListener("error",function(){ if(cv.parentNode) cv.parentNode.removeChild(cv); });
+    im.addEventListener("load",function(){
+      cv.style.setProperty("--torre-w", im.naturalWidth);
+      cv.style.setProperty("--torre-h", im.naturalHeight);
+    });
+    im.src="torre.png";
+    cv.appendChild(im);
+    var fch=cuerpo.querySelector(".f-fecha");
+    if(fch) fch.insertAdjacentElement("afterend", cv);
+  }
   var btn=document.getElementById("fLeer");
   if(btn){
     btn.addEventListener("click",function(){
@@ -1246,6 +1360,21 @@ Promise.all([
   fetch("manifest.json?v="+Date.now()).then(function(r){return r.json();})
 ]).then(function(res){
   var registro=res[0], manifest=res[1];
+  /* ENSAYO DE AUTOR: ?torre finge una noche en que habló la torre, para poder
+     ver su estancia y su ficha antes de que caiga la primera de verdad — que
+     necesita siete noches de silencio (§11) y puede tardar semanas.
+     Vive solo en memoria, en esta pestaña: no toca registro.json.
+     El mismo flag existe en index.html, y allí hace lo propio en la cabecera. */
+  if(/[?&]torre\b/.test(location.search) && !registro.some(function(e){return e.carta==="TORRE";})){
+    var u=registro[registro.length-1]||{};
+    var d=new Date(u.noche||"2026-08-01"); d.setDate(d.getDate()+1);
+    registro=registro.concat([{
+      noche:d.toISOString().slice(0,10), palo:null, carta:"TORRE", estado:null,
+      modificador:null, prohibidas:[], violadas:null, senal:"abisal",
+      temperatura:0.8, tuercas:null, reintentos:0, signatura:null,
+      palabras:96, retrato:false, silencio_roto:7
+    }]);
+  }
   window.__registro=registro;          // para la señal y quien venga después
   aplicarBrisa(registro);
   reanudarSenal();
