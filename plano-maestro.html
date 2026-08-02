@@ -555,7 +555,7 @@ function layout(){
     var pal = n.reg.palabras || 150;
     n.w = Math.round(44 + Math.min(1,(pal-60)/290)*40);   // 44..84
     n.h = n.reg.crecida ? 62 : 32;
-    if(n.torre) { n.w=24; n.h=30; }                      // la campana, no una sala
+    if(n.torre) { n.w=16; n.h=16; }                      // un simbolo, no una sala
     if(n.sellada){ n.w=52; n.h=24; }
     n.lado = (fnv(n.sig+"·lado")%2===0)?-1:1;             // izquierda o derecha
     /* distancia al tubo: algunas pegadas, otras retiradas con galería */
@@ -589,10 +589,13 @@ function colocarEtiquetas(){
     b.className="estancia"+(n.torre?" torre":"")+(n.sellada?" sellada":"");
     b.innerHTML='<span class="es-sig">'+n.sig+'</span><span class="es-fecha">'+fechaBonita(n.fecha)+'</span>';
     var margen = 14;
-    /* la placa de la torre se cuelga del eje, porque su campana esta ahi.
+    /* la placa de la torre se cuelga del eje, porque su simbolo esta ahi.
        Y es UNA PLACA MAS: ni caja rara ni efecto, igual que las demas. */
+    /* 2 ago: la placa de la torre colgaba a 180 px de su simbolo, cuando las
+       demas cuelgan a 42 — sobraba un desplazamiento de 46 que no tenian las
+       otras. Ahora se mide igual que todas: medio simbolo + el margen. */
     var px = n.torre
-      ? (cx - 12 - margen - 46)*PXL
+      ? (cx - n.w/2 - margen)*PXL
       : (n.lado<0)
         ? (cx - 17 - n.sep - n.w - margen)*PXL
         : (cx + 17 + n.sep + margen)*PXL;
@@ -779,7 +782,7 @@ function dibujar(){
   noches.forEach(function(n){
     var ry0=n.y-scrollLogico;
     if(ry0+n.h<-24||ry0>CH+24) return;
-    if(n.torre) dibujarCampana(n, ry0, cx); else dibujarEstancia(n, ry0, cx);
+    if(n.torre) dibujarPozoTorre(n, ry0, cx); else dibujarEstancia(n, ry0, cx);
   });
 
   /* 3.5 las brechas: van después, sobre el muro ya dibujado */
@@ -848,66 +851,70 @@ function brechasEco(n, scrollLogico, cx){
   });
 }
 
-/* ---------- LA CAMPANA: la noche que habla la torre (1 ago 2026) ----------
+/* ---------- EL POZO: la noche que habla la torre (2 ago 2026) ----------
    Peticion suya: «cuando habla la torre no tiene sentido que anada una sala».
-   Y tiene razon — una sala al lado del pozo dice que la torre es una estancia
-   mas, y no lo es: es el continente. Asi que no hay sala. Cuelga una campana
-   DENTRO del tubo, en el eje, y el tubo se abre para dejarle sitio.
-   Misma gramatica que todo lo demas: contorno de delineante, poche rayado en
-   el yugo y la trama Bayer global encima. Sin puerta y sin galeria: a una
-   campana no se entra.
-   Y encaja con el SOUL — «la torre no habla, es muda como una boca abierta».
-   Una campana es exactamente eso: una boca abierta que suena sin decir nada. */
-function dibujarCampana(n, ry0, cx){
-  ry0=Math.round(ry0);
-  var bw=24, bh=n.h;
-  var cor=4, labio=2, cuerpo=bh-cor-labio;   // corona, cuerpo, labio
-  var rmax=bw/2;
+   Cierto — una sala al lado del pozo dice que la torre es una estancia mas, y
+   no lo es: es el continente.
+   El primer intento fue una campana, y la rechazo con razon: «demasiado
+   protagonista y anade demasiado lore por explicar». Un simbolo de plano no
+   explica nada, y por eso funciona.
+   Asi que se usa EL POZO, que ya existe en los planos procedurales bajo los
+   testimonios: dos circulos concentricos y cuatro marcas a los cuatro puntos.
+   En un plano, un pozo es un hueco vertical que atraviesa TODAS las plantas.
+   En un corte transversal, eso no es una estancia: es el continente.
+   Va en el eje, dentro del tubo, y es el UNICO simbolo que aparece ahi. Sin
+   sala, sin puerta y sin galeria: a un pozo no se entra.
+   Y el tubo se abre a su alrededor — la vertical de puntos se distorsiona al
+   pasar por el, que es lo que ya hacia la campana y lo que el pidio mantener. */
+function dibujarPozoTorre(n, ry0, cx){
+  var r  = Math.round(n.w/2),        // 8: el brocal de fuera
+      ri = Math.round(r*0.5),        // 4: el de dentro
+      m  = 3,                        // el largo de las cuatro marcas
+      cy = Math.round(ry0 + n.h/2);
+  cx = Math.round(cx);
 
-  /* el hueco: el tubo y sus hebras no la atraviesan */
-  ctx.clearRect(Math.round(cx)-rmax-6, ry0-4, bw+12, bh+8);
+  /* el hueco: el tubo y sus hebras no lo atraviesan */
+  ctx.clearRect(cx-r-m-3, cy-r-m-3, (r+m+3)*2, (r+m+3)*2);
 
-  /* EL PERFIL. Una campana es CONVEXA: el hombro se ensancha de golpe y el
-     cuerpo baja casi recto. Con un exponente >1 sale un cono —una copa, una
-     mesa— que es justo lo que salio al primer intento. El exponente va por
-     debajo de 1 y el hombro se come el primer tercio. */
-  function radio(t){ return 3.5 + (rmax-3.5)*Math.pow(t, 0.42); }
-
-  var yv=ry0+cor, yb=yv+cuerpo;
-  ctx.beginPath();
-  ctx.moveTo(cx-radio(0), yv);
-  for(var s=0;s<=cuerpo;s++) ctx.lineTo(cx-radio(s/cuerpo), yv+s);
-  for(var s2=cuerpo;s2>=0;s2--) ctx.lineTo(cx+radio(s2/cuerpo), yv+s2);
-  ctx.closePath();
-  ctx.fillStyle="hsla("+HUE.T+",32%,"+(7+luzActual())+"%,0.55)";
-  ctx.fill();
-  ctx.strokeStyle=tin(0.85); ctx.lineWidth=1; ctx.stroke();
-
-  /* la corona: el asa de la que cuelga. Pequena —un yugo ancho la volvia una
-     mesa de patas— y RELLENA, no contorneada: un strokeRect de 3 px de lado en
-     coordenadas .5 dibujaba mas borde que asa y salia torcida a la derecha. */
-  var cxr=Math.round(cx);
-  ctx.fillStyle=tin(0.9);
-  ctx.fillRect(cxr-2, ry0, 4, 1);          // el travesano
-  ctx.fillRect(cxr-2, ry0+1, 1, cor-2);    // los dos montantes
-  ctx.fillRect(cxr+1, ry0+1, 1, cor-2);
-  ctx.fillRect(cxr-4, ry0+cor-1, 9, 1);    // el hombro del que pende
-
-  /* el labio: la boca, mas gruesa, y ABIERTA — no se cierra por abajo */
-  ctx.fillStyle=tin(0.82);
-  ctx.fillRect(Math.round(cx-rmax), yb, bw, labio);
-
-  /* el badajo, asomando */
-  ctx.fillStyle=tin(0.7);
-  ctx.fillRect(Math.round(cx), yv+4, 1, cuerpo-3);
-  ctx.fillRect(Math.round(cx)-1, yb+labio, 3, 2);
-
-  /* dos rayas de sombra dentro del vaso: el poche de la casa, en vertical */
-  ctx.fillStyle=tin(0.28);
-  for(var yy=yv+6; yy<yb-2; yy+=3){
-    ctx.fillRect(Math.round(cx-radio((yy-yv)/cuerpo))+3, yy, 2, 1);
-    ctx.fillRect(Math.round(cx+radio((yy-yv)/cuerpo))-5, yy, 2, 1);
+  /* ESTA REJILLA NO TIENE ANTIALIAS (lo vio el, 2 ago). Todo lo demas del
+     plano son rectangulos y lineas rectas: pixeles encendidos o apagados. Un
+     arc()+stroke() mete medias tintas por su cuenta y el simbolo salia con un
+     sombreado fino que no tenia ningun otro elemento. Asi que el circulo se
+     rasteriza a mano, pixel a pixel, como cualquier pixel art — y aqui dentro
+     no se usa stroke() ni una vez. */
+  function circuloPix(rr, alfa){
+    ctx.fillStyle = tin(alfa);
+    var puestos = {};
+    for(var a=0; a<720; a++){
+      var an = a*Math.PI/360;
+      var x  = Math.round(cx + Math.cos(an)*rr);
+      var y  = Math.round(cy + Math.sin(an)*rr);
+      var k  = x+","+y;
+      if(puestos[k]) continue;
+      puestos[k] = 1;
+      ctx.fillRect(x, y, 1, 1);
+    }
   }
+
+  /* el disco de fondo, tambien rasterizado: un arc()+fill() deja el borde en
+     medias tintas justo donde el resto del plano es duro */
+  ctx.fillStyle = "hsla("+HUE.T+",32%,"+(7+luzActual())+"%,0.55)";
+  for(var y=-r; y<=r; y++){
+    var dx = Math.floor(Math.sqrt(r*r - y*y));
+    ctx.fillRect(cx-dx, cy+y, dx*2+1, 1);
+  }
+
+  circuloPix(r,  0.85);
+  circuloPix(ri, 0.85);
+
+  /* las cuatro marcas a los cuatro puntos, como el pozo de los planos de los
+     testimonios. fillRect y no moveTo/lineTo: una linea de 1 px en coordenada
+     entera se reparte entre dos pixeles y sale gris. */
+  ctx.fillStyle = tin(0.55);
+  ctx.fillRect(cx-r-m, cy,     m, 1);
+  ctx.fillRect(cx+r+1, cy,     m, 1);
+  ctx.fillRect(cx,     cy-r-m, 1, m);
+  ctx.fillRect(cx,     cy+r+1, 1, m);
 }
 
 function dibujarEstancia(n, ry0, cx){
