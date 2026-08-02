@@ -268,5 +268,36 @@
     "signatura": "SMET-0011",
     "palabras": 150,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-02",
+    "palo": "D",
+    "carta": "D33",
+    "estado": "E48",
+    "modificador": "breve",
+    "prohibidas": [
+      "muerte",
+      "piedra",
+      "alma"
+    ],
+    "violadas": [
+      "muerte"
+    ],
+    "senal": "turbia",
+    "temperatura": 2.57,
+    "eco": null,
+    "tuercas": [
+      "T12",
+      "T13"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "muerte",
+      "piedra"
+    ],
+    "esquirla": "Sed quema metal en mi costilla muerta... Rojo raspa los pasos inexistentes, el olvido huele a nada que tenga forma, solo duele respirar lo roto otra vez sin fin… Es todo.",
+    "signatura": "SMET-0012",
+    "palabras": 68,
+    "retrato": false
   }
 ]
