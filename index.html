@@ -27,7 +27,9 @@
     --t-micro:.72rem;        /* etiquetas, botones, susurros */
     --t-base:.82rem;         /* lo que se lee de corrido */
     --k-rotulo:.16em;        /* botones [ entre corchetes ], 3-5 palabras */
-    --k-frase:.12em;         /* frases de verdad: nunca mas de esto */
+    --k-frase:.12em;
+    /* el desenfoque con el que llega una palabra, y con el que llega la señal */
+    --llega-blur:3px;         /* frases de verdad: nunca mas de esto */
     /* la brisa: todo el color nace de un matiz que la tirada de la noche desplaza,
        y de una luz que la señal hunde o levanta (abisal se hunde, clara clarea) */
     --matiz:222;
@@ -149,7 +151,7 @@
   /* llegada de la última transmisión */
   .tx.reciente .w{opacity:0;animation:llega .5s forwards}
   @keyframes llega{
-    0%{opacity:0;filter:blur(3px)}
+    0%{opacity:0;filter:blur(var(--llega-blur))}
     60%{opacity:.9;filter:blur(0);transform:translateX(.5px)}
     100%{opacity:1;transform:none}
   }
@@ -212,6 +214,35 @@
     width:100vw;height:130%;z-index:-1;pointer-events:none;
     background:linear-gradient(180deg,var(--fondo) 45%,transparent 100%);
     opacity:.6;
+  }
+  /* EL DESENFOQUE DE LA SEÑAL (2 ago, idea suya). Además del velo, el fondo se
+     desenfoca hacia arriba — y no es un adorno: **3 px es EXACTAMENTE el blur con
+     el que llegan las palabras del testimonio** (@keyframes llega), así que la
+     señal aparece igual que aparece una voz. Por eso vive en un token: un valor,
+     un sitio (ley 1).
+     LA RAMPA ES DE LA MÁSCARA, NO DEL RADIO: un backdrop-filter no admite radio
+     variable, y apilar cuatro capas para fingirlo no compensa sobre un fondo casi
+     negro. El blur es constante y su máscara va de entero arriba a nada abajo,
+     que es justo lo que se ve.
+     Va en ::after a z-index -2, DEBAJO del velo (-1): primero se desenfoca lo que
+     pasa por detrás, y encima cae el velo. */
+  #senal::after{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    /* MAS ALTA QUE EL VELO A PROPOSITO (220% contra 130%): asi el desenfoque
+       alcanza a toda la banda y su borde duro queda muy por debajo, donde la
+       mascara ya vale cero desde hace rato. La caja del blur y la del velo no
+       tienen por que medir lo mismo. */
+    width:100vw;height:220%;z-index:-2;pointer-events:none;
+    -webkit-backdrop-filter:blur(var(--llega-blur));
+    backdrop-filter:blur(var(--llega-blur));
+    /* LA MASCARA MUERE ANTES QUE LA CAJA (62%, no 100%). Un backdrop-filter
+       no tiene fondo mas alla de su propio borde: se corta en seco y deja una
+       costura horizontal de lado a lado. Medido: llegando al 100% el mayor
+       salto entre filas contiguas subia de 0,890 a 1,877 — el doble. Con el
+       desenfoque ya en cero un tercio antes del borde, ese borde no lleva nada
+       que cortar. */
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,0) 45%);
+    mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,0) 45%);
   }
   #ondaCv{width:150px;height:28px;display:block;margin:0 auto;image-rendering:pixelated}
   /* EL BLOQUE DE LA SEÑAL — el boton y el enlace son el MISMO rango, asi
