@@ -24,6 +24,46 @@
   var FORZAR = location.search.indexOf("ensayo") >= 0 ? "abre"
              : location.search.indexOf("tapia")  >= 0 ? "cierra" : null;
 
+  /* EL BUZON. Antes de ofrecer sitio se le pregunta si QUEDA sitio: el
+     calendario dice si hoy toca, pero solo el buzon sabe si las dos plazas
+     siguen libres. Su direccion no es secreta; la clave del ensayo si lo es y
+     por eso llega por la URL, nunca escrita aqui (este archivo se publica). */
+  var BUZON = "https://torre-buzon.dumaker.workers.dev";
+  var ENSAYO = (function(){
+    var m = location.search.match(/[?&]ensayo=([^&]+)/);
+    var v = m && m[1] ? decodeURIComponent(m[1]) : null;
+    try{
+      if(v) localStorage.setItem("thecla-ensayo", v);
+      return location.search.indexOf("ensayo") >= 0
+           ? (localStorage.getItem("thecla-ensayo") || "") : "";
+    }catch(e){ return v || ""; }
+  })();
+
+  /* Si el buzon no contesta, NO decide: la torre ofrece igual y el zaguan dira
+     el cierre que toque. Callar la obra entera porque un servidor parpadeo
+     seria peor que ofrecer una plaza que quiza ya no este. */
+  function quedaSitio(){
+    return fetch(BUZON + "/queda" + (ENSAYO ? "?ensayo=" + encodeURIComponent(ENSAYO) : ""),
+                 {cache: "no-store"})
+      .then(function(r){ return r.json(); })
+      .then(function(q){ return !(q && q.abierta === false); })
+      .catch(function(){ return true; });
+  }
+
+  /* LA BANDERA VIAJA CON EL PASO. Sin esto, ensayar desde el archivo te dejaba
+     en un zaguan tapiado: el hueco se abria con ?ensayo pero el enlace iba
+     limpio, y alli la fecha real vuelve a mandar. Solo se anade cuando el
+     autor ya trae la bandera puesta; para el visitante el enlace no cambia. */
+  (function(){
+    var paso = document.getElementById("huecoPaso");
+    if(!paso || !FORZAR) return;
+    var h = paso.getAttribute("href");
+    if(!h) return;                 /* sin enlace no hay nada que decorar */
+    var q = ENSAYO ? "?ensayo=" + encodeURIComponent(ENSAYO)
+          : FORZAR === "abre" ? "?ensayo" : "?tapia";
+    paso.setAttribute("href", h.split("?")[0] + q);
+  })();
+
   var LLAVE = "thecla.hueco.";
   /* EL MISMO TAMANO EN TODA LA OBRA (1 ago, tercera correccion suya: en el
      modal seguia grande). x3 sobre un lienzo de 44 son 132x192, exactamente lo
@@ -187,9 +227,16 @@
          Sin esto, probarlo una vez lo dejaba mudo para siempre. */
       if(FORZAR === "abre") olvidar(v.abre);
       if(dejadoPasar(v.abre)) return;   /* ya lo dejo pasar en esta ventana */
-      ventana = v;
-      var n = parseInt(cal && cal.trasTestimonios, 10);
-      armar(n > 0 ? n : 2);
+      /* ?ensayo a secas es la herramienta de DISENO: ensena el hueco pase lo
+         que pase, como hasta ahora. Solo se le pregunta al buzon cuando la
+         ventana es de verdad. */
+      return (FORZAR === "abre" ? Promise.resolve(true) : quedaSitio())
+        .then(function(hay){
+          if(!hay) return;                /* el buzon dice que ya no queda sitio */
+          ventana = v;
+          var n = parseInt(cal && cal.trasTestimonios, 10);
+          armar(n > 0 ? n : 2);
+        });
     })
     .catch(function(){ /* sin calendario, la torre no ofrece nada */ });
 })();

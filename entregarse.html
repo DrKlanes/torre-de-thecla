@@ -240,6 +240,15 @@
     margin-top:.7rem;font-family:'Courier New',monospace;
     font-size:var(--t-micro);color:var(--apagado);letter-spacing:.14em;
   }
+  /* EL RESGUARDO — lo unico que el visitante se lleva. Monoespaciada, no
+     gotica: es un numero de expediente, no una voz. Tracking ancho porque
+     es una palabra suelta en caps (legibilidad v2.1) y a --texto porque es
+     lo unico de la pagina que hay que poder copiar sin dudar. */
+  .q-firma{
+    margin:1.8rem 0 0;font-family:'Courier New',monospace;
+    font-size:clamp(1.15rem, 5.2vw, 1.5rem);letter-spacing:.22em;
+    color:var(--texto);line-height:1.4;word-break:break-all;
+  }
   /* ==== NIVEL NUEVO DEL SISTEMA: EL BOTON LLENO ====
      Hasta ahora todos los botones eran susurros: sin caja, en --frio, con la
      firma de los corchetes. Eso vale para «otra cara», que se puede pulsar
@@ -510,6 +519,27 @@ function dibujarReflejo(cv){
 var FORZAR = location.search.indexOf("ensayo") >= 0 ? "abre"
            : location.search.indexOf("tapia")  >= 0 ? "cierra" : null;
 
+/* EL BUZON. Vive en Cloudflare, fuera de esta web y fuera del repo. Su
+   direccion no es un secreto: el navegador tiene que llamarla a la vista
+   de todos. Lo que si es secreto es la clave del ensayo, y por eso NO
+   PUEDE ESCRIBIRSE AQUI: este archivo se publica entero cada noche.
+   La clave llega por la URL una sola vez (?ensayo=CLAVE, que es lo que
+   hace buzon\ensayar.bat) y el navegador la recuerda; despues basta con
+   ?ensayo a secas, como el resto de banderas de autor de la obra. */
+var BUZON = "https://torre-buzon.dumaker.workers.dev";
+var ENSAYO = (function(){
+  var m = location.search.match(/[?&]ensayo=([^&]+)/);
+  var v = m && m[1] ? decodeURIComponent(m[1]) : null;
+  try{
+    if(v) localStorage.setItem("thecla-ensayo", v);
+    return location.search.indexOf("ensayo") >= 0
+         ? (localStorage.getItem("thecla-ensayo") || "") : "";
+  }catch(e){ return v || ""; }
+})();
+function puertaDelBuzon(ruta){
+  return BUZON + ruta + (ENSAYO ? "?ensayo=" + encodeURIComponent(ENSAYO) : "");
+}
+
 function hoyISO(){
   var d = new Date();
   return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0")
@@ -534,7 +564,13 @@ function ventanaDeHoy(cal){
 var CIERRE = {
   fecha:    "Hoy no guardo a nadie.",
   cupo:     "Ya hay dos dentro. Están a salvo.",
-  a_medias: "Otros dos terminaron antes. Ya están a salvo."
+  a_medias: "Otros dos terminaron antes. Ya están a salvo.",
+  /* dos mas, que la fase 3 destapa y la fase 2 no podia ver. BORRADORES:
+     4. ya te entregaste hoy (el buzon guarda una por casa y dia)
+     5. el buzon no contesto — no es la torre hablando, es una averia, y
+        por eso es el unico de los cinco que deja volver a intentarlo. */
+  ya_estas: "Hoy ya te guardé una vez.",
+  roto:     "No he podido guardarte. Prueba otra vez."
 };
 var TAPIA = CIERRE.fecha;
 
@@ -639,10 +675,10 @@ function barajar(){
    De las 11 se muestran 6: las 2 fijas y 4 sorteadas de las 9
    rotatorias. 126 cuestionarios distintos.
    Al elegir se avanza y no se vuelve. Se avisa antes.
-   FASE 2: al final NO se envia nada. Se escupe por consola lo
-   que se mandaria, que es donde acaba esta fase.
+   FASE 3: al final el sobre viaja al buzon, que devuelve el resguardo
+   o el cierre que toque. Del visitante solo viaja un NUMERO por respuesta.
    ============================================================ */
-var BANCO = null, GUION = [], PASO = 0, RESPUESTAS = [], LIBRE = "";
+var BANCO = null, GUION = [], PASO = 0, RESPUESTAS = [], LIBRE = "", PIDE = null;
 
 function revolver(a){                      // Fisher-Yates, sin sorpresas
   for(var i = a.length - 1; i > 0; i--){
@@ -682,7 +718,11 @@ function pintarPaso(){
   var d = el("div", "paso");
 
   if(q.libre){
-    var enun = BANCO.libre.enunciados[Math.floor(Math.random() * BANCO.libre.enunciados.length)];
+    /* CUAL de los enunciados se pregunta tambien viaja, como numero: uno pide
+       un LUGAR y otros piden un NOMBRE, y sin saber cual salio la fase 4 no
+       podria distinguir si «Marta» es una persona o un sitio. */
+    PIDE = Math.floor(Math.random() * BANCO.libre.enunciados.length);
+    var enun = BANCO.libre.enunciados[PIDE];
     d.appendChild(el("p", "q-torre", enun));
     var inp = document.createElement("input");
     inp.type = "text"; inp.id = "libre"; inp.maxLength = BANCO.libre.max;
@@ -714,13 +754,17 @@ function pintarPaso(){
 
   d.appendChild(el("p", "q-torre", q.torre));
   var lista = el("div", "q-lista");
-  revolver(q.opciones.slice()).forEach(function(o){
+  /* Se baraja el PAR (opcion, su numero en el banco), no la opcion sola:
+     al buzon solo viaja el NUMERO, y barajar el array a secas lo perdia. */
+  revolver(q.opciones.map(function(o, i){ return {o: o, i: i}; })).forEach(function(par){
+    var o = par.o;
     var b = el("button", "op", o.texto);
     b.addEventListener("click", function(){
       if(b.classList.contains("elegida")) return;
       b.classList.add("elegida");
       [].forEach.call(lista.querySelectorAll(".op"), function(x){ x.disabled = true; });
-      RESPUESTAS.push({pregunta: q.id, texto: o.texto, carta: o.carta, voz: o.voz || null});
+      RESPUESTAS.push({pregunta: q.id, opcion: par.i,
+                       texto: o.texto, carta: o.carta, voz: o.voz || null});
       setTimeout(avanzar, 420);            // que se vea lo que ha elegido
     });
     lista.appendChild(b);
@@ -737,47 +781,86 @@ function avanzar(){
   $("#entrega").scrollIntoView({behavior: quieto ? "instant" : "smooth", block: "start"});
 }
 
-/* FASE 2: no hay buzon todavia. Se enseña por consola lo que se mandaria. */
+/* ============================================================
+   FASE 3: EL SOBRE SE ENTREGA AL BUZON.
+   DEL VISITANTE SOLO VIAJA UN NUMERO — el indice de la opcion dentro del
+   banco. El texto de la carta lo pone el Worker leyendo preguntas.json, asi
+   que manipular este navegador no sirve para escribirse la propia carta: la
+   encuesta cerrada sigue cerrada de verdad.
+   Lo que se manda cabe en tres lineas: tres piezas de rostro, los numeros de
+   las respuestas, y hasta 24 caracteres de texto libre que el buzon filtra.
+   ============================================================ */
+var _entregando = false;
+
 function entregar(){
-  /* El sobre NO es un montón de respuestas: viene ordenado por importancia,
-     porque el §10 pone dos techos que hay que respetar en la fase 4.
-     · LA CARTA: «una linea de catalogo, maximo 15 palabras». Encadenar los
-       seis fragmentos da 45 palabras y seis «que» seguidos. Los dos primeros
-       (la herida y la voz) son el NUCLEO; los otros cuatro son COLOR, y Big
-       Tiger destila, no concatena.
-     · LA VOZ: «dos o tres rasgos de habla en telegrama». Seis rasgos no
-       anclan nada. Manda la de `boca`, que es la pregunta escrita para eso. */
-  function de(id){
-    for(var i = 0; i < RESPUESTAS.length; i++) if(RESPUESTAS[i].pregunta === id) return RESPUESTAS[i];
-    return null;
-  }
-  var rBoca = de("boca"), rPuerta = de("puerta");
+  if(_entregando) return;                    // el doble clic no entrega dos veces
+  _entregando = true;
+  var btn = document.querySelector("#paso .boton-lleno");
+  var inp = document.getElementById("libre");
+  if(btn){ btn.disabled = true; btn.textContent = "entregando"; }
+  if(inp){ inp.disabled = true; }
+
   var sobre = {
     rostro: {f: sel[0], m: sel[1], b: sel[2]},
-    nucleo: [rPuerta && rPuerta.carta, rBoca && rBoca.carta].filter(Boolean),
-    color:  RESPUESTAS.filter(function(r){ return r.pregunta !== "puerta" && r.pregunta !== "boca"; })
-                      .map(function(r){ return r.carta; }),
-    voz:    rBoca ? rBoca.voz : null,
-    vozExtra: RESPUESTAS.filter(function(r){ return r.voz && r.pregunta !== "boca"; })
-                        .map(function(r){ return r.voz; }),
+    respuestas: RESPUESTAS.map(function(r){
+      return {pregunta: r.pregunta, opcion: r.opcion};
+    }),
     libre: LIBRE,
-    respuestas: RESPUESTAS.map(function(r){ return {pregunta: r.pregunta, texto: r.texto}; }),
-    banco: BANCO.version
+    pide: PIDE
   };
-  console.log("%c EL SOBRE QUE SE MANDARIA AL BUZON ", "background:#1e2638;color:#c2c8d6");
-  console.log(JSON.stringify(sobre, null, 2));
-  console.log("MATERIA PRIMA de su carta (Big Tiger destila esto en <=15 palabras, NO lo encadena):");
-  console.log("   nucleo: " + sobre.nucleo.join(" · "));
-  console.log("   color:  " + sobre.color.join(" · "));
-  console.log("   voz:    " + (sobre.voz || "—"));
 
+  fetch(puertaDelBuzon("/entregarse"), {
+    method: "POST",
+    headers: {"content-type": "application/json"},
+    body: JSON.stringify(sobre)
+  })
+  .then(function(r){ return r.json(); })
+  .catch(function(){ return null; })
+  .then(function(res){
+    if(res && res.signatura) return guardado(res);
+
+    /* que no conteste NO es la torre hablando: es una averia. Es el unico
+       caso en que se puede volver a pulsar, porque perder un engullido por
+       un parpadeo de la red seria perderlo del todo. */
+    if(!res){
+      _entregando = false;
+      if(btn){ btn.disabled = false; btn.textContent = "entregarme"; }
+      if(inp){ inp.disabled = false; }
+      var n = document.getElementById("q-roto");
+      if(!n && btn){ n = el("p", "q-nota", ""); n.id = "q-roto"; btn.parentNode.appendChild(n); }
+      if(n) n.textContent = CIERRE.roto;
+      return;
+    }
+
+    /* si el cupo se llena MIENTRAS contestaba, el cierre no es «ya hay dos
+       dentro»: es el tercero, el que se escribio justo para este momento. */
+    var c = res.cierre;
+    cerrar(c === "cupo"  ? CIERRE.a_medias
+         : c === "fecha" ? CIERRE.fecha
+         : c === "ip"    ? CIERRE.ya_estas
+         :                 CIERRE.roto);
+  });
+}
+
+/* EL RESGUARDO. Lo unico que se lleva. BORRADOR: el copy es suyo. */
+function guardado(res){
   var caja = $("#paso");
   caja.innerHTML = "";
   var d = el("div", "paso");
-  d.appendChild(el("p", "q-torre", "Aquí acaba la fase 2: todavía no hay buzón."));
-  d.appendChild(el("p", "q-nota",
-    "El sobre está en la consola del navegador (F12). Lleva tu rostro, tus seis "
-    + "respuestas, el campo libre y la línea con la que la torre te escribiría."));
+  d.appendChild(el("p", "q-torre", "Ya estás dentro."));
+  d.appendChild(el("p", "q-firma", res.signatura));
+  d.appendChild(el("p", "q-nota", "Ese es tu resguardo. No lo repetiré."));
+  /* la marca del autor: en ensayo, que no quede duda de que no ha pasado */
+  if(res.ensayo) d.appendChild(el("p", "q-nota", "— ensayo del autor · esto no ha ocurrido —"));
+  caja.appendChild(d);
+  $("#pasos").innerHTML = "";
+}
+
+function cerrar(texto){
+  var caja = $("#paso");
+  caja.innerHTML = "";
+  var d = el("div", "paso");
+  d.appendChild(el("p", "q-torre", texto));
   caja.appendChild(d);
   $("#pasos").innerHTML = "";
 }
