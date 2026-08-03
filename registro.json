@@ -299,5 +299,34 @@
     "signatura": "SMET-0012",
     "palabras": 68,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-03",
+    "palo": "D",
+    "carta": "D32",
+    "estado": "E35",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "grito",
+      "carne"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "crecida": true,
+    "aprendidas": [
+      "dedos",
+      "grito"
+    ],
+    "esquirla": "Ceniza entre huesos rotos. La grieta llena los espacios donde ya no hay mapa ni yo…",
+    "signatura": "SMET-0013",
+    "palabras": 328,
+    "retrato": false
   }
 ]
