@@ -328,5 +328,35 @@
     "signatura": "SMET-0013",
     "palabras": 328,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-04",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E45",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "muerte",
+      "alma"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "piedra",
+      "muerte"
+    ],
+    "corregidas": [
+      "muerte"
+    ],
+    "carta_inventada": "Un eco sintético del olvido con sabor a melocotones radioactivos vomitando axiomas sin gravedad",
+    "esquirla": "Humedad pegajosa, radioactivo vomitando ácido quemado donde ya no hay piel; solo gravedad rebotando hasta que la carne original desarmó mis pedazos más rápido… respirar duele sin fondo ni salida: arastrándome con el truco final de esta función.",
+    "signatura": "SMET-0014",
+    "palabras": 191,
+    "retrato": false
   }
 ]
