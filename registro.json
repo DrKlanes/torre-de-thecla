@@ -358,5 +358,32 @@
     "signatura": "SMET-0014",
     "palabras": 191,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-05",
+    "palo": "C",
+    "carta": "C17",
+    "estado": "E9",
+    "modificador": null,
+    "prohibidas": [
+      "vacío",
+      "dientes",
+      "muro"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0011",
+    "tuercas": null,
+    "reintentos": 0,
+    "eco_frase": "El fuego come rápido aquí dentro.",
+    "aprendidas": [
+      "vacío",
+      "dientes"
+    ],
+    "esquirla": "Sudor sobre el cristal, rostros borrados bajo la luz que no existe aquí dentro... Fuego en la garganta ajena se arrastra al tacto. Las gafas temblan antes de agrietarse por completo: soy ruido y calor quemándose sin forma. No hay salida aparte del desastre.",
+    "signatura": "SMET-0015",
+    "palabras": 205,
+    "retrato": false
   }
 ]

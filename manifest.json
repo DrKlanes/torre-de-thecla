@@ -83,6 +83,12 @@
       "signatura": "SMET-0014",
       "fecha": "2026-08-04T03:34:40+02:00",
       "torre": false
+    },
+    {
+      "archivo": "fragmentos/SMET-0015.md",
+      "signatura": "SMET-0015",
+      "fecha": "2026-08-05T03:34:21+02:00",
+      "torre": false
     }
   ]
 }
