@@ -385,5 +385,34 @@
     "signatura": "SMET-0015",
     "palabras": 205,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-06",
+    "palo": "C",
+    "carta": "C45",
+    "estado": "E5",
+    "modificador": null,
+    "prohibidas": [
+      "alma",
+      "muerte",
+      "huesos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "alma",
+      "muerte"
+    ],
+    "corregidas": [
+      "huesos"
+    ],
+    "esquirla": "La arcilla retorcida entre dientes que sangran lento; busco mis pedazos rotos bajo el escenario… metal húmedo en la boca, un zumbido pegado a lo vacío antes que recuerde siquiera haber respirado esto.",
+    "signatura": "SMET-0016",
+    "palabras": 223,
+    "retrato": false
   }
 ]
