@@ -414,5 +414,33 @@
     "signatura": "SMET-0016",
     "palabras": 223,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-07",
+    "palo": "A",
+    "carta": "A3",
+    "estado": "E24",
+    "modificador": null,
+    "prohibidas": [
+      "vomitar",
+      "carne",
+      "oscuridad"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.15,
+    "eco": null,
+    "tuercas": [
+      "T17"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "vomitar",
+      "carne"
+    ],
+    "esquirla": "Tu voz huele a cera rancia y miedo quieto bajo los dientes… solo un latido lento antes del final eterno donde nadie te busca. No hay escapes, ni salvación. Solo la torre tragándote como polvo con sabor a alma muerta.",
+    "signatura": "SMET-0017",
+    "palabras": 214,
+    "retrato": false
   }
 ]
