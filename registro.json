@@ -442,5 +442,35 @@
     "signatura": "SMET-0017",
     "palabras": 214,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-08",
+    "palo": "A",
+    "carta": "A2",
+    "estado": "E34",
+    "modificador": "breve",
+    "prohibidas": [
+      "sangre",
+      "muro",
+      "escupir"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sangre",
+      "muro"
+    ],
+    "corregidas": [
+      "sangre",
+      "muro"
+    ],
+    "esquirla": "La piedra hecha después huele a frío roto bajo el pulgar sin carne…",
+    "signatura": "SMET-0018",
+    "palabras": 238,
+    "retrato": true
   }
 ]
