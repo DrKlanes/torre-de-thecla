@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Huerfana a proposito, como el zaguan: aqui no se llega navegando, se llega
+     con un resguardo en la mano. Lo que no tiene puerta tampoco sale en Google. -->
+<meta name="robots" content="noindex,nofollow">
+<title>QUIÉN ERES — La Torre de Thecla</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jacquard+12&family=Noticia+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Los MISMOS cuatro tokens del archivo, el plano y el zaguan (DISENO.md),
+       definidos una vez. El movil de abajo solo los redefine. */
+    --t-micro:.72rem;
+    --t-base:.82rem;
+    --k-rotulo:.16em;
+    --k-frase:.12em;
+    /* la brisa del palo A: el despistado, una vez dentro, esta tan tragado
+       como cualquiera. Es la misma que el zaguan por el mismo motivo. */
+    --matiz:222;
+    --luz:0%;
+    --fondo:hsl(var(--matiz), 48%, calc(5% + var(--luz)));
+    --texto:hsl(var(--matiz), 19%, calc(80% + var(--luz)));
+    --frio:hsl(var(--matiz), 20%, calc(64% + var(--luz)));
+    --apagado:hsl(var(--matiz), 16%, calc(45% + var(--luz)));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--fondo);color:var(--frio);
+    font-family:'Noticia Text',Georgia,serif;
+    font-size:var(--t-base);line-height:1.75;letter-spacing:var(--k-frase);
+    min-height:100vh;padding:2.6rem 1.4rem 5rem;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .vuelta{
+    display:block;margin-bottom:3.4rem;
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    letter-spacing:var(--k-rotulo);color:var(--apagado);text-decoration:none;
+    padding:.85rem 1rem;                       /* ley 6: diana de 44 px */
+  }
+  .vuelta:hover,.vuelta:focus-visible{color:var(--frio);outline:none}
+  main{width:100%;max-width:30rem;text-align:center}
+  h1{
+    font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:clamp(2rem, 9vw, 3rem);line-height:1.1;letter-spacing:normal;
+    color:var(--frio);opacity:.85;margin-bottom:2.6rem;
+  }
+  .voz{                                        /* la torre hablando */
+    font-family:'Jacquard 12','Courier New',monospace;font-weight:400;
+    font-size:clamp(1.4rem, 6.4vw, 2rem);line-height:1.2;
+    letter-spacing:normal;color:var(--frio);opacity:.85;margin-bottom:1.6rem;
+  }
+  .nota{
+    font-size:var(--t-micro);letter-spacing:var(--k-frase);
+    color:var(--apagado);line-height:1.9;margin-top:1.5rem;
+  }
+  /* EL RESGUARDO — el mismo tratamiento que en el zaguan: monoespaciada, no
+     gotica. Es un numero de expediente, no una voz. */
+  .resguardo{
+    margin:1.8rem 0 .3rem;font-family:'Courier New',monospace;
+    font-size:clamp(1.15rem, 5.2vw, 1.5rem);letter-spacing:.22em;
+    color:var(--texto);line-height:1.4;word-break:break-all;
+  }
+  .cuando{
+    font-family:'Courier New',monospace;font-size:var(--t-micro);
+    letter-spacing:.24em;color:var(--apagado);margin-bottom:2.2rem;
+  }
+  /* LA LINEA que la torre le escribio. Solo aparece cuando ya ha hablado:
+     antes de eso todavia se le esta digiriendo, y no se le adelanta. */
+  .linea{
+    font-family:'Noticia Text',Georgia,serif;font-style:italic;
+    font-size:1.02rem;line-height:1.7;color:var(--texto);
+    margin:2rem 0 .4rem;
+  }
+  /* el formulario: la opcion y el boton comparten declaracion (ley 1) */
+  #codigo,.boton{
+    -webkit-appearance:none;appearance:none;
+    width:100%;min-height:48px;padding:.85rem 1.1rem;
+    background:none;border:1px solid hsl(var(--matiz), 18%, 22%);
+    font-family:'Courier New',monospace;
+    font-size:var(--t-base);letter-spacing:.18em;
+    color:var(--frio);line-height:1.5;text-align:center;
+  }
+  #codigo::placeholder{color:var(--apagado);opacity:.7}
+  #codigo:focus{outline:none;border-color:hsl(var(--matiz), 34%, 46%);color:var(--texto)}
+  .boton{margin-top:.6rem;cursor:pointer;letter-spacing:var(--k-rotulo)}
+  .boton:hover,.boton:focus-visible{
+    color:var(--texto);border-color:hsl(var(--matiz), 22%, 40%);
+    background:hsl(var(--matiz), 40%, 8%);outline:none;
+  }
+  /* leer lo que dijo: susurro entre corchetes, no caja solida — se puede
+     pulsar cincuenta veces sin consecuencia (la regla de las dos familias) */
+  .leer{
+    background:none;border:none;cursor:pointer;color:var(--frio);
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    letter-spacing:var(--k-rotulo);padding:.85rem 1rem;margin-top:1.4rem;
+  }
+  .leer:hover,.leer:focus-visible{color:var(--texto);outline:none}
+  .texto{
+    display:none;margin-top:1.4rem;text-align:left;
+    font-size:.94rem;line-height:1.85;color:var(--frio);
+  }
+  .texto p{margin-bottom:1.05rem}
+  .cara{margin:0 auto 1.4rem;width:176px}
+  .cara canvas{width:100%;display:block;image-rendering:pixelated}
+  .oculto{display:none}
+  @media (max-width:600px){
+    :root{--t-micro:.82rem;--t-base:.90rem;--k-frase:.06em}
+    body{padding-top:1.6rem}
+  }
+</style>
+</head>
+<body>
+
+<a class="vuelta" href="index.html">[ el archivo ]</a>
+
+<main>
+  <h1>QUIÉN ERES</h1>
+  <div id="cuerpo"></div>
+</main>
+
+<script src="retratos.js"></script>
+<script>
+/* ============================================================
+   QUIÉN ERES — la ficha del despistado          (fase 5, §20)
+   ------------------------------------------------------------
+   Alguien se entregó, se llevó un resguardo, y vuelve. Puede volver a los tres
+   días o en 2031. Esta página existe para que, cuando vuelva, el proyecto siga
+   ahí y sepa quién es.
+
+   NO HAY SERVIDOR. Lee los mismos archivos públicos que el resto de la web:
+   engullidos.json (quién entró), registro.json (quién ha hablado) y
+   manifest.json (dónde está lo que dijo). El rostro lo pinta retratos.js, con
+   el censo que ya carga por su cuenta.
+
+   LA FICHA ES LA HABITACIÓN, NO EL EXPEDIENTE (regla suya, 29 jul). Aquí no
+   sale su palo, ni el código de su carta, ni la señal, ni el estado: eran
+   números de catálogo en una web pública. Sale lo que le pasó dentro.
+
+   CUATRO ESTADOS, y el tercero es el que dura meses:
+     1. sin código          — se le pide
+     2. no lo reconoce      — la torre no le debe explicaciones
+     3. dentro, aún callado — EL NORMAL. No se le promete cuándo (decisión
+                              del 1 ago: la espera no se anuncia en ninguna parte)
+     4. ya habló            — su cara con la luz de esa noche, su línea, y lo que dijo
+
+   ⚠ TODO EL COPY DE ESTA PÁGINA ES BORRADOR MÍO HASTA QUE ÉL LO DESTROCE.
+   ============================================================ */
+(function(){
+  "use strict";
+  var R = window.__retratos;
+  var cuerpo = document.getElementById("cuerpo");
+  var el = function(t, c, x){
+    var e = document.createElement(t);
+    if(c) e.className = c;
+    if(x != null) e.textContent = x;
+    return e;
+  };
+
+  /* --------- BORRADORES: el copy es suyo --------- */
+  var DICE = {
+    pide:      "Dime cómo te llamé.",
+    pista:     "El resguardo que te llevaste.",
+    boton:     "mirar",
+    nadie:     "No tengo a nadie con ese nombre.",
+    vacio:     "Todavía no hay nadie dentro.",
+    callado:   "Estás dentro. Todavía no te he nombrado.",
+    hablo:     "Ya hablaste.",
+    leer:      "[ leer lo que dijiste ]",
+    cerrar:    "[ cerrar ]",
+    roto:      "No consigo mirar el archivo. Vuelve más tarde."
+  };
+
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio",
+               "agosto","septiembre","octubre","noviembre","diciembre"];
+  function enLetra(iso){
+    var p = String(iso || "").slice(0, 10).split("-");
+    if(p.length !== 3) return "";
+    return (+p[2]) + " de " + MESES[(+p[1]) - 1] + " de " + p[0];
+  }
+
+  /* el resguardo se escribe como se pueda: con prefijo o sin él, con espacios,
+     en minúsculas. Lo que viaja siempre es lo mismo. */
+  function normalizar(s){
+    s = String(s || "").toUpperCase().replace(/[^A-Z0-9-]/g, "");
+    return s.replace(/^-+|-+$/g, "");
+  }
+  function coincide(a, b){
+    a = normalizar(a); b = normalizar(b);
+    if(a === b) return true;
+    /* sin guiones: quien lo copie de un papel puede poner un espacio, o ninguno */
+    if(a.replace(/-/g, "") === b.replace(/-/g, "")) return true;
+    var ca = a.split("-").pop(), cb = b.split("-").pop();   /* solo la parte corta */
+    return !!ca && ca.length >= 4 && ca === cb;
+  }
+
+  function pedirJSON(ruta){
+    return fetch(ruta + "?v=" + Date.now())
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; });
+  }
+
+  /* ---------------------------------------------- 1 y 2: el formulario */
+  function pedirCodigo(mensaje){
+    cuerpo.innerHTML = "";
+    cuerpo.appendChild(el("p", "voz", mensaje || DICE.pide));
+    var inp = document.createElement("input");
+    inp.type = "text"; inp.id = "codigo"; inp.maxLength = 24;
+    inp.setAttribute("autocomplete", "off");
+    inp.setAttribute("autocapitalize", "characters");
+    inp.setAttribute("spellcheck", "false");
+    inp.setAttribute("aria-label", DICE.pista);
+    inp.placeholder = "LTDT-·····";
+    cuerpo.appendChild(inp);
+    var btn = el("button", "boton", DICE.boton);
+    cuerpo.appendChild(btn);
+    cuerpo.appendChild(el("p", "nota", DICE.pista));
+    function ir(){
+      var v = normalizar(inp.value);
+      if(v.length < 4) return;
+      /* la URL se queda con el código: así se puede guardar en marcadores y
+         volver dentro de cinco años sin acordarse de nada. */
+      try{ history.replaceState(null, "", "quien-soy.html?c=" + encodeURIComponent(v)); }catch(e){}
+      buscar(v);
+    }
+    btn.addEventListener("click", ir);
+    inp.addEventListener("keydown", function(ev){
+      if(ev.key === "Enter"){ ev.preventDefault(); ir(); }
+    });
+    setTimeout(function(){ inp.focus(); }, 250);
+  }
+
+  /* ---------------------------------------------- 3 y 4: la ficha */
+  function pintar(ficha, noches, manifest, atlas, censo){
+    cuerpo.innerHTML = "";
+    var hablo = noches.length > 0;
+    var primera = hablo ? noches[0] : null;
+
+    /* EL ROSTRO. Antes de hablar se pinta con la cara que él montó y a luz
+       neutra: la torre aún no le ha visto bien. Después, con su expediente
+       —que lleva la nitidez con que le vio la primera noche— y la señal de
+       aquella. El mismo rostro, más entero o más hundido. */
+    var exp = (hablo && censo && censo[ficha.carta]) ? censo[ficha.carta]
+            : (ficha.rostro ? {f:ficha.rostro.f, m:ficha.rostro.m, b:ficha.rostro.b, v:0} : null);
+    if(exp && atlas){
+      var caja = R.montar(atlas, exp, {palo:"Z", senal: primera ? primera.senal : "turbia"}, "cara");
+      cuerpo.appendChild(caja);
+      R.volcar(caja.__retrato);
+      caja.__retrato.revelado = true;
+      R.titilar(caja.__retrato);        /* la señal nunca está del todo sujeta */
+    }
+
+    cuerpo.appendChild(el("p", "resguardo", ficha.signatura));
+    if(ficha.engullido){
+      cuerpo.appendChild(el("p", "cuando", "te tragué el " + enLetra(ficha.engullido)));
+    }
+
+    if(!hablo){
+      cuerpo.appendChild(el("p", "voz", DICE.callado));
+      return;                            /* y NADA MÁS: la espera no se promete */
+    }
+
+    cuerpo.appendChild(el("p", "voz", DICE.hablo));
+    cuerpo.appendChild(el("p", "cuando", "la noche del " + enLetra(primera.noche)));
+    if(ficha.linea){
+      /* «Eres ...» — la plantilla del §2, la misma que oye la voz */
+      var l = ficha.linea;
+      cuerpo.appendChild(el("p", "linea", "Eres " + l.charAt(0).toLowerCase() + l.slice(1)));
+    }
+
+    var archivo = null;
+    (manifest && manifest.transmisiones || []).forEach(function(t){
+      if(t.signatura === primera.signatura) archivo = t.archivo;
+    });
+    if(!archivo) return;
+
+    var btn = el("button", "leer", DICE.leer);
+    var caja2 = el("div", "texto");
+    cuerpo.appendChild(btn);
+    cuerpo.appendChild(caja2);
+    var traido = false;
+    btn.addEventListener("click", function(){
+      if(caja2.style.display === "block"){
+        caja2.style.display = "none"; btn.textContent = DICE.leer; return;
+      }
+      caja2.style.display = "block"; btn.textContent = DICE.cerrar;
+      if(traido) return;
+      traido = true;
+      fetch(archivo + "?v=" + Date.now())
+        .then(function(r){ return r.ok ? r.text() : null; })
+        .then(function(md){
+          if(!md){ caja2.textContent = DICE.roto; return; }
+          /* el fragmento es markdown mínimo: se parte por líneas en blanco y
+             se pinta como párrafos. Nada de HTML: es texto de un modelo. */
+          caja2.innerHTML = "";
+          md.replace(/^---[\s\S]*?---\s*/, "").split(/\n\s*\n/).forEach(function(p){
+            p = p.trim();
+            if(p && p.charAt(0) !== "#") caja2.appendChild(el("p", null, p));
+          });
+        });
+    });
+  }
+
+  /* ---------------------------------------------- el camino */
+  function buscar(codigo){
+    cuerpo.innerHTML = "";
+    Promise.all([
+      pedirJSON("engullidos.json"),
+      pedirJSON("registro.json"),
+      pedirJSON("manifest.json")
+    ]).then(function(res){
+      var datos = res[0], registro = res[1] || [], manifest = res[2];
+      var lista = (datos && (datos.engullidos || (datos.length ? datos : []))) || [];
+
+      /* engullidos.json no existe hasta que entra el primero: eso no es un
+         error, es que la torre todavía está vacía. */
+      if(!lista.length){ pedirCodigo(DICE.vacio); return; }
+
+      var ficha = null;
+      lista.forEach(function(f){ if(!ficha && coincide(codigo, f.signatura)) ficha = f; });
+      if(!ficha){ pedirCodigo(DICE.nadie); return; }
+
+      var noches = registro.filter(function(e){ return e.carta === ficha.carta; })
+                           .sort(function(a, b){ return String(a.noche).localeCompare(String(b.noche)); });
+
+      /* el atlas y el censo los trae retratos.js por su cuenta; si no llegan,
+         la ficha se enseña igual, sin cara. Vale más sin retrato que nada. */
+      var pintado = false;
+      var seguir = function(atlas, censo){
+        if(pintado) return;
+        pintado = true;
+        pintar(ficha, noches, manifest, atlas, censo);
+      };
+      setTimeout(function(){ seguir(null, null); }, 6000);
+      try{ R.listo(function(atlas, censo){ seguir(atlas, censo); }); }
+      catch(e){ seguir(null, null); }
+    });
+  }
+
+  var m = /[?&]c=([^&]+)/.exec(location.search);
+  if(m && m[1]) buscar(normalizar(decodeURIComponent(m[1])));
+  else pedirCodigo();
+})();
+</script>
+</body>
+</html>

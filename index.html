@@ -349,6 +349,23 @@
     margin:.6rem 1rem 0;padding-bottom:12vh;
   }
 
+  /* ---- EL PIE: LA PUERTA DEL RESGUARDO (10 ago 2026) ----
+     quien-soy.html estaba huerfana: el unico camino era el enlace que sale
+     UNA vez, al entregarse. Quien pierde esa pantalla pierde la pagina, y la
+     pagina existe justamente para el que vuelve dentro de anos.
+     Va al final del todo y en el registro del poso: es una salida, no una
+     oferta. --t-base y 44 px porque se pulsa (leyes 3 y 6). */
+  #pie{text-align:center;padding:0 1rem 14vh;margin-top:-8vh}
+  .pie-enlace{
+    display:inline-block;padding:.9rem 1rem;
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    letter-spacing:var(--k-frase);color:var(--frio);text-decoration:none;
+    /* MEDIDO en las ocho noches: a .8 la peor (C abisal) caia a 4,32 y el
+       suelo de la casa es 4,5. A .85 la peor es 4,73. */
+    opacity:.85;transition:opacity .3s ease,color .3s ease;
+  }
+  .pie-enlace:hover,.pie-enlace:focus-visible{opacity:1;color:var(--texto);outline:none}
+
   /* ---- atajos: el poso y la vuelta al silencio ---- */
   #atajos{
     position:fixed;bottom:.9rem;left:0;right:0;z-index:6;
@@ -600,6 +617,12 @@
   <div class="poso-info" id="posoInfo">&nbsp;</div>
   <div class="poso-pie">un grano por palabra · la arena reciente aún se mueve · la piedra ya es de la torre</div>
 </section>
+
+<!-- LA PUERTA DEL RESGUARDO. Lo ultimo de la pagina, debajo del poso: quien
+     llega aqui ya lo ha leido todo. BORRADOR del 10 ago 2026: el copy es suyo. -->
+<footer id="pie">
+  <a class="pie-enlace" href="quien-soy.html">[ el resguardo ]</a>
+</footer>
 
 <div id="senal">
   <canvas id="ondaCv" width="75" height="14"></canvas>

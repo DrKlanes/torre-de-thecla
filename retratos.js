@@ -28,10 +28,20 @@ var LUZ = {                              // brasa 1 y 2 viradas al tono del palo
   B: ["5ca7cc","8bc6e4"],
   C: ["665ccc","938be4"],
   D: ["8b5ccc","b08be4"],
-  X: ["5cb9cc","8bd5e4"]
+  X: ["5cb9cc","8bd5e4"],
+  /* Z, los despistados (§20): la MISMA luz que los tragados. Estan dentro
+     igual que ellos; lo unico distinto es que estos cruzaron por su pie.
+     Iba implicito en el `|| LUZ_RGB.A` de pintar(), y lo implicito se olvida. */
+  Z: ["5c7ecc","8ba6e4"]
 };
 var NITIDEZ = {abisal:-1, turbia:0, clara:1};   // la señal, en pasos de rampa
-var CON_ROSTRO = {A:1, B:1};                    // solo quien tiene un quién
+/* Quien tiene (o tuvo) un quien. Las cosas, las presencias y el polizon, jamas.
+   ⚠ LOS DESPISTADOS (Z) FALTABAN AQUI (10 ago 2026). El escribano les abre
+   expediente y da por bueno que su cara llega, pero esta linea la vetaba en
+   silencio: el primero en hablar habria salido SIN ROSTRO, y precisamente el
+   suyo es el unico que no se sortea — se lo monto el pieza a pieza antes de
+   entrar. No se habria visto hasta enero, la primera vez que hablara uno. */
+var CON_ROSTRO = {A:1, B:1, Z:1};
 var UMBRAL = 6;                                 // el + solo mueve los planos con luz
 var VELO = {fuerza:1.5, inicio:0.20};           // ley fija: sombra hacia la derecha
 var BAYER4 = [0,8,2,10, 12,4,14,6, 3,11,1,9, 15,7,13,5];

@@ -244,6 +244,29 @@
      gotica: es un numero de expediente, no una voz. Tracking ancho porque
      es una palabra suelta en caps (legibilidad v2.1) y a --texto porque es
      lo unico de la pagina que hay que poder copiar sin dudar. */
+  /* LA DIRECCION DE SU FICHA. Un resguardo que no se puede usar no es un
+     resguardo. Va como un susurro y sin verbo: no es una invitacion, son dos
+     cosas que apuntar. Diana de 44 px porque se pulsa (ley 6). */
+  .q-vuelta{
+    /* .9rem arriba y abajo, no .7: al caber en UNA linea la caja se quedo en
+       38 px y la ley 6 pide 44. Lo horizontal se queda en .2rem porque cada
+       decima que se abra empuja la direccion a partirse otra vez. */
+    display:inline-block;margin-top:.5rem;padding:.9rem .2rem;
+    font-family:'Courier New',monospace;font-size:var(--t-base);
+    color:var(--frio);
+    /* MEDIDO: con el track del resguardo (.08em) la direccion pide 392 px y en
+       un movil de 390 solo hay 355 -> partia por «quien-» y el subrayado de
+       caja cruzaba la pantalla de lado a lado. Sin track pide 346 y cabe.
+       Ese track esta para deletrear un codigo, no para leer una direccion. */
+    letter-spacing:normal;
+    /* y el subrayado va PEGADO a las letras, no a la caja: si algun dia parte
+       en dos lineas, se parte con ellas en vez de dibujar una regla. */
+    text-decoration:underline;text-underline-offset:.3em;
+    text-decoration-color:hsl(var(--matiz), 18%, 30%);
+  }
+  .q-vuelta:hover,.q-vuelta:focus-visible{
+    color:var(--texto);text-decoration-color:hsl(var(--matiz), 34%, 46%);outline:none;
+  }
   .q-firma{
     margin:1.8rem 0 0;font-family:'Courier New',monospace;
     font-size:clamp(1.15rem, 5.2vw, 1.5rem);letter-spacing:.22em;
@@ -850,6 +873,12 @@ function guardado(res){
   d.appendChild(el("p", "q-torre", "Ya estás dentro."));
   d.appendChild(el("p", "q-firma", res.signatura));
   d.appendChild(el("p", "q-nota", "Ese es tu resguardo. No lo repetiré."));
+  /* y DONDE se usa. Sin esto el resguardo no sirve para nada y quien-soy.html
+     no existe para nadie. BORRADOR: el copy es suyo. */
+  d.appendChild(el("p", "q-nota", "Si vuelves, es por aquí."));
+  var v = el("a", "q-vuelta", "torredethecla.dumaker.com/quien-soy.html");
+  v.href = "quien-soy.html?c=" + encodeURIComponent(res.signatura);
+  d.appendChild(v);
   /* la marca del autor: en ensayo, que no quede duda de que no ha pasado */
   if(res.ensayo) d.appendChild(el("p", "q-nota", "— ensayo del autor · esto no ha ocurrido —"));
   caja.appendChild(d);
