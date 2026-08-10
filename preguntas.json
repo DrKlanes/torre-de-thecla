@@ -370,5 +370,10 @@
       ],
       "torre": "Si alguien te preguntara cómo llegaste aquí, ¿qué dirías?"
     }
-  ]
+  ],
+  "partes": {
+    "f": 15,
+    "m": 13,
+    "b": 15
+  }
 }

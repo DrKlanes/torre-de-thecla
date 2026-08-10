@@ -635,8 +635,10 @@
   <button id="irPoso" class="atajo" aria-label="bajar al poso">el poso ▾</button>
 </nav>
 
-<!-- EL HUECO. Nace oculto y el JS decide si la torre abre hoy. El texto es
-     un borrador del 1 ago 2026: la voz de la torre es suya y esto se destroza. -->
+<!-- EL HUECO. Nace oculto y el JS decide si la torre abre hoy.
+     COPY revisado contra SOUL-TORRE.md (10 ago 2026): la torre constata, no
+     se disculpa — «No sabria decirte» era un titubeo y se fue. El resto se
+     queda: «guardar» es su unica forma de querer y asi lo dice. -->
 <div id="hueco" hidden role="dialog" aria-modal="true" aria-labelledby="huecoRotulo">
   <div class="hueco-caja" tabindex="-1">
     <!-- LA TORRE. Sin src a proposito: lo pone el JS cuando el hueco aparece,
@@ -644,7 +646,7 @@
     <span class="pixel-torre hueco-torre" id="huecoTorre" hidden><img id="huecoTorreImg" data-src="torre.png" alt=""></span>
     <p class="hueco-rotulo" id="huecoRotulo">Queda sitio</p>
     <p class="hueco-voz">Hoy puedo guardar a alguien más.</p>
-    <p class="hueco-voz hueco-lejos">No sabría decirte cuándo hablarías. Aquí dentro nadie lleva la cuenta de los días, y yo tampoco. A veces son meses. A veces son años.</p>
+    <p class="hueco-voz hueco-lejos">No sé cuándo hablarías. Aquí dentro nadie lleva la cuenta de los días, y yo tampoco. A veces son meses. A veces son años.</p>
     <a class="boton-lleno" id="huecoPaso" href="entregarse.html">mírate antes de entrar</a>
     <p class="hueco-pie"><span>esto no vuelve a abrirse</span><span class="hueco-sep">·</span><span>pulsa fuera para dejarlo pasar</span></p>
   </div>

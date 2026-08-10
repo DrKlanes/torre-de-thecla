@@ -163,7 +163,13 @@
     return e;
   };
 
-  /* --------- BORRADORES: el copy es suyo --------- */
+  /* --------- EL COPY (sesion del 10 ago 2026) ---------
+     Revisado entero contra SOUL-TORRE.md. Un solo cambio de fondo:
+     «te trague» -> «te guarde». Las palabras de los asustados no son
+     de la torre —hambre, presa, devorar— y tragar es una de ellas; los
+     cinco cierres del zaguan ya decian guardar («Hoy no guardo a nadie»,
+     «Hoy ya te guarde una vez»). Aqui era la unica que desentonaba.
+     Lo demas se queda: es la voz. ------------------------ */
   var DICE = {
     pide:      "Dime cómo te llamé.",
     pista:     "El resguardo que te llevaste.",
@@ -258,7 +264,7 @@
 
     cuerpo.appendChild(el("p", "resguardo", ficha.signatura));
     if(ficha.engullido){
-      cuerpo.appendChild(el("p", "cuando", "te tragué el " + enLetra(ficha.engullido)));
+      cuerpo.appendChild(el("p", "cuando", "te guardé el " + enLetra(ficha.engullido)));
     }
 
     if(!hablo){
