@@ -46,5 +46,13 @@
     "v": -1,
     "desde": "SMET-0018",
     "senal": "abisal"
+  },
+  "B17": {
+    "f": 3,
+    "m": 10,
+    "b": 7,
+    "v": -1,
+    "desde": "SMET-0019",
+    "senal": "abisal"
   }
 }

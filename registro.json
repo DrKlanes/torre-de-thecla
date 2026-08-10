@@ -472,5 +472,35 @@
     "signatura": "SMET-0018",
     "palabras": 238,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-10",
+    "palo": "B",
+    "carta": "B17",
+    "estado": "E53",
+    "modificador": null,
+    "prohibidas": [
+      "sala",
+      "huesos",
+      "eterno"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 1,
+    "aprendidas": [
+      "sala",
+      "huesos"
+    ],
+    "corregidas": [
+      "sala",
+      "huesos"
+    ],
+    "esquirla": "Esperanzado en nada porque la mujer sigue respirando a través del micrófono sin aire; cada vez más cerca, hasta que mi garganta escupa los números que nunca salvarán lo roto bajo las escaleras…",
+    "signatura": "SMET-0019",
+    "palabras": 182,
+    "retrato": false
   }
 ]
