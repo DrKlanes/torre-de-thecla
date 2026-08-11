@@ -54,5 +54,13 @@
     "v": -1,
     "desde": "SMET-0019",
     "senal": "abisal"
+  },
+  "A19": {
+    "f": 9,
+    "m": 9,
+    "b": 8,
+    "v": 1,
+    "desde": "SMET-0020",
+    "senal": "clara"
   }
 }

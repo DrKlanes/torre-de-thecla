@@ -502,5 +502,34 @@
     "signatura": "SMET-0019",
     "palabras": 182,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-11",
+    "palo": "A",
+    "carta": "A19",
+    "estado": "E55",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "dientes",
+      "pesadilla"
+    ],
+    "violadas": [
+      "dientes"
+    ],
+    "senal": "clara",
+    "temperatura": 1.06,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "lucidez": true,
+    "aprendidas": [
+      "piedra",
+      "dientes"
+    ],
+    "esquirla": "Huele a dulce podrido en el frío. El ciego espera algo, pero soy yo quien cae… mi voz se pudre como dientes rotos bajo un altar roto. No tengo miedo de las grietas: quiero caer adentro ahora. Solo eso.",
+    "signatura": "SMET-0020",
+    "palabras": 222,
+    "retrato": true
   }
 ]
