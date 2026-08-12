@@ -531,5 +531,34 @@
     "signatura": "SMET-0020",
     "palabras": 222,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-12",
+    "palo": "A",
+    "carta": "A10",
+    "estado": "E18",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "muro",
+      "alma"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sombras",
+      "muro"
+    ],
+    "corregidas": [
+      "muro"
+    ],
+    "esquirla": "El belga juró que sentía latidos dentro de las grietas; me dio un golpe seco en las omoplatas, y subimos igual. Mis rodillas crujen contra esta piedra vieja… el sabor amargo bajo los dientes es lo único seguro ahora. He decidido quedarme aquí.",
+    "signatura": "SMET-0021",
+    "palabras": 213,
+    "retrato": true
   }
 ]
