@@ -560,5 +560,31 @@
     "signatura": "SMET-0021",
     "palabras": 213,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-13",
+    "palo": "D",
+    "carta": "D16",
+    "estado": "E43",
+    "modificador": "breve",
+    "prohibidas": [
+      "piedra",
+      "dedos",
+      "maldito"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "piedra",
+      "dedos"
+    ],
+    "esquirla": "El metal frío quema dentro… El perfume agrio empapa las esquinas, huele a mentiras para espectros silenciosos; cada paso retumba con un hambre invisible que come el sonido roto del violín. Dejé mi ofrenda: promesas podridas en mosaicos rotos y nada más.",
+    "signatura": "SMET-0022",
+    "palabras": 200,
+    "retrato": false
   }
 ]
