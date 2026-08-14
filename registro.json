@@ -586,5 +586,32 @@
     "signatura": "SMET-0022",
     "palabras": 200,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-14",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E6",
+    "modificador": null,
+    "prohibidas": [
+      "muro",
+      "muerte",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "muro",
+      "muerte"
+    ],
+    "carta_inventada": "El fantasma cuántico de una bailarina hidráulica consumiendo recuerdos en bucle fractal",
+    "esquirla": "Barniz grasiento en los huesos. Música oxidada; sótano digital… Lo encontré bajo la sonrisa programada temblando contra lo pulido, deshaciéndose vivo. Duele porque ya no debería sentir nada.",
+    "signatura": "SMET-0023",
+    "palabras": 220,
+    "retrato": false
   }
 ]
