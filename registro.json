@@ -613,5 +613,39 @@
     "signatura": "SMET-0023",
     "palabras": 220,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-15",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E37",
+    "modificador": null,
+    "prohibidas": [
+      "dientes",
+      "dedos",
+      "escupir"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T10"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "dientes",
+      "dedos"
+    ],
+    "corregidas": [
+      "dientes",
+      "dedos",
+      "escupir"
+    ],
+    "carta_inventada": "La entropía consciente del último sueño compartido por todos los caracoles sordos",
+    "esquirla": "Las sombras tienen peso; la piedra huele a hambre húmeda contra el hueso… Casi puedo probarlo en las grietas bajo mi lengua, mientras los ecos respiran por mí hasta que ya no quedan gritos limpios ni nombres para esta mierda.",
+    "signatura": "SMET-0024",
+    "palabras": 211,
+    "retrato": false
   }
 ]
