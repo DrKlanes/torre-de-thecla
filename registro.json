@@ -647,5 +647,31 @@
     "signatura": "SMET-0024",
     "palabras": 211,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-16",
+    "palo": "A",
+    "carta": "A11",
+    "estado": "E30",
+    "modificador": null,
+    "prohibidas": [
+      "sala",
+      "vacío",
+      "piedra"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sala",
+      "vacío"
+    ],
+    "esquirla": "El bajo retumba en los huesos primero; después, el humo desaparece sin eco donde te arañan hasta las pelotas. Las paredes gritan, vibración hueca como una cabeza vacía que prefiere romperse entre cristales antes que bailar con la cara reventada.",
+    "signatura": "SMET-0025",
+    "palabras": 212,
+    "retrato": true
   }
 ]
