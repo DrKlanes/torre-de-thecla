@@ -673,5 +673,38 @@
     "signatura": "SMET-0025",
     "palabras": 212,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-17",
+    "palo": "A",
+    "carta": "A42",
+    "estado": "E26",
+    "modificador": null,
+    "prohibidas": [
+      "vomitar",
+      "huesos",
+      "oscuridad"
+    ],
+    "violadas": [
+      "vomitar",
+      "huesos"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T15",
+      "T18",
+      "T7"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "vomitar",
+      "huesos"
+    ],
+    "esquirla": "El ácido trepa lento. La música sangra desde cada grieta hasta el último temblor… Siento tus gusanos lamiéndome los ojos mientras rezan por ser polvo. No hay más nombre.",
+    "signatura": "SMET-0026",
+    "palabras": 219,
+    "retrato": true
   }
 ]
