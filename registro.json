@@ -706,5 +706,34 @@
     "signatura": "SMET-0026",
     "palabras": 219,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-18",
+    "palo": "C",
+    "carta": "C24",
+    "estado": "E36",
+    "modificador": null,
+    "prohibidas": [
+      "gusanos",
+      "podrido",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "gusanos",
+      "podrido"
+    ],
+    "corregidas": [
+      "podrido"
+    ],
+    "esquirla": "Piedra jadeante, eco sin voz; pendientes fríos bajo lluvia helada… algo roto debajo del suelo. Incienso quema polvo en la nariz. Un hueco húmedo para escuchar tu grieta a través de la mía. No eres ni yo.",
+    "signatura": "SMET-0027",
+    "palabras": 195,
+    "retrato": false
   }
 ]
