@@ -735,5 +735,34 @@
     "signatura": "SMET-0027",
     "palabras": 195,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-19",
+    "palo": "C",
+    "carta": "C39",
+    "estado": "E2",
+    "modificador": null,
+    "prohibidas": [
+      "sala",
+      "dedos",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sala",
+      "dedos"
+    ],
+    "corregidas": [
+      "cráneo"
+    ],
+    "esquirla": "Sal en los huesos rotos sin dueño, sudor helado… Grietas con venas donde no hay carne sólo eco hueco del tiempo roto por dentro. El aire pesa tanto que casi olvido cómo era tocar algo sin sentirlo romperse al instante; y sí: si abro ya no vuelve atrás.",
+    "signatura": "SMET-0028",
+    "palabras": 233,
+    "retrato": false
   }
 ]
