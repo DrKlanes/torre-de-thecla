@@ -764,5 +764,31 @@
     "signatura": "SMET-0028",
     "palabras": 233,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-20",
+    "palo": "A",
+    "carta": "A43",
+    "estado": "E29",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "podrido",
+      "gusanos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sombras",
+      "podrido"
+    ],
+    "esquirla": "Los huesos crujen bajo el lienzo. Un número en mi cabeza, espina dorada que memoricé con la misma obsesión… Veneno y ceniza. No sé a quién pertenece ese silencio, pero es mío ahora. La pintura ya no me sale como antes: texturas masticadas; turbios los colores.",
+    "signatura": "SMET-0029",
+    "palabras": 206,
+    "retrato": true
   }
 ]
