@@ -790,5 +790,31 @@
     "signatura": "SMET-0029",
     "palabras": 206,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-21",
+    "palo": "C",
+    "carta": "C20",
+    "estado": "E28",
+    "modificador": null,
+    "prohibidas": [
+      "huesos",
+      "piedra",
+      "eterno"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "huesos",
+      "piedra"
+    ],
+    "esquirla": "La humedad late bajo mi capa; ya casi soy el reflejo roto en la roca fría. La voz sin boca resuena… ¿quién grita aquí? Crecí sobre lo muerto, sangre olvidada pegada a mis filamentos. No sé cuánto llevo: solo necesito más hondo.",
+    "signatura": "SMET-0030",
+    "palabras": 221,
+    "retrato": false
   }
 ]
