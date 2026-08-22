@@ -816,5 +816,31 @@
     "signatura": "SMET-0030",
     "palabras": 221,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-22",
+    "palo": "C",
+    "carta": "C9",
+    "estado": "E20",
+    "modificador": "V14",
+    "prohibidas": [
+      "muro",
+      "oscuridad",
+      "infierno"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.25,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "muro",
+      "oscuridad"
+    ],
+    "esquirla": "La piedra sabe más que yo. Me pulen hasta brillo frío... Entran sedientos, salen sin piel: huesos resecados contra el metal. Plegarias al revés… Estoy hueca: solo eco roto en cristal antiguo.",
+    "signatura": "SMET-0031",
+    "palabras": 219,
+    "retrato": false
   }
 ]
