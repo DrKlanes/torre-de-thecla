@@ -842,5 +842,33 @@
     "signatura": "SMET-0031",
     "palabras": 219,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-23",
+    "palo": "A",
+    "carta": "A14",
+    "estado": "E8",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "vomitar",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T20",
+      "T15"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "dedos"
+    ],
+    "esquirla": "Aquí abajo el tiempo huele a tierra podrida; tus dedos son raíces ahora que entierran lo último antes del silencio roto entre dientes muertos… Esta torre te ahoga en grietas ajenas, porque ya no hay salida.",
+    "signatura": "SMET-0032",
+    "palabras": 186,
+    "retrato": true
   }
 ]
