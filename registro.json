@@ -870,5 +870,32 @@
     "signatura": "SMET-0032",
     "palabras": 186,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-24",
+    "palo": "B",
+    "carta": "B15",
+    "estado": "E11",
+    "modificador": null,
+    "prohibidas": [
+      "grito",
+      "huesos",
+      "oscuridad"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0013",
+    "tuercas": null,
+    "reintentos": 0,
+    "eco_frase": "Demasiadas superficies lisas miran sin poder ser vistas; cada una exige su parte…",
+    "aprendidas": [
+      "grito",
+      "huesos"
+    ],
+    "esquirla": "Sobran siempre, la colonia del jefe para ser fantasma al salir. El eco roto dice que demasiadas superficies miran sin tocar; se van dejando trozos en cuero barato entre sudor frío y perfume caro… Y yo sigo aquí apilando chaquetas que no son tuyas ni de nadie.",
+    "signatura": "SMET-0033",
+    "palabras": 218,
+    "retrato": true
   }
 ]
