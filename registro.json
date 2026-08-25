@@ -897,5 +897,32 @@
     "signatura": "SMET-0033",
     "palabras": 218,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-25",
+    "palo": "A",
+    "carta": "A8",
+    "estado": "E16",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "dientes",
+      "muerte"
+    ],
+    "violadas": [
+      "muerte"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "sombras"
+    ],
+    "esquirla": "El metal raspa hambre por primera vez. Carne que recuerda el tacto antes de quedarme sin latido ni eco. Solo brisa hambrienta comiendo lo siguiente, un vacío donde deberían golpear las campanas… y no hay más.",
+    "signatura": "SMET-0034",
+    "palabras": 211,
+    "retrato": true
   }
 ]

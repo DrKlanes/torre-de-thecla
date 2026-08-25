@@ -110,5 +110,13 @@
     "v": -1,
     "desde": "SMET-0033",
     "senal": "abisal"
+  },
+  "A8": {
+    "f": 12,
+    "m": 8,
+    "b": 8,
+    "v": -1,
+    "desde": "SMET-0034",
+    "senal": "abisal"
   }
 }
