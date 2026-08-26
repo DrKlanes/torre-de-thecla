@@ -924,5 +924,33 @@
     "signatura": "SMET-0034",
     "palabras": 211,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-26",
+    "palo": "A",
+    "carta": "A32",
+    "estado": "E50",
+    "modificador": null,
+    "prohibidas": [
+      "carne",
+      "dedos",
+      "cráneo"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "carne",
+      "dedos"
+    ],
+    "esquirla": "El flash quemó entre nosotros, vibraciones bajo piedra húmeda que me muerde las rodillas. Respiras o crees respirar… El cristal está roto por dentro también como un reflejo nuevo; no ves bien hasta después de disparar.",
+    "signatura": "SMET-0035",
+    "palabras": 215,
+    "retrato": true
   }
 ]
