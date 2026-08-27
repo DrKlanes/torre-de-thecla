@@ -952,5 +952,30 @@
     "signatura": "SMET-0035",
     "palabras": 215,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-27",
+    "palo": "C",
+    "carta": "C17",
+    "estado": "E38",
+    "modificador": null,
+    "prohibidas": [
+      "vacío",
+      "gusanos",
+      "maldito"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "vacío"
+    ],
+    "esquirla": "Cristales rotos… sangre espesa entre grietas húmedas. El club abajo es un latido sordo que se engulle en piedra; otra promesa podrida sin diente flojo para morderla. La torre respira el olvido frío: nada más.",
+    "signatura": "SMET-0036",
+    "palabras": 220,
+    "retrato": false
   }
 ]
