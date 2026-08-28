@@ -977,5 +977,33 @@
     "signatura": "SMET-0036",
     "palabras": 220,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-28",
+    "palo": "D",
+    "carta": "D8",
+    "estado": "E55",
+    "modificador": "V9",
+    "prohibidas": [
+      "piedra",
+      "sangre",
+      "escupir"
+    ],
+    "violadas": [
+      "piedra"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "piedra",
+      "sangre"
+    ],
+    "esquirla": "Verde debajo, respiración contra tierra. Agujas zumban bajo el sudor hasta que ya no sé dónde acabo. Crujido en el piso… algo respira o gotea. Polvo amargo entre los dientes: solo eso arde ahora mismo.",
+    "signatura": "SMET-0037",
+    "palabras": 224,
+    "retrato": false
   }
 ]
