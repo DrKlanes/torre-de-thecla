@@ -1005,5 +1005,34 @@
     "signatura": "SMET-0037",
     "palabras": 224,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-29",
+    "palo": "B",
+    "carta": "B8",
+    "estado": "E25",
+    "modificador": "breve",
+    "prohibidas": [
+      "vacío",
+      "muro",
+      "sala"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.05,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "vacío",
+      "muro"
+    ],
+    "corregidas": [
+      "vacío"
+    ],
+    "esquirla": "Luz mala abajo. El club zumba en los huesos. Antes me mecían… ahora hueco entre piedras. Estoy roto bajo presión sin piel. Algo negro dijo salir, miré mi reflejo deshecho. La torre se come olvidos; soy otro plato más. No queda nada afuera, solo sigo moviendo",
+    "signatura": "SMET-0038",
+    "palabras": 211,
+    "retrato": true
   }
 ]
