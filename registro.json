@@ -1034,5 +1034,38 @@
     "signatura": "SMET-0038",
     "palabras": 211,
     "retrato": true
+  },
+  {
+    "noche": "2026-08-30",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E47",
+    "modificador": "V15",
+    "prohibidas": [
+      "carne",
+      "torre",
+      "sombras"
+    ],
+    "violadas": [
+      "sombras"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T5",
+      "T10",
+      "T20"
+    ],
+    "reintentos": 0,
+    "aprendidas": [
+      "carne",
+      "torre"
+    ],
+    "carta_inventada": "La digestión espectral de un arpa sin cuerdas alimentada con la culpa colectiva de Utrecht",
+    "esquirla": "Metales rotos contra el vacío, ya no queda nada salvo este crujido antes del abismo final… mi luz se agota entre dientes podridos porque la digestión terminó; solo piedras me escupirán en pedazos y nadie escuchará mientras todo arde por última vez.",
+    "signatura": "SMET-0039",
+    "palabras": 193,
+    "retrato": false
   }
 ]
