@@ -134,5 +134,13 @@
     "v": 1,
     "desde": "SMET-0038",
     "senal": "clara"
+  },
+  "A4": {
+    "f": 3,
+    "m": 12,
+    "b": 1,
+    "v": 1,
+    "desde": "SMET-0040",
+    "senal": "clara"
   }
 }

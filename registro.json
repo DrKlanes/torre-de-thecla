@@ -1067,5 +1067,34 @@
     "signatura": "SMET-0039",
     "palabras": 193,
     "retrato": false
+  },
+  {
+    "noche": "2026-08-31",
+    "palo": "A",
+    "carta": "A4",
+    "estado": "E4",
+    "modificador": "breve",
+    "prohibidas": [
+      "dedos",
+      "cráneo",
+      "eterno"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "clara",
+    "temperatura": 0.98,
+    "eco": "SMET-0033",
+    "tuercas": null,
+    "reintentos": 0,
+    "eco_frase": "Exigir y esperar es lo mismo; solo los que tienen sangre dejan algo real atrás al irse.",
+    "aprendidas": [
+      "dedos",
+      "cráneo"
+    ],
+    "esquirla": "Oro en dientes, seda apretada. Cobro lo mío aquí o afuera ya da igual. La humedad marca el contrato roto; sangre pagada. Dos letras del nombre… ¿*D*, *G*? Bah.",
+    "signatura": "SMET-0040",
+    "palabras": 211,
+    "retrato": true
   }
 ]
