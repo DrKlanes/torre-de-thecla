@@ -1096,5 +1096,31 @@
     "signatura": "SMET-0040",
     "palabras": 211,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-01",
+    "palo": "A",
+    "carta": "A31",
+    "estado": "E17",
+    "modificador": "breve",
+    "prohibidas": [
+      "maldito",
+      "grito",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.07,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "aprendidas": [
+      "maldito",
+      "grito"
+    ],
+    "esquirla": "El bajo vibra en los dientes. Las luces nos queman por dentro antes de salir del club. Él sabe esto… él *es* la mierda vieja con neón y aliento a siglos podridos. La escalera no lleva a nada, solo hunde más.",
+    "signatura": "SMET-0041",
+    "palabras": 224,
+    "retrato": false
   }
 ]
