@@ -319,7 +319,11 @@
   }
 
   /* ---- el poso: el fondo del archivo ---- */
-  #poso{position:relative;margin-top:8vh}
+  /* EL DESPEJE DEL POSO (1 sep 2026). La señal es un fixed en top:0 con su
+     placa: cualquier salto que deje el poso «arriba del todo» le mete el
+     rotulo debajo de la banda. Es la REGLA DE LA PLACA del contrato, la misma
+     que ya despeja la cabecera del plano maestro, y en la misma unidad. */
+  #poso{position:relative;margin-top:8vh;scroll-margin-top:max(9vh,9.5rem)}
   .poso-cab{text-align:center;margin-bottom:3.2rem}
   .poso-titulo{
     display:block;font-family:'Jacquard 12','Courier New',monospace;
@@ -676,6 +680,8 @@
   var lista = [];               // ordenadas: la más nueva primero
   var puntero = 0;
   var observador = null;
+  var centinela = null;         // #fondoLista: lo que dispara el lote siguiente
+  var pausado = false;          // EL DESCENSO EN PAUSA — ver window.__archivo
 
   /* ---------- utilidades ---------- */
   function el(tag, cls){ var e = document.createElement(tag); if(cls) e.className = cls; return e; }
@@ -1406,13 +1412,47 @@
     }
     iniciarContador(lista.length ? lista[0].fecha : null);
     cargarLote().then(function(){
-      var centinela = document.getElementById("fondoLista");
+      centinela = document.getElementById("fondoLista");
       observador = new IntersectionObserver(function(entradas){
-        entradas.forEach(function(en){ if(en.isIntersecting) cargarLote(); });
+        entradas.forEach(function(en){ if(en.isIntersecting && !pausado) cargarLote(); });
       }, {rootMargin: "600px"});
-      observador.observe(centinela);
+      if(!pausado) observador.observe(centinela);
     });
   }
+
+  /* ============================================================
+     LA PUERTA DEL ARCHIVO  (1 sep 2026)
+
+     El archivo se lee cayendo: cada vez que el centinela asoma, entra otro
+     lote. Eso esta bien mientras se baja leyendo, y es una trampa cuando
+     alguien pulsa «el poso ▾», porque el poso vive DEBAJO del centinela:
+     saltar hasta el lo pone a tiro, entra un lote, la lista crece POR ENCIMA
+     del poso y el poso se va mas abajo. Se salta otra vez, y otra. Con 41
+     noches la pagina crecia de 8.000 a 79.000 px persiguiendose a si misma
+     y no llegaba nunca. Con 800 seria peor.
+
+     Asi que el atajo apaga el descenso mientras viaja. El poso no necesita
+     la lista: se dibuja de window.__registro, que se carga aparte y esta
+     entero desde el primer segundo. Y al volver hacia arriba se reanuda,
+     que es justo cuando el visitante SI quiere que el archivo siga cayendo.
+     ============================================================ */
+  window.__archivo = {
+    pausar: function(){
+      pausado = true;
+      if(observador) observador.disconnect();
+    },
+    reanudar: function(){
+      if(!pausado) return;
+      pausado = false;
+      // si ya esta todo dentro no hay nada que reanudar (y observar de nuevo
+      // el centinela solo serviria para volver a desconectarlo)
+      if(observador && centinela && puntero < lista.length) observador.observe(centinela);
+    },
+    enPausa:  function(){ return pausado; },
+    completo: function(){ return puntero >= lista.length; },
+    dentro:   function(){ return puntero; },
+    total:    function(){ return lista.length; }
+  };
 
   if(window.PREVIEW_DATA){
     arrancar(window.PREVIEW_DATA);

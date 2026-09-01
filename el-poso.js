@@ -556,27 +556,75 @@ function conRegistro(cb){
   },250);
 }
 
-/* ---------- atajos: bajar al poso, volver al silencio ---------- */
+/* ---------- atajos: bajar al poso, volver al silencio ----------
+
+   QUIEN PULSA «el poso» ESPERA LLEGAR. De una, haya una noche o ochocientas.
+
+   Hasta el 1 de septiembre de 2026 no llegaba, y cuantas mas noches habia
+   peor: el poso vive DEBAJO del centinela que carga el archivo, asi que
+   saltar hasta el disparaba un lote, el lote crecia POR ENCIMA del poso y lo
+   empujaba mas abajo. El codigo viejo se re-anclaba cada 150 ms durante 2,4 s
+   — es decir, perseguia a una pagina que crecia mas rapido que el. Medido con
+   41 noches: la pagina pasaba de 8.060 a 79.263 px y a los cuatro segundos el
+   poso seguia 4.338 px por debajo del borde. Se rendia sin haber llegado.
+
+   Ahora el atajo APAGA EL DESCENSO antes de saltar (window.__archivo.pausar).
+   Sin lotes nuevos la pagina deja de crecer, y un solo scrollIntoView acierta.
+   El poso no echa en falta la lista: se dibuja de window.__registro, que se
+   carga aparte y esta entero desde el primer segundo.
+   El descenso se reanuda al volver hacia arriba, que es cuando de verdad hace
+   falta. ------------------------------------------------------------------ */
 function montarAtajos(sec){
   var btnSil=document.getElementById("irSilencio");
   var btnPoso=document.getElementById("irPoso");
   if(!btnSil||!btnPoso) return null;
+
+  function reanudar(){
+    if(window.__archivo && window.__archivo.reanudar) window.__archivo.reanudar();
+  }
+  montarAtajos.reanudar=reanudar;
+
   btnSil.addEventListener("click",function(){
+    reanudar();                       // vuelve el descenso: se sube leyendo
     window.scrollTo({top:0,behavior:"smooth"});
   });
+
   btnPoso.addEventListener("click",function(){
-    // salto con re-anclaje: los lotes que cargan arriba empujan el poso,
-    // así que lo volvemos a clavar hasta que la página se asienta
+    if(window.__archivo && window.__archivo.pausar) window.__archivo.pausar();
     sec.scrollIntoView({block:"start",behavior:"instant"});
-    var t0=Date.now();
-    var fix=setInterval(function(){
-      sec.scrollIntoView({block:"start",behavior:"instant"});
-      if(Date.now()-t0>2400) clearInterval(fix);
-    },150);
+
+    // Un asentamiento corto y ACOTADO, solo por si alguna imagen ya pedida
+    // termina de llegar y mueve el suelo. No es la guerra de antes: la pagina
+    // ya no crece, asi que con tres reintentos sobra. Y si el visitante toca
+    // el scroll, se abandona: mandar el, no yo.
+    var vivo=true, n=0;
+    function soltar(){ vivo=false; quitar(); }
+    function quitar(){
+      window.removeEventListener("wheel",soltar);
+      window.removeEventListener("touchstart",soltar);
+      window.removeEventListener("keydown",soltar);
+    }
+    window.addEventListener("wheel",soltar,{passive:true,once:true});
+    window.addEventListener("touchstart",soltar,{passive:true,once:true});
+    window.addEventListener("keydown",soltar,{once:true});
+    (function reintenta(){
+      if(!vivo||n>=3){ quitar(); return; }
+      n++;
+      var r=sec.getBoundingClientRect();
+      if(Math.abs(r.top)>2) sec.scrollIntoView({block:"start",behavior:"instant"});
+      setTimeout(reintenta, n===1?60:220);
+    })();
   });
+
   window.addEventListener("scroll",function(){
-    btnSil.classList.toggle("oculto", window.scrollY < window.innerHeight*1.2);
+    // el boton de volver aparece si se ha bajado, Y TAMBIEN si estamos en el
+    // poso: con el descenso en pausa la pagina puede ser corta y el umbral de
+    // scroll solo no bastaba para que apareciera la salida.
+    var r=sec.getBoundingClientRect();
+    var enPoso=r.top<window.innerHeight && r.bottom>0;
+    btnSil.classList.toggle("oculto", !enPoso && window.scrollY < window.innerHeight*1.2);
   },{passive:true});
+
   return btnPoso;
 }
 
@@ -600,6 +648,8 @@ function iniciar(){
       es.forEach(function(en){
         visible=en.isIntersecting;
         if(btnPoso) btnPoso.classList.toggle("oculto", en.isIntersecting);
+        // se abandona el poso hacia arriba: que el archivo vuelva a caer
+        if(!en.isIntersecting && montarAtajos.reanudar) montarAtajos.reanudar();
         if(en.isIntersecting && !revelado){
           revelado=true;
           if(ultima) depositNight(ultima, !ultima.torre);
