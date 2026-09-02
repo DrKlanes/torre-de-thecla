@@ -1122,5 +1122,35 @@
     "signatura": "SMET-0041",
     "palabras": 224,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-02",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E30",
+    "modificador": null,
+    "prohibidas": [
+      "dientes",
+      "piedra",
+      "escupir"
+    ],
+    "violadas": [
+      "dientes"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "dientes",
+      "piedra"
+    ],
+    "carta_inventada": "La sonrisa dentada de una calculadora obsoleta que sueña con números primordiales y sangre dulce",
+    "esquirla": "La torre muerde el club desde dentro; los cuerpos ya saben dónde está la puerta, les da igual tardar en cruzar… algo gotea bajo los huesos vacíos. Esta máquina rompe ritmos simples mientras late con hambre contra cada ecuación rota.",
+    "signatura": "SMET-0042",
+    "palabras": 229,
+    "retrato": false
   }
 ]
