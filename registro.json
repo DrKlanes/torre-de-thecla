@@ -1152,5 +1152,37 @@
     "signatura": "SMET-0042",
     "palabras": 229,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-04",
+    "palo": "D",
+    "carta": "D27",
+    "estado": "E43",
+    "modificador": "breve",
+    "prohibidas": [
+      "torre",
+      "luz",
+      "vomitar"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.19,
+    "eco": null,
+    "tuercas": [
+      "T5"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "torre",
+      "luz"
+    ],
+    "corregidas": [
+      "vomitar"
+    ],
+    "esquirla": "El cántico astilla el cráneo, la cuarta sala huele a abandono roto. La mujer atada te mira como si fueras su jaula; las ofrendas nunca están donde esperas que estén… otra noche pudriéndose aquí adentro.",
+    "signatura": "SMET-0043",
+    "palabras": 217,
+    "retrato": false
   }
 ]
