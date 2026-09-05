@@ -1184,5 +1184,34 @@
     "signatura": "SMET-0043",
     "palabras": 217,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-05",
+    "palo": "C",
+    "carta": "C12",
+    "estado": "E22",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "dientes",
+      "hueco"
+    ],
+    "violadas": [
+      "hueco"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "piedra",
+      "dientes"
+    ],
+    "esquirla": "El metal zumbe bajo el pelo seco. Algo retorcido respira frío detrás. Recorro mi boca sin saber cuándo fue la última vez que probé carne viva… Cazo hambre vieja, solo encuentro vacío azul en esta zurra eterna.",
+    "signatura": "SMET-0044",
+    "palabras": 222,
+    "retrato": false
   }
 ]
