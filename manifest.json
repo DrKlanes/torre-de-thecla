@@ -263,6 +263,12 @@
       "signatura": "SMET-0044",
       "fecha": "2026-09-05T03:39:58+02:00",
       "torre": false
+    },
+    {
+      "archivo": "fragmentos/SMET-0045.md",
+      "signatura": "SMET-0045",
+      "fecha": "2026-09-06T03:38:42+02:00",
+      "torre": false
     }
   ]
 }

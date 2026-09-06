@@ -1213,5 +1213,37 @@
     "signatura": "SMET-0044",
     "palabras": 222,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-06",
+    "palo": "D",
+    "carta": "D22",
+    "estado": "E45",
+    "modificador": null,
+    "prohibidas": [
+      "aire",
+      "sombras",
+      "sangre"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T3"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "aire",
+      "sombras"
+    ],
+    "corregidas": [
+      "sangre"
+    ],
+    "esquirla": "La carne rasga la piedra, el vacío pesa igual que respirar… mejor dejar que mis entrañas se pudran sin nombre. La noche ya no siente ni pide nada; solo me hunde en lo roto como si nunca hubiera existido porque tampoco van a volver a verme ahí abajo.",
+    "signatura": "SMET-0045",
+    "palabras": 137,
+    "retrato": false
   }
 ]
