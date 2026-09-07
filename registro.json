@@ -1245,5 +1245,32 @@
     "signatura": "SMET-0045",
     "palabras": 137,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-07",
+    "palo": "B",
+    "carta": "B10",
+    "estado": "E49",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "huesos",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "dedos",
+      "huesos"
+    ],
+    "esquirla": "El pasillo late en mi garganta sin respirar… las paredes redondas están tapadas por espejos rotos donde ya no pide lógica: solo temblores profundos pegando miradas bajo la bata hasta el filo blanco que corta y ahoga sin dejar más. Y yo sigo aquí pensando…",
+    "signatura": "SMET-0046",
+    "palabras": 220,
+    "retrato": true
   }
 ]

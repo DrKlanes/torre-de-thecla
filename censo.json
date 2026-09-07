@@ -150,5 +150,13 @@
     "v": 1,
     "desde": "SMET-0041",
     "senal": "clara"
+  },
+  "B10": {
+    "f": 1,
+    "m": 9,
+    "b": 1,
+    "v": -1,
+    "desde": "SMET-0046",
+    "senal": "abisal"
   }
 }
