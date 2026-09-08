@@ -1272,5 +1272,33 @@
     "signatura": "SMET-0046",
     "palabras": 220,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-08",
+    "palo": "A",
+    "carta": "A39",
+    "estado": "E8",
+    "modificador": "V15",
+    "prohibidas": [
+      "piedra",
+      "eterno",
+      "alma"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 0.9,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "lucidez": true,
+    "aprendidas": [
+      "piedra",
+      "eterno"
+    ],
+    "esquirla": "El aire pesa… frío en las rodillas aunque haga calor. La amabilidad es lo peor aquí. Ya no recuerdo mi nombre ni cuántas noches llevo; cada pared nueva, el silencio más cruel que la música. Presión sorda detrás de los ojos como si apretaran con huesos secos.",
+    "signatura": "SMET-0047",
+    "palabras": 217,
+    "retrato": true
   }
 ]
