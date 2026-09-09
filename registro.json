@@ -1300,5 +1300,32 @@
     "signatura": "SMET-0047",
     "palabras": 217,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-09",
+    "palo": "A",
+    "carta": "A6",
+    "estado": "E11",
+    "modificador": null,
+    "prohibidas": [
+      "luz",
+      "torre",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "luz",
+      "torre"
+    ],
+    "esquirla": "Polvo en la garganta, piedras encima; cuervo herido dentro… ni rasgarse sirve ya porque solo pedazos suenan como huesos rotos en un templo olvidado que nadie rezaría. Hambre seca. Ya nada.",
+    "signatura": "SMET-0048",
+    "palabras": 231,
+    "retrato": true
   }
 ]
