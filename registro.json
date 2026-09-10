@@ -1327,5 +1327,34 @@
     "signatura": "SMET-0048",
     "palabras": 231,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-10",
+    "palo": "D",
+    "carta": "D10",
+    "estado": "E19",
+    "modificador": null,
+    "prohibidas": [
+      "eterno",
+      "piedra",
+      "cráneo"
+    ],
+    "violadas": [
+      "piedra"
+    ],
+    "senal": "turbia",
+    "temperatura": 1.77,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "eterno",
+      "piedra"
+    ],
+    "esquirla": "El agua cae del muro. No tengo dedos; la voz es eco en un aire hueco y pesado. La palabra rota se hundió dentro… ya no recuerdo a quién rezar, solo paredes respondiendo sin boca ni hueso propio.",
+    "signatura": "SMET-0049",
+    "palabras": 224,
+    "retrato": false
   }
 ]
