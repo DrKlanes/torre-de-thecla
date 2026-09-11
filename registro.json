@@ -1356,5 +1356,32 @@
     "signatura": "SMET-0049",
     "palabras": 224,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-11",
+    "palo": "A",
+    "carta": "A18",
+    "estado": "E46",
+    "modificador": null,
+    "prohibidas": [
+      "muerte",
+      "vacío",
+      "infierno"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.1,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "muerte",
+      "vacío"
+    ],
+    "esquirla": "El metal frío soplando hasta enfriarlo, la melodía de cascabeles rotos… apunto con sangre sobre polvo seco. ¿Cuánto llevo aquí? Las sombras crecen; el eco se arrastra para deshacer mi cuerpo entre pedazos olvidados en este lugar.",
+    "signatura": "SMET-0050",
+    "palabras": 225,
+    "retrato": true
   }
 ]
