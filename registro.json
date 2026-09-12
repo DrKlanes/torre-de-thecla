@@ -1383,5 +1383,34 @@
     "signatura": "SMET-0050",
     "palabras": 225,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-12",
+    "palo": "C",
+    "carta": "C24",
+    "estado": "E12",
+    "modificador": "V10",
+    "prohibidas": [
+      "piedra",
+      "dedos",
+      "oscuridad"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "piedra",
+      "dedos"
+    ],
+    "esquirla": "El alambre tiembla antes… ya dije esto hace días. La llave contra muñecas chasqueó, el óxido suena a bien quererle lejos mientras brilla en la torre rota. Moho azul mancha: que sea feliz; yo me desmembré y caí en el fango de aquí.",
+    "signatura": "SMET-0051",
+    "palabras": 218,
+    "retrato": false
   }
 ]
