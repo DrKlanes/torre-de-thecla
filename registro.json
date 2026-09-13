@@ -1412,5 +1412,34 @@
     "signatura": "SMET-0051",
     "palabras": 218,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-13",
+    "palo": "D",
+    "carta": "D15",
+    "estado": "E52",
+    "modificador": "breve",
+    "prohibidas": [
+      "maldito",
+      "aire",
+      "huesos"
+    ],
+    "violadas": [
+      "aire"
+    ],
+    "senal": "clara",
+    "temperatura": 1.04,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "maldito",
+      "aire"
+    ],
+    "esquirla": "La armadura raspa la carne mojada; un nombre ajeno en la boca seca. El eco escupe sin advertencia… duele donde no debería, falla hasta el miedo mismo. La humedad se congela por él y yo caigo al pasadizo que no existe: ni salida ni aire.",
+    "signatura": "SMET-0052",
+    "palabras": 218,
+    "retrato": false
   }
 ]
