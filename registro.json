@@ -1441,5 +1441,35 @@
     "signatura": "SMET-0052",
     "palabras": 218,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-14",
+    "palo": "C",
+    "carta": "C36",
+    "estado": "E53",
+    "modificador": "V6",
+    "prohibidas": [
+      "piedra",
+      "muro",
+      "escupir"
+    ],
+    "violadas": [
+      "piedra",
+      "muro"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "piedra",
+      "muro"
+    ],
+    "esquirla": "Cristal roto en la garganta. Vacaciones podridas que ya pasaron; solo queda esta presión estúpida contra el esternón… un impulso puro para salir sano, pronto. Y si no recuerdo ni siquiera cómo se jodió la luz, ¿por qué esperar?",
+    "signatura": "SMET-0053",
+    "palabras": 239,
+    "retrato": false
   }
 ]
