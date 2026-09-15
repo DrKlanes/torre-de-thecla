@@ -1471,5 +1471,32 @@
     "signatura": "SMET-0053",
     "palabras": 239,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-15",
+    "palo": "D",
+    "carta": "D7",
+    "estado": "E2",
+    "modificador": null,
+    "prohibidas": [
+      "grito",
+      "luz",
+      "dientes"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": true,
+    "aprendidas": [
+      "grito",
+      "luz"
+    ],
+    "esquirla": "La sal gotea sangre vieja. Los leones movieron las fauces un pelo, crees… el humo es carne quemada. Quieres tocar los muros hasta ser parte; solo una herida seca donde antes hubo dientes bajo ese latido animal que ya no reconoces.",
+    "signatura": "SMET-0054",
+    "palabras": 220,
+    "retrato": false
   }
 ]
