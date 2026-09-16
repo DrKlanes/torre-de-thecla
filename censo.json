@@ -166,5 +166,13 @@
     "v": 1,
     "desde": "SMET-0050",
     "senal": "clara"
+  },
+  "A26": {
+    "f": 1,
+    "m": 1,
+    "b": 13,
+    "v": -1,
+    "desde": "SMET-0055",
+    "senal": "abisal"
   }
 }

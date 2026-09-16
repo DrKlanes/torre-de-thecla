@@ -1498,5 +1498,32 @@
     "signatura": "SMET-0054",
     "palabras": 220,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-16",
+    "palo": "A",
+    "carta": "A26",
+    "estado": "E27",
+    "modificador": "V15",
+    "prohibidas": [
+      "podrido",
+      "aire",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "podrido",
+      "aire"
+    ],
+    "esquirla": "El salitre quema aunque el mar mintió… Rezo a puertos muertos entre grietas de piedra; grito sin agua donde mi barco fue olvido y madera podrida me retuerce las entrañas en seco. Lameré barro antes que ver estrellas falsas aquí: ¡dolerá hasta la última raíz!",
+    "signatura": "SMET-0055",
+    "palabras": 214,
+    "retrato": true
   }
 ]
