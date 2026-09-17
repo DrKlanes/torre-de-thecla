@@ -1525,5 +1525,35 @@
     "signatura": "SMET-0055",
     "palabras": 214,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-17",
+    "palo": "A",
+    "carta": "A10",
+    "estado": "E43",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "hueco",
+      "muro"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "piedra",
+      "hueco"
+    ],
+    "corregidas": [
+      "piedra"
+    ],
+    "esquirla": "El aire saturado revienta en grietas... busco al revés, pero ahí están detrás, montículos fríos esperando un tacto… si te quedas demasiado tiempo desapareces para no volver. Y ya otros te buscan entre las raíces.",
+    "signatura": "SMET-0056",
+    "palabras": 230,
+    "retrato": false
   }
 ]
