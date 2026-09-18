@@ -1555,5 +1555,35 @@
     "signatura": "SMET-0056",
     "palabras": 230,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-18",
+    "palo": "B",
+    "carta": "B21",
+    "estado": "E23",
+    "modificador": null,
+    "prohibidas": [
+      "carne",
+      "dientes",
+      "muerte"
+    ],
+    "violadas": [
+      "muerte"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0054",
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "eco_frase": "Aquí ya todos tienen una voz hecha astillas y las palabras…",
+    "aprendidas": [
+      "carne",
+      "dientes"
+    ],
+    "esquirla": "Musgo frío, fotos con el mismo lunar roto en dos siglos distintos; mi padre se ahogó cosido… yo ya sangré raspando cristales rotos para ver nada claro. Y ahora solo huelo a calcetines podridos: ¿quién me creyó siquiera?",
+    "signatura": "SMET-0057",
+    "palabras": 217,
+    "retrato": false
   }
 ]
