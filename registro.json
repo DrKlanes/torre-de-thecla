@@ -1585,5 +1585,36 @@
     "signatura": "SMET-0057",
     "palabras": 217,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-20",
+    "palo": "A",
+    "carta": "A33",
+    "estado": "E35",
+    "modificador": "V19",
+    "prohibidas": [
+      "dedos",
+      "sala",
+      "luz"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "clara",
+    "temperatura": 1.0,
+    "eco": "SMET-0031",
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": true,
+    "eco_frase": "El club de abajo es un latido sordo: vibraciones en la tierra que suben por mis juntas rotas hasta hacerme eco.",
+    "lucidez": true,
+    "aprendidas": [
+      "dedos",
+      "sala"
+    ],
+    "esquirla": "La torre suda cocina podrida, toco la misa invisible con clavos invisibles en el ataúd de esta piedra. El latido sordo abajo tiembla… hueco que muerde la garganta. Origami de dolor doblado en mi sien. No nombro: hago sentir cómo pesa cada grieta fría.",
+    "signatura": "SMET-0058",
+    "palabras": 219,
+    "retrato": true
   }
 ]
