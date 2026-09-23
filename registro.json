@@ -1670,5 +1670,32 @@
     "signatura": "SMET-0060",
     "palabras": 235,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-23",
+    "palo": "B",
+    "carta": "B15",
+    "estado": "E37",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "luz",
+      "vacío"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": true,
+    "aprendidas": [
+      "piedra",
+      "luz"
+    ],
+    "esquirla": "La percha 37 vacía. Llamarla casa hizo que el otro piso se quemara lento… sin fuego, pero sí con un peso húmedo en la garganta. Y siempre sobran abrigos rotos donde ya no hay nombres. Solo grietas frías entre los dedos.",
+    "signatura": "SMET-0061",
+    "palabras": 233,
+    "retrato": true
   }
 ]
