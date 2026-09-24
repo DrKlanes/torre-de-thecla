@@ -1697,5 +1697,34 @@
     "signatura": "SMET-0061",
     "palabras": 233,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-24",
+    "palo": "A",
+    "carta": "A23",
+    "estado": "E4",
+    "modificador": "V20",
+    "prohibidas": [
+      "torre",
+      "hueco",
+      "dientes"
+    ],
+    "violadas": [
+      "hueco"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "torre",
+      "hueco"
+    ],
+    "esquirla": "El metal frío en la piedra; la humedad pesa, oxida el cuerpo vacío entre muros que no dejan ver qué hay afuera. No recuerdo otro rostro. Sólo esta voz gritando mi nombre desde adentro antes de apagarse… esto es lo único que queda al final del último instante.",
+    "signatura": "SMET-0062",
+    "palabras": 229,
+    "retrato": false
   }
 ]
