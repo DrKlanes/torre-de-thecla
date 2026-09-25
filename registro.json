@@ -1726,5 +1726,35 @@
     "signatura": "SMET-0062",
     "palabras": 229,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-25",
+    "palo": "C",
+    "carta": "C21",
+    "estado": "E30",
+    "modificador": null,
+    "prohibidas": [
+      "vacío",
+      "gusanos",
+      "huesos"
+    ],
+    "violadas": [
+      "vacío",
+      "huesos"
+    ],
+    "senal": "turbia",
+    "temperatura": 2.21,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "vacío",
+      "gusanos"
+    ],
+    "esquirla": "La humedad sube por los huesos hasta el hocico helado. El amo huele a piedra y miedo; ya no le reconozco en las sombras rotas bajo la torre. Solo espera… Siempre espero porque nada más me queda intacto después de roer tanto silencio sin nombre entre galerías vacías.",
+    "signatura": "SMET-0063",
+    "palabras": 227,
+    "retrato": false
   }
 ]
