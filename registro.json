@@ -1756,5 +1756,33 @@
     "signatura": "SMET-0063",
     "palabras": 227,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-26",
+    "palo": "D",
+    "carta": "D13",
+    "estado": "E38",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "sombras",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "crecida": true,
+    "aprendidas": [
+      "dedos",
+      "sombras"
+    ],
+    "esquirla": "La piedra muerde la garganta. Cántico húmedo en los huesos. La mujer hecha pedazos fue corte antes que polvo, te vomita sílabas rotas entre dientes… Herida vacía sangrando bajo la frente; sabor a sal amarga y podredumbre sin nombre… No queda quién recuerde el todo.",
+    "signatura": "SMET-0064",
+    "palabras": 249,
+    "retrato": false
   }
 ]
