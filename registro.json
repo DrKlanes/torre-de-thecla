@@ -1784,5 +1784,37 @@
     "signatura": "SMET-0064",
     "palabras": 249,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-27",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E15",
+    "modificador": "breve",
+    "prohibidas": [
+      "vacío",
+      "piedra",
+      "aire"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "vacío",
+      "piedra"
+    ],
+    "corregidas": [
+      "vacío",
+      "piedra"
+    ],
+    "carta_inventada": "La saliva bioluminiscente de una estatua parlante enterrada viva en el futuro pasado",
+    "esquirla": "Sangre seca gotea sobre hielo roto. Perdoné a alguien borroso bajo el cielo muerto. Soy resina sin pulso en la oscuridad ajena… hambre que derrama memorias hasta dejarme hueco donde debían estar mis entrañas: solo polvo blanco cayendo, lento y frío.",
+    "signatura": "SMET-0065",
+    "palabras": 211,
+    "retrato": false
   }
 ]
