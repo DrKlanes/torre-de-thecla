@@ -1816,5 +1816,37 @@
     "signatura": "SMET-0065",
     "palabras": 211,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-28",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E46",
+    "modificador": null,
+    "prohibidas": [
+      "huesos",
+      "vomitar",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0032",
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "eco_frase": "otra noche sin salida bajo esta torre vieja.",
+    "aprendidas": [
+      "huesos",
+      "vomitar"
+    ],
+    "corregidas": [
+      "huesos"
+    ],
+    "carta_inventada": "La bilis cósmica de un dios olvidado excretando leyes nuevas en código morse menstrual",
+    "esquirla": "La bilis del dios quema entre las costillas, un pulso enfermo en la piedra. Música muerta gotea desde fuera. Arena mojada bajo esta torre vieja… otra noche sin salida; ya no recuerdo qué era antes.",
+    "signatura": "SMET-0066",
+    "palabras": 219,
+    "retrato": false
   }
 ]
