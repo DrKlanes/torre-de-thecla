@@ -1848,5 +1848,31 @@
     "signatura": "SMET-0066",
     "palabras": 219,
     "retrato": false
+  },
+  {
+    "noche": "2026-09-29",
+    "palo": "A",
+    "carta": "A2",
+    "estado": "E16",
+    "modificador": null,
+    "prohibidas": [
+      "dientes",
+      "sala",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.56,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "dientes"
+    ],
+    "esquirla": "La marca en la piedra… mía. No creí ser preciso para lo fino. Antes solo el tacto de los huesos rotos; ahora hambre quieto que duele hasta respirar. Mis entrañas despiertan y yo ni recuerdo dónde dejé mis herramientas limpias. Solo eso quema, no más.",
+    "signatura": "SMET-0067",
+    "palabras": 228,
+    "retrato": true
   }
 ]
