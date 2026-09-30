@@ -1874,5 +1874,32 @@
     "signatura": "SMET-0067",
     "palabras": 228,
     "retrato": true
+  },
+  {
+    "noche": "2026-09-30",
+    "palo": "C",
+    "carta": "C11",
+    "estado": "E40",
+    "modificador": "breve",
+    "prohibidas": [
+      "huesos",
+      "alma",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.06,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "huesos",
+      "alma"
+    ],
+    "esquirla": "Polvo en la garganta. Hebillas oxidadas aprietan. Humedad bajo el pie derecho, mejor no mirar abajo. Tres dedales gastados… cuatro monedas sin cara. Un mechón blanco con hilo negro: cuántos más me quedan por perder? La torre repite mi voz hambrienta y rota.",
+    "signatura": "SMET-0068",
+    "palabras": 208,
+    "retrato": false
   }
 ]
