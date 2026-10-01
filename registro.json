@@ -1901,5 +1901,35 @@
     "signatura": "SMET-0068",
     "palabras": 208,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-01",
+    "palo": "C",
+    "carta": "C45",
+    "estado": "E11",
+    "modificador": null,
+    "prohibidas": [
+      "muerte",
+      "vacío",
+      "gusanos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aprendidas": [
+      "muerte",
+      "vacío"
+    ],
+    "corregidas": [
+      "muerte"
+    ],
+    "esquirla": "Los pedazos arriba dicen algo roto, no un nombre. Los otros esperan aquí hundidos para que recuerdes por ellos cuando te vayas sin saber dónde eras antes del frío. La torre escupe la humedad en mis huesos hasta dejarte seco bajo el sol; nadie duerme nunca…",
+    "signatura": "SMET-0069",
+    "palabras": 238,
+    "retrato": false
   }
 ]
