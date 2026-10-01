@@ -200,7 +200,7 @@
     animation:torreVelo var(--torre-pulso, .12s) steps(2, jump-none) infinite;
   }
   @keyframes torreVelo{from{opacity:.18}to{opacity:1}}
-  /* LA RESPIRACION Y EL VELO (1-2 ago, decision suya, afinada dos veces):
+  /* LA RESPIRACION Y EL VELO (1-2 ago, afinada dos veces):
      la torre no aparece cruda. (a) Respira en opacidad, lenta — contrapunto
      del velo rapido que parpadea detras. (b) EL MISMO VELO QUE LOS RETRATOS,
      replicado exacto de retratos.js: sombra Bayer hacia la DERECHA (fuerza
@@ -261,7 +261,7 @@
     position:fixed;top:0;left:50%;transform:translateX(-50%);
     z-index:6;text-align:center;cursor:pointer;padding:1.2rem 2.4rem .9rem;
   }
-  /* LA PLACA (1 ago, auditoria; afinada por el autor esa noche): banda de
+  /* LA PLACA (1 ago): banda de
      ANCHO COMPLETO —una franja cortada al ancho de la caja se veia como un
      parche— y al 60%: velo, no muro. Lo que sube se hunde detras, en
      fantasma. pointer-events:none: la diana sigue siendo la caja, no la banda. */
@@ -271,7 +271,7 @@
     background:linear-gradient(180deg,var(--fondo) 45%,transparent 100%);
     opacity:.6;
   }
-  /* EL DESENFOQUE DE LA SEÑAL (2 ago, idea suya). Además del velo, el fondo se
+  /* EL DESENFOQUE DE LA SEÑAL (2 ago). Además del velo, el fondo se
      desenfoca hacia arriba — y no es un adorno: **3 px es EXACTAMENTE el blur con
      el que llegan las palabras del testimonio** (@keyframes llega), así que la
      señal aparece igual que aparece una voz. Por eso vive en un token: un valor,
@@ -471,6 +471,11 @@
 (function(){
 "use strict";
 
+/* las banderas de prueba solo obedecen en local o con la clave */
+var TALLER = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+    || /[?&]ensayo=/.test(location.search)
+    || (function(){ try{ return !!localStorage.getItem("thecla-ensayo"); }catch(e){ return false; } })();
+
 /* ============================================================
    EL PLANO MAESTRO — v1
    La torre en sección: cada noche real, una estancia a su
@@ -548,10 +553,9 @@ function preparar(registro, manifest){
     n.ecoDe=origen;
     (origen.ecoHacia=origen.ecoHacia||[]).push(n);
   });
-  /* ENSAYO DE AUTOR: ?ensayo finge un eco entre la noche más nueva y la más
-     antigua para poder ver la galería antes de que caiga el primero de verdad.
-     No toca datos: vive solo en memoria, en esta pestaña. */
-  if(/[?&]ensayo/.test(location.search)){
+  /* ?ensayo — bandera de prueba: un eco entre la noche más nueva y la más
+     antigua. Vive solo en memoria, en esta pestaña. */
+  if(TALLER && /[?&]ensayo/.test(location.search)){
     var conSig=lista.filter(function(n){return n.reg.signatura;});
     if(conSig.length>1 && !lista.some(function(n){return n.ecoDe;})){
       var nuevo=conSig[conSig.length-1], viejo=conSig[0];
@@ -834,8 +838,8 @@ function dibujar(){
   });
 }
 
-/* EL HILO DEL ECO (§14) — v2 (28 jul, corrección suya).
-   Antes era un conducto ancho por el centro. Error mío doble: el pozo es
+/* EL HILO DEL ECO (§14) — v2 (28 jul).
+   Antes era un conducto ancho por el centro. Error doble: el pozo es
    la única zona que el plano defiende limpia (mira el tejido y el campo,
    los dos lo esquivan), y con un archivo de meses N conductos paralelos
    habrían convertido el tubo en un código de barras.
@@ -883,12 +887,10 @@ function brechasEco(n, scrollLogico, cx){
 }
 
 /* ---------- EL POZO: la noche que habla la torre (2 ago 2026) ----------
-   Peticion suya: «cuando habla la torre no tiene sentido que anada una sala».
-   Cierto — una sala al lado del pozo dice que la torre es una estancia mas, y
-   no lo es: es el continente.
-   El primer intento fue una campana, y la rechazo con razon: «demasiado
-   protagonista y anade demasiado lore por explicar». Un simbolo de plano no
-   explica nada, y por eso funciona.
+   Cuando habla la torre no tiene sentido que anada una sala: una sala al lado
+   del pozo dice que la torre es una estancia mas, y no lo es: es el continente.
+   El primer intento fue una campana: demasiado protagonista, demasiado lore
+   por explicar. Un simbolo de plano no explica nada, y por eso funciona.
    Asi que se usa EL POZO, que ya existe en los planos procedurales bajo los
    testimonios: dos circulos concentricos y cuatro marcas a los cuatro puntos.
    En un plano, un pozo es un hueco vertical que atraviesa TODAS las plantas.
@@ -896,7 +898,7 @@ function brechasEco(n, scrollLogico, cx){
    Va en el eje, dentro del tubo, y es el UNICO simbolo que aparece ahi. Sin
    sala, sin puerta y sin galeria: a un pozo no se entra.
    Y el tubo se abre a su alrededor — la vertical de puntos se distorsiona al
-   pasar por el, que es lo que ya hacia la campana y lo que el pidio mantener. */
+   pasar por el, que es lo que ya hacia la campana. */
 function dibujarPozoTorre(n, ry0, cx){
   var r  = Math.round(n.w/2),        // 8: el brocal de fuera
       ri = Math.round(r*0.5),        // 4: el de dentro
@@ -907,7 +909,7 @@ function dibujarPozoTorre(n, ry0, cx){
   /* el hueco: el tubo y sus hebras no lo atraviesan */
   ctx.clearRect(cx-r-m-3, cy-r-m-3, (r+m+3)*2, (r+m+3)*2);
 
-  /* ESTA REJILLA NO TIENE ANTIALIAS (lo vio el, 2 ago). Todo lo demas del
+  /* ESTA REJILLA NO TIENE ANTIALIAS (2 ago). Todo lo demas del
      plano son rectangulos y lineas rectas: pixeles encendidos o apagados. Un
      arc()+stroke() mete medias tintas por su cuenta y el simbolo salia con un
      sombreado fino que no tenia ningun otro elemento. Asi que el circulo se
@@ -1065,14 +1067,10 @@ function dibujarEstancia(n, ry0, cx){
 
 /* ---------- sala de constantes ---------- */
 function constantes(reg){
-  /* LA INSCRIPCIÓN (29 jul) — antes esto era una tabla de once filas con el
-     vocabulario privado del Director: palos, señales, desobediencias del pozo.
-     Dos problemas. Uno: nombraba el andamio en una web pública. Dos, peor:
-     repetía en palabras lo que el corte de abajo ya dice en arquitectura
-     —anchura, altura, trama, brasa, mancha, tapiado— y le resolvía el acertijo
-     al lector antes de que empezara. El mecanismo se cuenta entero en la carta
-     del jardinero, que es del autor. Aquí queda solo lo que la torre podría
-     saber de sí misma, y sin rejilla: la rejilla ERA el panel de control.
+  /* LA INSCRIPCIÓN (29 jul) — el corte de abajo ya lo dice en arquitectura
+     —anchura, altura, trama, brasa, mancha, tapiado—; repetirlo en palabras
+     le resolvería el acertijo al lector antes de empezar. Aquí queda solo lo
+     que la torre podría saber de sí misma, y sin rejilla.
      LEY: la inscripción cuenta, NUNCA comenta. Nada del presente, nada de
      «esta noche». Solo lo acumulado, que no es noticia — así la voz del §11
      sigue siendo un acontecimiento y no la cabecera de una página. */
@@ -1157,7 +1155,7 @@ function abrirFicha(n){
   }
   var cuerpo=document.getElementById("fichaCuerpo");
   cuerpo.innerHTML=h;
-  /* LA TORRE deja constancia tambien aqui (peticion suya, 1 ago): en la ficha,
+  /* LA TORRE deja constancia tambien aqui (1 ago): en la ficha,
      donde el rostro de un engullido, va su ilustracion. Se pide solo la noche
      que hace falta, y si el archivo no esta, la ficha sigue igual de valida. */
   if(n.torre){
@@ -1444,12 +1442,9 @@ Promise.all([
   fetch("manifest.json?v="+Date.now()).then(function(r){return r.json();})
 ]).then(function(res){
   var registro=res[0], manifest=res[1];
-  /* ENSAYO DE AUTOR: ?torre finge una noche en que habló la torre, para poder
-     ver su estancia y su ficha antes de que caiga la primera de verdad — que
-     necesita siete noches de silencio (§11) y puede tardar semanas.
-     Vive solo en memoria, en esta pestaña: no toca registro.json.
-     El mismo flag existe en index.html, y allí hace lo propio en la cabecera. */
-  if(/[?&]torre\b/.test(location.search) && !registro.some(function(e){return e.carta==="TORRE";})){
+  /* ?torre — bandera de prueba: una noche en que habló la torre, para ver su
+     estancia y su ficha. Vive solo en memoria, en esta pestaña. */
+  if(TALLER && /[?&]torre\b/.test(location.search) && !registro.some(function(e){return e.carta==="TORRE";})){
     var u=registro[registro.length-1]||{};
     var d=new Date(u.noche||"2026-08-01"); d.setDate(d.getDate()+1);
     registro=registro.concat([{

@@ -6,11 +6,10 @@
    cerrar a proposito: se va con Escape o pulsando fuera, y entonces el
    navegador lo recuerda hasta que esa ventana termine.
 
-   FUERA DE VENTANA NO HAY ESPEJO (decision suya, 30 jul): la torre es aspera
+   FUERA DE VENTANA NO HAY ESPEJO: la torre es aspera
    y esquiva, no un cozy-game. La fecha la pone el reloj del visitante, asi que
    esto es PRESENTACION, no seguridad — el buzon valida por su cuenta (fase 3).
 
-   ?ensayo  fuerza abierto  ·  ?tapia  fuerza cerrado   (herramientas de autor)
    Va aparte, como el hilo y el poso: no toca una linea del motor del archivo.
    ============================================================ */
 (function(){
@@ -21,13 +20,17 @@
   var dentro = caja.querySelector(".hueco-caja");
   if(!caja || !paso || !dentro) return;
 
-  var FORZAR = location.search.indexOf("ensayo") >= 0 ? "abre"
+  /* las banderas de prueba solo obedecen en local o con la clave */
+  var TALLER = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+        || /[?&]ensayo=/.test(location.search)
+        || (function(){ try{ return !!localStorage.getItem("thecla-ensayo"); }catch(e){ return false; } })();
+  var FORZAR = !TALLER ? null
+             : location.search.indexOf("ensayo") >= 0 ? "abre"
              : location.search.indexOf("tapia")  >= 0 ? "cierra" : null;
 
   /* EL BUZON. Antes de ofrecer sitio se le pregunta si QUEDA sitio: el
      calendario dice si hoy toca, pero solo el buzon sabe si las dos plazas
-     siguen libres. Su direccion no es secreta; la clave del ensayo si lo es y
-     por eso llega por la URL, nunca escrita aqui (este archivo se publica). */
+     siguen libres. Su direccion no es secreta; la clave no vive aqui. */
   var BUZON = "https://torre-buzon.dumaker.workers.dev";
   var ENSAYO = (function(){
     var m = location.search.match(/[?&]ensayo=([^&]+)/);
@@ -50,10 +53,8 @@
       .catch(function(){ return true; });
   }
 
-  /* LA BANDERA VIAJA CON EL PASO. Sin esto, ensayar desde el archivo te dejaba
-     en un zaguan tapiado: el hueco se abria con ?ensayo pero el enlace iba
-     limpio, y alli la fecha real vuelve a mandar. Solo se anade cuando el
-     autor ya trae la bandera puesta; para el visitante el enlace no cambia. */
+  /* LA BANDERA VIAJA CON EL PASO, solo si ya venia puesta: para el
+     visitante el enlace no cambia. */
   (function(){
     var paso = document.getElementById("huecoPaso");
     if(!paso || !FORZAR) return;
@@ -65,7 +66,7 @@
   })();
 
   var LLAVE = "thecla.hueco.";
-  /* EL MISMO TAMANO EN TODA LA OBRA (1 ago, tercera correccion suya: en el
+  /* EL MISMO TAMANO EN TODA LA OBRA (1 ago: en el
      modal seguia grande). x3 sobre un lienzo de 44 son 132x192, exactamente lo
      que mide `.torre-cab` en el archivo. La torre es la misma en todas partes;
      el hueco solo puede quedarse POR DEBAJO si la pantalla no da para mas
@@ -97,7 +98,7 @@
     try { localStorage.removeItem(LLAVE + v); } catch(e){}
   }
 
-  /* ---- LA TORRE: el pixel art del autor, si existe ----
+  /* ---- LA TORRE: el pixel art, si existe ----
      No se impone ningun lienzo: se lee el que tenga el PNG y se busca el mayor
      zoom ENTERO que cabe, midiendo — igual que calibrar() en el zaguan, y por
      el mismo motivo (un factor fraccionario parte unos pixeles en 3 y otros en
@@ -124,8 +125,8 @@
     var ancho = dentro.getBoundingClientRect().width;
     var k = Math.min(Math.floor(ancho / W), Math.floor(alto / H));
     if(k < 1){ torre.hidden = true; return; }
-    /* TOPE x5 (1 ago, correccion suya). Sin tope llegaba a x8 en tablet
-       —352x512— y ahi es donde la vio «demasiado grande»: en el archivo la
+    /* TOPE x5 (1 ago). Sin tope llegaba a x8 en tablet
+       —352x512— y ahi era demasiado grande: en el archivo la
        torre y un retrato miden lo mismo, pero el hueco calibraba al hueco que
        hubiera. x5 = 220x320 = EXACTAMENTE un retrato de `.retrato-noche`.
        La regla, en un sitio: la torre no pasa nunca del tamano de un rostro. */
@@ -221,13 +222,13 @@
             : FORZAR === "cierra" ? null
             : ventanaDeHoy(cal);
       if(!v) return;                    /* fuera de ventana no hay espejo */
-      /* ?ensayo es herramienta de autor: cada carga empieza con la pizarra
+      /* con ?ensayo cada carga empieza con la pizarra
          limpia. Dentro de esa carga el comportamiento es el real —si lo cierras
          y vuelves a bajar, no reaparece—, pero recargar vuelve a ofrecerlo.
          Sin esto, probarlo una vez lo dejaba mudo para siempre. */
       if(FORZAR === "abre") olvidar(v.abre);
       if(dejadoPasar(v.abre)) return;   /* ya lo dejo pasar en esta ventana */
-      /* ?ensayo a secas es la herramienta de DISENO: ensena el hueco pase lo
+      /* ?ensayo a secas ensena el hueco pase lo
          que pase, como hasta ahora. Solo se le pregunta al buzon cuando la
          ventana es de verdad. */
       return (FORZAR === "abre" ? Promise.resolve(true) : quedaSitio())

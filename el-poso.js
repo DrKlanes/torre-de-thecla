@@ -110,8 +110,7 @@ function depositNight(night, animar){
   var placed=[];
   /* §19: la crecida suelta EL DOBLE de granos — la montana archiva las
      mareas como estratos gordos. El rotulo sigue diciendo las palabras
-     reales; solo la materia se duplica. (1 ago, auditoria: el DIRECTOR
-     lo prometia y el poso no lo hacia.) */
+     reales; solo la materia se duplica. */
   var granos = night.words * (night.crecida ? 2 : 1);
   for(var g=0; g<granos; g++){
     var foco=focos[g%nFocos];

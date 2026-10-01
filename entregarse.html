@@ -306,10 +306,9 @@
   @media (prefers-reduced-motion: reduce){ .paso{animation:none} }
 
   /* ---- LA TAPIA: lo que hay los 353 días que la torre no abre ----
-     Decision suya, 30 jul: «esta experiencia es liminal y experimental, no es
-     un cozy-game; la torre es aspera y esquiva. El espejo no es accesible,
-     solo la noche que engulle.» Sin fecha, sin cuenta atras, sin promesa: una
-     fecha debajo seria un cartel de comercio. */
+     La torre es aspera y esquiva: el espejo no es accesible, solo la noche
+     que engulle. Sin fecha, sin cuenta atras, sin promesa: una fecha debajo
+     seria un cartel de comercio. */
   .z-tapia{
     margin-top:2.4rem;max-width:34em;
     font-size:var(--t-base);letter-spacing:var(--k-frase);
@@ -537,18 +536,17 @@ function dibujarReflejo(cv){
    visitante, asi que esto es PRESENTACION, no seguridad: quien adelante el
    movil vera el espejo y nada mas — el buzon valida la ventana por su cuenta
    y rechaza lo que llegue fuera (fase 3).
-   ?ensayo  fuerza abierto  ·  ?tapia  fuerza cerrado   (herramientas de autor)
    ============================================================ */
-var FORZAR = location.search.indexOf("ensayo") >= 0 ? "abre"
+/* las banderas de prueba solo obedecen en local o con la clave */
+var TALLER = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+      || /[?&]ensayo=/.test(location.search)
+      || (function(){ try{ return !!localStorage.getItem("thecla-ensayo"); }catch(e){ return false; } })();
+var FORZAR = !TALLER ? null
+           : location.search.indexOf("ensayo") >= 0 ? "abre"
            : location.search.indexOf("tapia")  >= 0 ? "cierra" : null;
 
-/* EL BUZON. Vive en Cloudflare, fuera de esta web y fuera del repo. Su
-   direccion no es un secreto: el navegador tiene que llamarla a la vista
-   de todos. Lo que si es secreto es la clave del ensayo, y por eso NO
-   PUEDE ESCRIBIRSE AQUI: este archivo se publica entero cada noche.
-   La clave llega por la URL una sola vez (?ensayo=CLAVE, que es lo que
-   hace buzon\ensayar.bat) y el navegador la recuerda; despues basta con
-   ?ensayo a secas, como el resto de banderas de autor de la obra. */
+/* EL BUZON. Su direccion no es un secreto: el navegador tiene que llamarla
+   a la vista de todos. La clave no vive en este archivo. */
 var BUZON = "https://torre-buzon.dumaker.workers.dev";
 var ENSAYO = (function(){
   var m = location.search.match(/[?&]ensayo=([^&]+)/);
@@ -580,15 +578,14 @@ function ventanaDeHoy(cal){
    Tres maneras de no entrar, y son distintas. Las tres hablan de numeros y de
    tiempo, nunca de negativas: por eso suenan a la misma boca. La torre constata
    y no se disculpa; tampoco se regodea, porque no sabe que hace daño.
-   PROVISIONALES: el texto definitivo es suyo.
      1. fuera de fecha   — su visita no tenia nada de particular
-     2. cupo agotado     — la cifra, sin explicaciones (§SOUL-TORRE: nunca redondea)
-     3. se lleno mientras contestaba — hara falta en la fase 3, con el buzon */
+     2. cupo agotado     — la cifra, sin explicaciones: nunca redondea
+     3. se lleno mientras contestaba */
 var CIERRE = {
   fecha:    "Hoy no guardo a nadie.",
   cupo:     "Ya hay dos dentro. Están a salvo.",
   a_medias: "Otros dos terminaron antes. Ya están a salvo.",
-  /* dos mas, que la fase 3 destapa y la fase 2 no podia ver. BORRADORES:
+  /* y dos mas:
      4. ya te entregaste hoy (el buzon guarda una por casa y dia)
      5. el buzon no contesto — no es la torre hablando, es una averia, y
         por eso es el unico de los cinco que deja volver a intentarlo. */
@@ -844,8 +841,12 @@ function entregar(){
 
     /* que no conteste NO es la torre hablando: es una averia. Es el unico
        caso en que se puede volver a pulsar, porque perder un engullido por
-       un parpadeo de la red seria perderlo del todo. */
-    if(!res){
+       un parpadeo de la red seria perderlo del todo.
+       Tambien cuando el buzon contesta pero con un error y sin cierre (503 si
+       no alcanza el calendario, p. ej.): eso tampoco es la torre hablando, y
+       antes caia al cierre final, borraba el boton y se llevaba el
+       cuestionario entero. */
+    if(!res || (!res.cierre && !res.signatura)){
       _entregando = false;
       if(btn){ btn.disabled = false; btn.textContent = "entregarme"; }
       if(inp){ inp.disabled = false; }
@@ -865,7 +866,7 @@ function entregar(){
   });
 }
 
-/* EL RESGUARDO. Lo unico que se lleva. BORRADOR: el copy es suyo. */
+/* EL RESGUARDO. Lo unico que se lleva. */
 function guardado(res){
   var caja = $("#paso");
   caja.innerHTML = "";
@@ -874,13 +875,13 @@ function guardado(res){
   d.appendChild(el("p", "q-firma", res.signatura));
   d.appendChild(el("p", "q-nota", "Ese es tu resguardo. No lo repetiré."));
   /* y DONDE se usa. Sin esto el resguardo no sirve para nada y quien-soy.html
-     no existe para nadie. BORRADOR: el copy es suyo. */
+     no existe para nadie. */
   d.appendChild(el("p", "q-nota", "Si vuelves, es por aquí."));
   var v = el("a", "q-vuelta", "torredethecla.dumaker.com/quien-soy.html");
   v.href = "quien-soy.html?c=" + encodeURIComponent(res.signatura);
   d.appendChild(v);
-  /* la marca del autor: en ensayo, que no quede duda de que no ha pasado */
-  if(res.ensayo) d.appendChild(el("p", "q-nota", "— ensayo del autor · esto no ha ocurrido —"));
+  /* en prueba, que no quede duda de que no ha pasado */
+  if(res.ensayo) d.appendChild(el("p", "q-nota", "— ensayo · esto no ha ocurrido —"));
   caja.appendChild(d);
   $("#pasos").innerHTML = "";
 }

@@ -136,7 +136,7 @@
   }
   .tx-cuerpo{font-size:1.16rem;line-height:1.85;color:var(--texto)}
   .tx-cuerpo p{margin-bottom:1.35em}
-  /* EL CURSOR DE LA TRANSMISION (2 ago, lo vio el autor): antes era un
+  /* EL CURSOR DE LA TRANSMISION (2 ago): antes era un
      ::after clavado al final del ultimo parrafo — y como las palabras aun no
      escritas ya ocupan su sitio, el bloque parpadeaba abajo del todo mientras
      el texto se materializaba arriba. Ahora es un span que VIAJA: salta a
@@ -205,7 +205,7 @@
     position:fixed;top:0;left:50%;transform:translateX(-50%);
     z-index:6;text-align:center;cursor:pointer;padding:1.2rem 2.4rem .9rem;
   }
-  /* LA PLACA (1 ago, auditoria; afinada por el autor esa noche): banda de
+  /* LA PLACA (1 ago): banda de
      ANCHO COMPLETO —una franja cortada al ancho de la caja se veia como un
      parche— y al 60%: velo, no muro. Lo que sube se hunde detras, en
      fantasma. pointer-events:none: la diana sigue siendo la caja, no la banda. */
@@ -215,7 +215,7 @@
     background:linear-gradient(180deg,var(--fondo) 45%,transparent 100%);
     opacity:.6;
   }
-  /* EL DESENFOQUE DE LA SEÑAL (2 ago, idea suya). Además del velo, el fondo se
+  /* EL DESENFOQUE DE LA SEÑAL (2 ago). Además del velo, el fondo se
      desenfoca hacia arriba — y no es un adorno: **3 px es EXACTAMENTE el blur con
      el que llegan las palabras del testimonio** (@keyframes llega), así que la
      señal aparece igual que aparece una voz. Por eso vive en un token: un valor,
@@ -425,7 +425,7 @@
   #hueco[hidden]{display:none}
   #hueco.visible{opacity:1}
   .hueco-caja{max-width:32em;text-align:center}
-  /* ==== LA TORRE — pixel art del autor, dibujado a mano (1 ago 2026) ====
+  /* ==== LA TORRE — pixel art dibujado a mano (1 ago 2026) ====
      Un solo bloque para los DOS sitios donde sale: encima del testimonio las
      noches que la torre habla, y en el hueco. Ley 1: si deben parecerse,
      comparten declaracion.
@@ -462,7 +462,7 @@
     animation:torreVelo var(--torre-pulso, .12s) steps(2, jump-none) infinite;
   }
   @keyframes torreVelo{from{opacity:.18}to{opacity:1}}
-  /* LA RESPIRACION Y EL VELO (1-2 ago, decision suya, afinada dos veces):
+  /* LA RESPIRACION Y EL VELO (1-2 ago, afinada dos veces):
      la torre no aparece cruda. (a) Respira en opacidad, lenta — contrapunto
      del velo rapido que parpadea detras. (b) EL MISMO VELO QUE LOS RETRATOS,
      replicado exacto de retratos.js: sombra Bayer hacia la DERECHA (fuerza
@@ -487,8 +487,7 @@
   }
   /* encima del testimonio, donde estaba la mancha. Mismo criterio de tamano
      que los rostros de retratos.js: x5 en escritorio, x4 en movil. */
-  /* x3 EN TODAS LAS ANCHURAS (1 ago, segunda correccion suya: «en desktop aun
-     mas pequena»). 132x192, el 60% de un retrato.
+  /* x3 EN TODAS LAS ANCHURAS (1 ago). 132x192, el 60% de un retrato.
      A x5 medía EXACTAMENTE lo que un retrato —220x320, mismo lienzo de 44x64—;
      pero en la cabecera pesa mas que ahi: llega antes de leer, sola en el aire,
      y sustituye a una mancha de 150x54. Dos pasos menos.
@@ -507,7 +506,7 @@
   /* la torre habla con la misma letra que las transmisiones: es la misma boca */
   .hueco-voz{font-size:1.16rem;line-height:1.85;color:var(--texto);margin:0 0 1.35em}
   .hueco-voz.hueco-lejos{color:var(--frio)}
-  /* EL PASO — CAJA LLENA (1 ago, correccion suya). Lo tenia entre corchetes
+  /* EL PASO — CAJA LLENA (1 ago). Lo tenia entre corchetes
      razonando que el enlace es reversible: del zaguan se vuelve atras. Me
      equivocaba de sujeto. Lo irreversible aqui no es el destino, es EL MOMENTO
      — «esto no vuelve a abrirse». La caja solida dice la verdad, y ademas saca
@@ -623,7 +622,7 @@
 </section>
 
 <!-- LA PUERTA DEL RESGUARDO. Lo ultimo de la pagina, debajo del poso: quien
-     llega aqui ya lo ha leido todo. BORRADOR del 10 ago 2026: el copy es suyo. -->
+     llega aqui ya lo ha leido todo. -->
 <footer id="pie">
   <a class="pie-enlace" href="quien-soy.html">[ el resguardo ]</a>
 </footer>
@@ -640,9 +639,8 @@
 </nav>
 
 <!-- EL HUECO. Nace oculto y el JS decide si la torre abre hoy.
-     COPY revisado contra SOUL-TORRE.md (10 ago 2026): la torre constata, no
-     se disculpa — «No sabria decirte» era un titubeo y se fue. El resto se
-     queda: «guardar» es su unica forma de querer y asi lo dice. -->
+     La torre constata, no se disculpa. «Guardar» es su unica forma de querer
+     y asi lo dice. -->
 <div id="hueco" hidden role="dialog" aria-modal="true" aria-labelledby="huecoRotulo">
   <div class="hueco-caja" tabindex="-1">
     <!-- LA TORRE. Sin src a proposito: lo pone el JS cuando el hueco aparece,
@@ -675,6 +673,11 @@
 <script>
 (function(){
   "use strict";
+
+  /* las banderas de prueba solo obedecen en local o con la clave */
+  var TALLER = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+        || /[?&]ensayo=/.test(location.search)
+        || (function(){ try{ return !!localStorage.getItem("thecla-ensayo"); }catch(e){ return false; } })();
 
   var LOTE = 3;                 // transmisiones por carga
   var lista = [];               // ordenadas: la más nueva primero
@@ -786,7 +789,7 @@
   }
 
   /* ---------- la torre: encima del testimonio las noches que habla ----------
-     Decision suya (1 ago): sustituye a la mancha y va ARRIBA, no debajo como
+     (1 ago) Sustituye a la mancha y va ARRIBA, no debajo como
      los rostros de los engullidos. Si el archivo no carga, vuelve la mancha:
      la cabecera no se queda vacia nunca. */
   function laTorre(){
@@ -1360,8 +1363,9 @@
     obsPlanos.observe(div);
   }
 
-  // tecla secreta de autor: G descarga como PNG (4x, pixelado intacto) el plano más visible
+  // G descarga como PNG (4x, pixelado intacto) el plano más visible — solo en el taller
   window.addEventListener("keydown", function(ev){
+    if(!TALLER) return;
     if(ev.key !== "g" && ev.key !== "G") return;
     var mejor = null, mejorVis = 0;
     document.querySelectorAll('.plano[data-pintado="1"]').forEach(function(div){
@@ -1398,13 +1402,9 @@
     lista = (datos.transmisiones || []).slice().sort(function(a,b){
       return new Date(b.fecha) - new Date(a.fecha);
     });
-    /* ?torre — HERRAMIENTA DE AUTOR (1 ago 2026).
-       La torre solo habla tras siete noches de silencio (§11), asi que su
-       ilustracion podria tardar semanas en verse en la cabecera. Este flag
-       duplica el testimonio de arriba y lo pinta como noche de la torre: la
-       composicion es la real y no hay ni una palabra inventada en el repo.
-       Vive solo en el navegador; no toca el manifest ni el registro. */
-    if(/[?&]torre\b/.test(location.search) && lista.length){
+    /* ?torre — bandera de prueba: pinta el testimonio de arriba como noche
+       de la torre. Vive solo en esta pestaña; no toca ningun archivo. */
+    if(TALLER && /[?&]torre\b/.test(location.search) && lista.length){
       var ens = {};
       for(var k in lista[0]) ens[k] = lista[0][k];
       ens.torre = true; ens.signatura = null;

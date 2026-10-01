@@ -139,18 +139,16 @@
    manifest.json (dónde está lo que dijo). El rostro lo pinta retratos.js, con
    el censo que ya carga por su cuenta.
 
-   LA FICHA ES LA HABITACIÓN, NO EL EXPEDIENTE (regla suya, 29 jul). Aquí no
+   LA FICHA ES LA HABITACIÓN, NO EL EXPEDIENTE (29 jul). Aquí no
    sale su palo, ni el código de su carta, ni la señal, ni el estado: eran
    números de catálogo en una web pública. Sale lo que le pasó dentro.
 
    CUATRO ESTADOS, y el tercero es el que dura meses:
      1. sin código          — se le pide
      2. no lo reconoce      — la torre no le debe explicaciones
-     3. dentro, aún callado — EL NORMAL. No se le promete cuándo (decisión
-                              del 1 ago: la espera no se anuncia en ninguna parte)
+     3. dentro, aún callado — EL NORMAL. No se le promete cuándo: la
+                              espera no se anuncia en ninguna parte
      4. ya habló            — su cara con la luz de esa noche, su línea, y lo que dijo
-
-   ⚠ TODO EL COPY DE ESTA PÁGINA ES BORRADOR MÍO HASTA QUE ÉL LO DESTROCE.
    ============================================================ */
 (function(){
   "use strict";
@@ -163,13 +161,10 @@
     return e;
   };
 
-  /* --------- EL COPY (sesion del 10 ago 2026) ---------
-     Revisado entero contra SOUL-TORRE.md. Un solo cambio de fondo:
-     «te trague» -> «te guarde». Las palabras de los asustados no son
-     de la torre —hambre, presa, devorar— y tragar es una de ellas; los
-     cinco cierres del zaguan ya decian guardar («Hoy no guardo a nadie»,
-     «Hoy ya te guarde una vez»). Aqui era la unica que desentonaba.
-     Lo demas se queda: es la voz. ------------------------ */
+  /* --------- LO QUE DICE LA TORRE ---------
+     «Guardar», nunca «tragar»: las palabras de los asustados no son de la
+     torre —hambre, presa, devorar—. Los cinco cierres del zaguan dicen lo
+     mismo («Hoy no guardo a nadie», «Hoy ya te guarde una vez»). ---------- */
   var DICE = {
     pide:      "Dime cómo te llamé.",
     pista:     "El resguardo que te llevaste.",
@@ -275,7 +270,7 @@
     cuerpo.appendChild(el("p", "voz", DICE.hablo));
     cuerpo.appendChild(el("p", "cuando", "la noche del " + enLetra(primera.noche)));
     if(ficha.linea){
-      /* «Eres ...» — la plantilla del §2, la misma que oye la voz */
+      /* «Eres ...» */
       var l = ficha.linea;
       cuerpo.appendChild(el("p", "linea", "Eres " + l.charAt(0).toLowerCase() + l.slice(1)));
     }
@@ -303,7 +298,7 @@
         .then(function(md){
           if(!md){ caja2.textContent = DICE.roto; return; }
           /* el fragmento es markdown mínimo: se parte por líneas en blanco y
-             se pinta como párrafos. Nada de HTML: es texto de un modelo. */
+             se pinta como párrafos. Nada de HTML. */
           caja2.innerHTML = "";
           md.replace(/^---[\s\S]*?---\s*/, "").split(/\n\s*\n/).forEach(function(p){
             p = p.trim();

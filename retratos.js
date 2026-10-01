@@ -1,7 +1,7 @@
 /* ==========================================================
    LOS RETRATOS — el censo de la torre, pintado
    ----------------------------------------------------------
-   El arte es del autor, dibujado a mano, pieza a pieza.
+   El arte está dibujado a mano, pieza a pieza.
    Este script solo hace lo que la torre hace: componer el
    expediente (censo.json), virar la brasa al tono de la voz,
    y dejar que la señal de cada noche decida cuánto de la cara
@@ -20,7 +20,7 @@
 
 var W = 44, H = 64;
 
-/* ---- doctrina (espejo de escribano.py y del laboratorio) ---- */
+/* ---- doctrina ---- */
 var RAMPA = ["04070d","070a13","0b111e","111827","1e2638","30384b","4c5467","606d8a","919cb6","c2c8d6"];
 var BRASA_1 = "dfbc49", BRASA_2 = "f4d87b";
 var LUZ = {                              // brasa 1 y 2 viradas al tono del palo
@@ -36,11 +36,8 @@ var LUZ = {                              // brasa 1 y 2 viradas al tono del palo
 };
 var NITIDEZ = {abisal:-1, turbia:0, clara:1};   // la señal, en pasos de rampa
 /* Quien tiene (o tuvo) un quien. Las cosas, las presencias y el polizon, jamas.
-   ⚠ LOS DESPISTADOS (Z) FALTABAN AQUI (10 ago 2026). El escribano les abre
-   expediente y da por bueno que su cara llega, pero esta linea la vetaba en
-   silencio: el primero en hablar habria salido SIN ROSTRO, y precisamente el
-   suyo es el unico que no se sortea — se lo monto el pieza a pieza antes de
-   entrar. No se habria visto hasta enero, la primera vez que hablara uno. */
+   Los despistados (Z) tambien: su rostro es el unico que no se sortea — se
+   lo monto el pieza a pieza antes de entrar. */
 var CON_ROSTRO = {A:1, B:1, Z:1};
 var UMBRAL = 6;                                 // el + solo mueve los planos con luz
 var VELO = {fuerza:1.5, inicio:0.20};           // ley fija: sombra hacia la derecha
@@ -397,7 +394,7 @@ function ficha(atlas, censo, reg){
   }).observe(cuerpo, {childList:true});
 }
 
-/* gancho de autor, como la tecla G de los planos: desde la consola,
+/* gancho de prueba: desde la consola,
    __retratos.revelar(document.querySelector(".retrato-noche")) re-emite.
 
    ---- LA PUERTA (30 jul 2026) -------------------------------------------
