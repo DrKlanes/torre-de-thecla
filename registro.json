@@ -1931,5 +1931,42 @@
     "signatura": "SMET-0069",
     "palabras": 238,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-02",
+    "palo": "A",
+    "carta": "A32",
+    "estado": "E53",
+    "modificador": null,
+    "prohibidas": [
+      "carne",
+      "muro",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 1.64,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P8",
+    "lugar": [
+      "L12",
+      "L2"
+    ],
+    "boca": true,
+    "aprendidas": [
+      "carne",
+      "muro"
+    ],
+    "corregidas": [
+      "muro"
+    ],
+    "esquirla": "La puta humedad lo jode todo, como siempre. Mil años esperando una luz que no llega… Que se pudran los turistas abajo con sus colas vacías. Yo sigo aquí creyéndome un fotógrafo de mierda mientras el goteo me carcome hasta la última esperanza.",
+    "signatura": "SMET-0070",
+    "palabras": 192,
+    "retrato": true
   }
 ]
