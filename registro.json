@@ -1968,5 +1968,42 @@
     "signatura": "SMET-0070",
     "palabras": 192,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-03",
+    "palo": "A",
+    "carta": "A43",
+    "estado": "E8",
+    "modificador": null,
+    "prohibidas": [
+      "aire",
+      "huesos",
+      "escupir"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 1.74,
+    "eco": null,
+    "tuercas": [
+      "T17",
+      "T9",
+      "T19"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P14",
+    "lugar": [
+      "L5"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "aire",
+      "huesos"
+    ],
+    "esquirla": "El jardín ya no espera… El óxido te huele a hogar ahora. ¿Te acuerdas de los dedos fríos en la arcilla mojada? Aquí abajo solo hay dientes rotos y paredes que respiran hondo como si fueran tus pulmones antes de pudrirse del todo, pedazo de cristal.",
+    "signatura": "SMET-0071",
+    "palabras": 87,
+    "retrato": true
   }
 ]
