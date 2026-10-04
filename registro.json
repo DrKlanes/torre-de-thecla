@@ -2005,5 +2005,38 @@
     "signatura": "SMET-0071",
     "palabras": 87,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-04",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E27",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "sala",
+      "torre"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P7",
+    "feo": true,
+    "recortada": true,
+    "voz_inventada": "chirriante como la muerte; recuerda mordiscos viejos, sucios, suaves; sabe a olvido pegajoso",
+    "aprendidas": [
+      "piedra",
+      "sala"
+    ],
+    "carta_inventada": "La dentadura postiza de una anciana sin nombre que se negó a morir en un hospital y salió flotando por el canal",
+    "esquirla": "Arcilla seca en las encías… El sabor a podredumbre me tapa todo lo que queda de dientes suaves como mordiscos muertos, ya no muerdo ni caigo entre manos gordas sin ganas, solo la boca llena y el aliento ajeno.",
+    "signatura": "SMET-0072",
+    "palabras": 98,
+    "retrato": false
   }
 ]
