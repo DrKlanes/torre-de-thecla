@@ -2038,5 +2038,35 @@
     "signatura": "SMET-0072",
     "palabras": 98,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-05",
+    "palo": "A",
+    "carta": "A9",
+    "estado": "E51",
+    "modificador": null,
+    "prohibidas": [
+      "huesos",
+      "sombras",
+      "sangre"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P1",
+    "recortada": true,
+    "aprendidas": [
+      "huesos",
+      "sombras"
+    ],
+    "esquirla": "…Viscidae humores me labant et gaudium ingens sentio, nihil tale probavi ante. Lingua mea torquetur quasi vermis in unguento foedo digeritur, cum non habeo... ecce tempus fugit cito: fulmen super agri terraque exinanita cadit! Quanti illorum cadunt abismo?",
+    "signatura": "SMET-0073",
+    "palabras": 99,
+    "retrato": true
   }
 ]
