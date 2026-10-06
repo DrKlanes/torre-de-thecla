@@ -2068,5 +2068,42 @@
     "signatura": "SMET-0073",
     "palabras": 99,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-06",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E54",
+    "modificador": null,
+    "prohibidas": [
+      "muro",
+      "podrido",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 1.77,
+    "eco": "SMET-0049",
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P16",
+    "lugar": [
+      "L6",
+      "L8"
+    ],
+    "recortada": true,
+    "voz_inventada": "lúgubre, lento; dice la verdad pero nadie le cree; sabe demasiado sobre lo que hace uno para perdonárselo",
+    "eco_frase": "La frase se escapa antes de formarse en la garganta, desintegrada como un grito bajo el agua.",
+    "aprendidas": [
+      "muro",
+      "podrido"
+    ],
+    "carta_inventada": "La prostituta romana empalada en el circo máximo. Su lengua nunca olvidará las monedas manchadas con su propia sangre",
+    "esquirla": "El oro debajo las uñas ya huele a muerto. Los pasos están justo detrás… no hay nadie ahí; ni siquiera piedad. La sangre sabe mejor que la arena, aunque ya casi no quede lengua para morderla. Sólo pudre más adentro.",
+    "signatura": "SMET-0074",
+    "palabras": 254,
+    "retrato": false
   }
 ]
