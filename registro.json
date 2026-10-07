@@ -2105,5 +2105,43 @@
     "signatura": "SMET-0074",
     "palabras": 254,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-07",
+    "palo": "A",
+    "carta": "A37",
+    "estado": "E36",
+    "modificador": null,
+    "prohibidas": [
+      "dientes",
+      "oscuridad",
+      "maldito"
+    ],
+    "violadas": [
+      "dientes"
+    ],
+    "senal": "turbia",
+    "temperatura": 2.2,
+    "eco": null,
+    "tuercas": [
+      "T3",
+      "T2"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P19",
+    "lugar": [
+      "L6"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "dientes",
+      "oscuridad"
+    ],
+    "esquirla": "El cementerio huele a Berlín cuando él murió… los cánticos son un puto accidente que te revientan antes de entenderlo. Soy Thomas, necesito fumar pero solo hay humo seco aquí dentro.",
+    "signatura": "SMET-0075",
+    "palabras": 204,
+    "retrato": true
   }
 ]
