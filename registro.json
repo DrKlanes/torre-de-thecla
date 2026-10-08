@@ -2143,5 +2143,40 @@
     "signatura": "SMET-0075",
     "palabras": 204,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-08",
+    "palo": "D",
+    "carta": "D32",
+    "estado": "E50",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "carne",
+      "piedra"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P10",
+    "lugar": [
+      "L4"
+    ],
+    "aprendidas": [
+      "dedos",
+      "carne"
+    ],
+    "corregidas": [
+      "piedra"
+    ],
+    "esquirla": "El niño decía *“Ya vendrá la noche larga”*. Óxido en mi boca ahora. Muros cantan con dientes roídos, incienso solo susurros rotos… Mordida sobre sí misma; esto nunca termina distinto, empieza igual.",
+    "signatura": "SMET-0076",
+    "palabras": 139,
+    "retrato": false
   }
 ]
