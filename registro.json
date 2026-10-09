@@ -2178,5 +2178,39 @@
     "signatura": "SMET-0076",
     "palabras": 139,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-09",
+    "palo": "A",
+    "carta": "A38",
+    "estado": "E6",
+    "modificador": null,
+    "prohibidas": [
+      "pesadilla",
+      "dientes",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P3",
+    "lugar": [
+      "L7",
+      "L8"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "pesadilla",
+      "dientes"
+    ],
+    "esquirla": "Lo moví dos segundos para fumármela ahí dentro, como Lucía quería... ¿Dónde está Daniel ahora? Cristales rotos; leones vacíos mirándome en la puta guardería. Su chupete morado lo busqué después: no encontré nada más que mi propia culpa quemando los dedos.",
+    "signatura": "SMET-0077",
+    "palabras": 250,
+    "retrato": false
   }
 ]
