@@ -2212,5 +2212,36 @@
     "signatura": "SMET-0077",
     "palabras": 250,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-10",
+    "palo": "A",
+    "carta": "A29",
+    "estado": "E19",
+    "modificador": null,
+    "prohibidas": [
+      "gusanos",
+      "sala",
+      "infierno"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.28,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P8",
+    "feo": true,
+    "recortada": true,
+    "aprendidas": [
+      "gusanos",
+      "sala"
+    ],
+    "esquirla": "¿Cuándo empezará? La primera rata me trepó entre el encaje y ya no siento la seda… sólo los huesos que se mueven debajo. El olor a carne agria está pegado a las mejillas de todos: tiemblan para ocultar sus vómitos secos, pero sé que también vomitaré antes o después.",
+    "signatura": "SMET-0078",
+    "palabras": 139,
+    "retrato": true
   }
 ]
