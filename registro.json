@@ -2243,5 +2243,37 @@
     "signatura": "SMET-0078",
     "palabras": 139,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-11",
+    "palo": "B",
+    "carta": "B1",
+    "estado": "E37",
+    "modificador": "V19",
+    "prohibidas": [
+      "dientes",
+      "sombras",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0011",
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P7",
+    "feo": true,
+    "recortada": true,
+    "eco_frase": "No debería notar eso aquí abajo donde casi no hay suelo.",
+    "aprendidas": [
+      "dientes",
+      "sombras"
+    ],
+    "esquirla": "Veinte años, terciopelo rojo. La última escupió en las manos antes de echarla… gritaba fría y novio matador. Casa dije sin querer porque sí: solo queda quién jode al salir. Nadie respira esta mierda tanto como yo.",
+    "signatura": "SMET-0079",
+    "palabras": 201,
+    "retrato": true
   }
 ]
