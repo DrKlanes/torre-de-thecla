@@ -2275,5 +2275,37 @@
     "signatura": "SMET-0079",
     "palabras": 201,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-12",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E21",
+    "modificador": null,
+    "prohibidas": [
+      "huesos",
+      "muerte",
+      "vomitar"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P4",
+    "recortada": true,
+    "voz_inventada": "hilo tenso, dedos temblorosos, puntadas mudas; obsesión por los bordados de piel; pregunta sin labios «¿Sientes?»",
+    "aprendidas": [
+      "huesos",
+      "muerte"
+    ],
+    "carta_inventada": "La costurera sorda, tras la aguja rota cosiendo las orejas ajenas a un silencio propio eterno",
+    "esquirla": "El hilo tenso en los dedos temblorosos... puntadas mudas cosiendo la piel ajena. ¿Sientes? Me llaman y ya no miro a la nada; el pulgar me duele como si lo estuviesen arrancando con pinzas… Lento, para que rompa antes de tocarla: qué venganza tan dulce.",
+    "signatura": "SMET-0080",
+    "palabras": 72,
+    "retrato": false
   }
 ]
