@@ -2307,5 +2307,41 @@
     "signatura": "SMET-0080",
     "palabras": 72,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-13",
+    "palo": "A",
+    "carta": "A5",
+    "estado": "E47",
+    "modificador": "V19",
+    "prohibidas": [
+      "dedos",
+      "muro",
+      "maldito"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P5",
+    "lugar": [
+      "L1"
+    ],
+    "aprendidas": [
+      "dedos",
+      "muro"
+    ],
+    "corregidas": [
+      "muro",
+      "maldito"
+    ],
+    "esquirla": "Hijo puta, me cago en todo… escupo mierda por la garganta y no miro a nadie. No sé quién te escucha ahora, muerto o respirando igual; el barro nos traga bien pronto. Voy dando partes aunque las galerías caigan: eso es lo único que importa aquí…",
+    "signatura": "SMET-0081",
+    "palabras": 105,
+    "retrato": true
   }
 ]
