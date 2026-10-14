@@ -2343,5 +2343,43 @@
     "signatura": "SMET-0081",
     "palabras": 105,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-14",
+    "palo": "C",
+    "carta": "C10",
+    "estado": "E22",
+    "modificador": null,
+    "prohibidas": [
+      "carne",
+      "sala",
+      "sangre"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0044",
+    "tuercas": [
+      "T5",
+      "T1"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P11",
+    "lugar": [
+      "L7",
+      "L4"
+    ],
+    "recortada": true,
+    "eco_frase": "Solo espero el silencio de vuelta si alguien sigue escuchando.",
+    "aprendidas": [
+      "carne",
+      "sala"
+    ],
+    "esquirla": "Arenilla vieja en la boca rota; los monjes se fueron hace mucho porque solo quedó rechinido seco después del incienso quemado en las costillas huecas… ni siquiera duele ya, ¿entiendes? Nada respira aquí adentro ahora salvo el polvo entre los dientes.",
+    "signatura": "SMET-0082",
+    "palabras": 98,
+    "retrato": false
   }
 ]
