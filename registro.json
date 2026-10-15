@@ -2381,5 +2381,39 @@
     "signatura": "SMET-0082",
     "palabras": 98,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-15",
+    "palo": "A",
+    "carta": "A30",
+    "estado": "E45",
+    "modificador": null,
+    "prohibidas": [
+      "oscuridad",
+      "dedos",
+      "eterno"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P3",
+    "lugar": [
+      "L9"
+    ],
+    "feo": true,
+    "recortada": true,
+    "aprendidas": [
+      "oscuridad",
+      "dedos"
+    ],
+    "esquirla": "Raíces rotas, viejas… arrastrándome para verlas quietas, suplicantes antes que personas. La mierda fría en los ojos no se va; siempre sale por la boca el mismo ritmo roto.",
+    "signatura": "SMET-0083",
+    "palabras": 80,
+    "retrato": false
   }
 ]
