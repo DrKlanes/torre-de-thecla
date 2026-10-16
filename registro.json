@@ -2415,5 +2415,38 @@
     "signatura": "SMET-0083",
     "palabras": 80,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-16",
+    "palo": "B",
+    "carta": "B16",
+    "estado": "E13",
+    "modificador": "V20",
+    "prohibidas": [
+      "podrido",
+      "luz",
+      "gusanos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P15",
+    "lugar": [
+      "L3",
+      "L9"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "podrido"
+    ],
+    "esquirla": "Las campanas pesan más al fundirse… algo vivo en el metal se cuela entre los cálculos perfectos; no puedo probar que miento cuando digo que todo está bien hecho. La tormenta viene segura, me pesa mal hasta las rodillas.",
+    "signatura": "SMET-0084",
+    "palabras": 119,
+    "retrato": false
   }
 ]
