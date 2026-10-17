@@ -2448,5 +2448,38 @@
     "signatura": "SMET-0084",
     "palabras": 119,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-17",
+    "palo": "D",
+    "carta": "D15",
+    "estado": "E33",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "aire",
+      "escupir"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "clara",
+    "temperatura": 0.98,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P16",
+    "feo": true,
+    "corte": true,
+    "aprendidas": [
+      "dedos",
+      "aire"
+    ],
+    "esquirla": "La carne del suelo tiembla. Una mano cortada palpita sola en la pared… pegajosa como vómito seco en los dientes. La humedad abraza desde adentro y el hueso se siente ligero o ya no hay huesos, solo eso: húmedo. Se mueve. No es una sola.",
+    "signatura": "SMET-0085",
+    "palabras": 88,
+    "retrato": false
   }
 ]
