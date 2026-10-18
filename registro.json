@@ -2481,5 +2481,44 @@
     "signatura": "SMET-0085",
     "palabras": 88,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-18",
+    "palo": "C",
+    "carta": "C21",
+    "estado": "E39",
+    "modificador": null,
+    "prohibidas": [
+      "oscuridad",
+      "podrido",
+      "muerte"
+    ],
+    "violadas": [
+      "podrido"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T2",
+      "T18",
+      "T6"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P2",
+    "lugar": [
+      "L10",
+      "L12"
+    ],
+    "aprendidas": [
+      "oscuridad",
+      "podrido"
+    ],
+    "esquirla": "El collar roto entre dientes huele a barro ajeno, donde ya no espero que baje nada… Muerde esto; tú también estás hundido. Nadie viene ni saldrás cuando me duela masticar tus huesos secos por ti otra vez.",
+    "signatura": "SMET-0086",
+    "palabras": 136,
+    "retrato": false
   }
 ]
