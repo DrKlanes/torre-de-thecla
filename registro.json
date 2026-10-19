@@ -2520,5 +2520,38 @@
     "signatura": "SMET-0086",
     "palabras": 136,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-19",
+    "palo": "C",
+    "carta": "C23",
+    "estado": "E2",
+    "modificador": "breve",
+    "prohibidas": [
+      "luz",
+      "cráneo",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P9",
+    "lugar": [
+      "L3"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "luz",
+      "cráneo"
+    ],
+    "esquirla": "La copa vacía sangra el tiempo en el negro. No hay reflejo sano… solo pedazos brillando porque los necesito enteros otra vez. Los otros ya dejaron de parpadear hace siglos y la sombra afila mi vista hacia abajo hasta que duele.",
+    "signatura": "SMET-0087",
+    "palabras": 91,
+    "retrato": false
   }
 ]
