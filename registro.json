@@ -2553,5 +2553,36 @@
     "signatura": "SMET-0087",
     "palabras": 91,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-20",
+    "palo": "B",
+    "carta": "B15",
+    "estado": "E51",
+    "modificador": null,
+    "prohibidas": [
+      "podrido",
+      "muro",
+      "carne"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P4",
+    "feo": true,
+    "recortada": true,
+    "aprendidas": [
+      "podrido",
+      "muro"
+    ],
+    "esquirla": "Setenta y siete… El pendejo robando abrigos con el cuello reventado por un botón solo. Ni gritaba cuando le daban las llaves, ella dejándolo pasar siempre; vomitando café con leche bajo luces rojas chillantes... Mejor que ese cigarrillo encendido.",
+    "signatura": "SMET-0088",
+    "palabras": 245,
+    "retrato": true
   }
 ]
