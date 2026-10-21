@@ -2584,5 +2584,37 @@
     "signatura": "SMET-0088",
     "palabras": 245,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-21",
+    "palo": "A",
+    "carta": "A32",
+    "estado": "E50",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "luz",
+      "vacío"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P10",
+    "recortada": true,
+    "aprendidas": [
+      "dedos",
+      "luz"
+    ],
+    "esquirla": "Turquesa bajo la mesa... antes era hueso. Olvidé dónde dejé las palabras rotas, pero recuerdo \"fuego\" pintado en carne seca: el vacío huele a flash quemado justo detrás del labio. No hay más.",
+    "signatura": "SMET-0089",
+    "palabras": 231,
+    "retrato": true
   }
 ]
