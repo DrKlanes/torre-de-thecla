@@ -2616,5 +2616,40 @@
     "signatura": "SMET-0089",
     "palabras": 231,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-22",
+    "palo": "C",
+    "carta": "C1",
+    "estado": "E4",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "dientes",
+      "oscuridad"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.03,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P19",
+    "lugar": [
+      "L5"
+    ],
+    "aprendidas": [
+      "sombras",
+      "dientes"
+    ],
+    "corregidas": [
+      "sombras"
+    ],
+    "esquirla": "El ascensor cae, neón roto. Alas podridas dejan polvo al tocar. Cada escalón cede como huesos… si te quedas abajo algo más espera ahí. La mancha en las paredes casi dibuja mi nombre con sangre seca. El vacío zumba.",
+    "signatura": "SMET-0090",
+    "palabras": 226,
+    "retrato": false
   }
 ]
