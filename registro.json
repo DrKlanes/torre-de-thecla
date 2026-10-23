@@ -2651,5 +2651,38 @@
     "signatura": "SMET-0090",
     "palabras": 226,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-23",
+    "palo": "C",
+    "carta": "C3",
+    "estado": "E32",
+    "modificador": null,
+    "prohibidas": [
+      "luz",
+      "eterno",
+      "gusanos"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.49,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P8",
+    "lugar": [
+      "L7"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "luz",
+      "eterno"
+    ],
+    "esquirla": "La humedad en el plástico es la última gota antes del hundimiento. Pegajoso como siempre, dulce por dentro aunque ya no quede borde sólido que sostener… ¿qué hacían afuera? Ya solo armaduras rotas. No hay salida: asco lento bajo los pies y nada más.",
+    "signatura": "SMET-0091",
+    "palabras": 272,
+    "retrato": false
   }
 ]
