@@ -2684,5 +2684,36 @@
     "signatura": "SMET-0091",
     "palabras": 272,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-24",
+    "palo": "A",
+    "carta": "A4",
+    "estado": "E40",
+    "modificador": null,
+    "prohibidas": [
+      "sala",
+      "sangre",
+      "vomitar"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.11,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": true,
+    "aliento": "medio",
+    "puerta": "P1",
+    "recortada": true,
+    "lucidez": true,
+    "aprendidas": [
+      "sala",
+      "sangre"
+    ],
+    "esquirla": "La plata ya no está bajo las tablas. La rata gorda me muerde el miedo en los tobillos. Llevo tres noches sin probar bocado, solo polvo flotando cuando cierro los ojos; olvido lento… Tengo un puñal frío contra mis costillas y nada para llevar al padre.",
+    "signatura": "SMET-0092",
+    "palabras": 189,
+    "retrato": true
   }
 ]
