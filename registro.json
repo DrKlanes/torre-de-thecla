@@ -2715,5 +2715,37 @@
     "signatura": "SMET-0092",
     "palabras": 189,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-25",
+    "palo": "A",
+    "carta": "A18",
+    "estado": "E29",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "huesos",
+      "aire"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.48,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P20",
+    "aprendidas": [
+      "sombras",
+      "huesos"
+    ],
+    "corregidas": [
+      "sombras"
+    ],
+    "esquirla": "El humo sube denso, la última vela reza hasta pegarse al calor del hierro en vez de oro. El número escupe frío entre los ojos como un reflejo espectral… ahora solo espero otro idiota tembloroso. Vacío respira mientras el fuego se acaba.",
+    "signatura": "SMET-0093",
+    "palabras": 226,
+    "retrato": true
   }
 ]
