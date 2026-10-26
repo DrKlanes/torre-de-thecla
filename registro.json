@@ -2747,5 +2747,38 @@
     "signatura": "SMET-0093",
     "palabras": 226,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-26",
+    "palo": "B",
+    "carta": "B2",
+    "estado": "E55",
+    "modificador": null,
+    "prohibidas": [
+      "dientes",
+      "sala",
+      "torre"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T3",
+      "T13"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P2",
+    "boca": true,
+    "aprendidas": [
+      "dientes",
+      "sala"
+    ],
+    "esquirla": "17… No me respiréis encima con vuestra mierda pegajosa, veo las patas moverse justo ahí debajo; apurad el último trago antes de que vomitéis dentro. La luz os va a pudrir los dientes: ya sabéis que no muerdo solo lo escupo hasta que quedéis quietos…",
+    "signatura": "SMET-0094",
+    "palabras": 64,
+    "retrato": true
   }
 ]

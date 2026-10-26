@@ -1,0 +1,47 @@
+{
+  "engullidos": [
+    {
+      "carta": "Z1",
+      "signatura": "LTDT-ZNK6T",
+      "linea": "Un tipo que no se calla lo que lleva encima cuando la puerta se cierra",
+      "carta_de": "voz",
+      "voz": "ordena y clasifica lo que ve; tono didáctico que se agrieta",
+      "rostro": {
+        "f": 13,
+        "m": 6,
+        "b": 6
+      },
+      "libre": "Dumaker",
+      "pide": "Di cómo te llamaban. Con eso basta.",
+      "respuestas": [
+        {
+          "pregunta": "puerta",
+          "texto": "Me dijeron que no me atrevería"
+        },
+        {
+          "pregunta": "boca",
+          "texto": "Empecé a explicarlo en voz alta"
+        },
+        {
+          "pregunta": "cuerpo",
+          "texto": "La nuca"
+        },
+        {
+          "pregunta": "animo",
+          "texto": "Enfadado con alguien"
+        },
+        {
+          "pregunta": "reloj",
+          "texto": "Ya llevo más de lo que creía"
+        },
+        {
+          "pregunta": "bolsillo",
+          "texto": "Las llaves de una casa que era un hogar"
+        }
+      ],
+      "engullido": "2026-10-25T12:38:06.574Z",
+      "ventana": "2026-10-24",
+      "recogido": "2026-10-26T03:34:03+01:00"
+    }
+  ]
+}
