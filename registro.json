@@ -2780,5 +2780,35 @@
     "signatura": "SMET-0094",
     "palabras": 64,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-27",
+    "palo": "A",
+    "carta": "A3",
+    "estado": "E47",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "aire",
+      "vacío"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.16,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P5",
+    "recortada": true,
+    "aprendidas": [
+      "dedos",
+      "aire"
+    ],
+    "esquirla": "Philomena, ¿me oyes? La humedad agarra como cera derretida. Dios está muerto acá abajo; el silencio mastica mi garganta entera. *Confiteor*… ya no quedan pecados para quemar ni huesos rotos que ocultar.",
+    "signatura": "SMET-0095",
+    "palabras": 63,
+    "retrato": true
   }
 ]
