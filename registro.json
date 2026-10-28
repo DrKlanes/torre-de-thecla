@@ -2810,5 +2810,40 @@
     "signatura": "SMET-0095",
     "palabras": 63,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-28",
+    "palo": "B",
+    "carta": "B6",
+    "estado": "E10",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "muro",
+      "carne"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P18",
+    "lugar": [
+      "L1"
+    ],
+    "aprendidas": [
+      "piedra"
+    ],
+    "corregidas": [
+      "piedra",
+      "muro"
+    ],
+    "esquirla": "La base está bien, pero la forma interna no encaja ni con las medidas nuevas; se ve algo más allá cuando quitas el polvo en los lados irregulares… El suelo bajo vibra solo cada vez que voy a medir y parece que crece. No es normal.",
+    "signatura": "SMET-0096",
+    "palabras": 187,
+    "retrato": true
   }
 ]

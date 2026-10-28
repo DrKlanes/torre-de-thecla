@@ -270,5 +270,13 @@
     "v": -1,
     "desde": "SMET-0094",
     "senal": "abisal"
+  },
+  "B6": {
+    "f": 5,
+    "m": 3,
+    "b": 6,
+    "v": -1,
+    "desde": "SMET-0096",
+    "senal": "abisal"
   }
 }
