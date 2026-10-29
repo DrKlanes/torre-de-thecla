@@ -2845,5 +2845,38 @@
     "signatura": "SMET-0096",
     "palabras": 187,
     "retrato": true
+  },
+  {
+    "noche": "2026-10-29",
+    "palo": "D",
+    "carta": "D3",
+    "estado": "E41",
+    "modificador": null,
+    "prohibidas": [
+      "luz",
+      "aire",
+      "grito"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T17",
+      "T1",
+      "T13"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P8",
+    "aprendidas": [
+      "luz",
+      "aire"
+    ],
+    "esquirla": "Cuerpo apretado. Impulso animal seco en la garganta hasta que te muerdes y sangra entre dientes… Más frío aún si ya vas a reventar ahí dentro; hambre sin nombre raspando el puto suelo porque afuera solo falta uno antes del próximo golpe.",
+    "signatura": "SMET-0097",
+    "palabras": 67,
+    "retrato": false
   }
 ]
