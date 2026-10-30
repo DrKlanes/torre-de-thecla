@@ -2878,5 +2878,39 @@
     "signatura": "SMET-0097",
     "palabras": 67,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-30",
+    "palo": "D",
+    "carta": "D12",
+    "estado": "E8",
+    "modificador": "V20",
+    "prohibidas": [
+      "dedos",
+      "muro",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P4",
+    "boca": true,
+    "aprendidas": [
+      "dedos",
+      "muro"
+    ],
+    "corregidas": [
+      "dedos",
+      "muro"
+    ],
+    "esquirla": "El lugar te jode porque crees estar seguro mientras vomitas ácido a ciegas; los cables rotos son tuyos ahora, aunque finjas que el vacío solo espera por la noche y ya has perdido lo único que servía para rebanarte antes… ¿A quién coño le importó alguna vez?",
+    "signatura": "SMET-0098",
+    "palabras": 247,
+    "retrato": false
   }
 ]
