@@ -2912,5 +2912,41 @@
     "signatura": "SMET-0098",
     "palabras": 247,
     "retrato": false
+  },
+  {
+    "noche": "2026-10-31",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E30",
+    "modificador": null,
+    "prohibidas": [
+      "sangre",
+      "vacío",
+      "gusanos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P12",
+    "lugar": [
+      "L2",
+      "L12"
+    ],
+    "corte": true,
+    "voz_inventada": "lamento arrastrado por siglos; rictus congelado; implora monedas con cada latido fantasma del techno actual",
+    "aprendidas": [
+      "sangre",
+      "vacío"
+    ],
+    "carta_inventada": "La prostituta romana estrangulada por un cliente en el siglo II, todavía sintiendo la presión final entre los dedos rotos",
+    "esquirla": "Las uñas rotas no agarran el barro mojado; él sonreía cuando lo estrangulé con un velo mugriento… La boca se pegó al lodo, como antes, monedas podridas en las cejas. Azul por dentro. Frío. Olvidé cómo era eso ya casi del todo.",
+    "signatura": "SMET-0099",
+    "palabras": 84,
+    "retrato": false
   }
 ]
