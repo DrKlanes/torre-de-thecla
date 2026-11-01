@@ -2948,5 +2948,39 @@
     "signatura": "SMET-0099",
     "palabras": 84,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-01",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E1",
+    "modificador": null,
+    "prohibidas": [
+      "huesos",
+      "carne",
+      "piedra"
+    ],
+    "violadas": [
+      "piedra"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P15",
+    "recortada": true,
+    "voz_inventada": "áspera por humo de hornos; dice verdades incómodas con calma, como si fueran cenizas ardiendo en tu boca; recuerda los nombres mientras olvidas tú el tuyo",
+    "aprendidas": [
+      "huesos",
+      "carne"
+    ],
+    "carta_inventada": "La mujer quemada del siglo XIII; el hierro fundido le arrancó un hijo de las entrañas antes de que pudriera con la ciudad",
+    "esquirla": "El hierro arrancó un hijo… La boca seca reza al revés, los gritos rotos queman el sol en carne hecha polvo; ¿cómo se olvida una herida con la propia lengua? No hay Dios aquí solo humo.",
+    "signatura": "SMET-0100",
+    "palabras": 199,
+    "retrato": false
   }
 ]
