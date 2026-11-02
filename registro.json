@@ -2982,5 +2982,38 @@
     "signatura": "SMET-0100",
     "palabras": 199,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-02",
+    "palo": "A",
+    "carta": "A24",
+    "estado": "E12",
+    "modificador": "V8",
+    "prohibidas": [
+      "dientes",
+      "podrido",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P2",
+    "lugar": [
+      "L8"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "dientes",
+      "podrido"
+    ],
+    "esquirla": "47 tatuado ahí. Silbo para la zorra del vodka y pa' los subnormales; coño, si esta puta mierda de sitio solo te deja el cabreo metido en las costillas hasta dejarte sin respirar: leones reventándote el puto tímpano. La jefa dice estupidez pero ahí va. Y nada más…",
+    "signatura": "SMET-0101",
+    "palabras": 194,
+    "retrato": false
   }
 ]
