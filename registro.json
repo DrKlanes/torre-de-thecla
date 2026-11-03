@@ -3015,5 +3015,38 @@
     "signatura": "SMET-0101",
     "palabras": 194,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-03",
+    "palo": "A",
+    "carta": "A8",
+    "estado": "E33",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "piedra",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P14",
+    "lugar": [
+      "L5"
+    ],
+    "corte": true,
+    "aprendidas": [
+      "dedos",
+      "piedra"
+    ],
+    "esquirla": "Ding-dong. Brisa helada en la boca, el metal pesa más que los huesos viejos del campanero. ¿Quién escucha? Huele a tiempo mojado… sin aire para repicar. Solo un golpe sordo antes de quedarse así: muerto y respirando.",
+    "signatura": "SMET-0102",
+    "palabras": 91,
+    "retrato": false
   }
 ]
