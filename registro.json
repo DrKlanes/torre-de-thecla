@@ -3048,5 +3048,36 @@
     "signatura": "SMET-0102",
     "palabras": 91,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-04",
+    "palo": "C",
+    "carta": "C25",
+    "estado": "E14",
+    "modificador": "V13",
+    "prohibidas": [
+      "aire",
+      "dientes",
+      "podrido"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P1",
+    "boca": true,
+    "recortada": true,
+    "aprendidas": [
+      "aire",
+      "dientes"
+    ],
+    "esquirla": "Miel seca, rezos rotos… esta puta piedad me arrastra al mismo agujero siempre. El sabor quemado ya no quiero ni probarlo; solo dejarlo pudrir como está antes que morir aquí dentro.",
+    "signatura": "SMET-0103",
+    "palabras": 137,
+    "retrato": false
   }
 ]
