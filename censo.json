@@ -286,5 +286,13 @@
     "v": -1,
     "desde": "SMET-0101",
     "senal": "abisal"
+  },
+  "A13": {
+    "f": 9,
+    "m": 0,
+    "b": 8,
+    "v": 0,
+    "desde": "SMET-0104",
+    "senal": "turbia"
   }
 }

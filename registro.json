@@ -3079,5 +3079,39 @@
     "signatura": "SMET-0103",
     "palabras": 137,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-05",
+    "palo": "A",
+    "carta": "A13",
+    "estado": "E29",
+    "modificador": "breve",
+    "prohibidas": [
+      "dedos",
+      "gusanos",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.36,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P18",
+    "lugar": [
+      "L8",
+      "L11"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "dedos",
+      "gusanos"
+    ],
+    "esquirla": "¿Qué cojones? Me duelen los pies… ¿Y esa puta cuenta? 653874219, joder. No sé quién es el cabrón al otro lado pero me estoy cagando en su madre igual. ¡Leones de piedra aquí dentro! Putos locos, esto no es una fiesta coño.",
+    "signatura": "SMET-0104",
+    "palabras": 84,
+    "retrato": false
   }
 ]
