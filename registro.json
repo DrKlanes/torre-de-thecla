@@ -3113,5 +3113,39 @@
     "signatura": "SMET-0104",
     "palabras": 84,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-06",
+    "palo": "B",
+    "carta": "B13",
+    "estado": "E17",
+    "modificador": null,
+    "prohibidas": [
+      "aire",
+      "dientes",
+      "cráneo"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P7",
+    "lugar": [
+      "L2",
+      "L10"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "aire",
+      "dientes"
+    ],
+    "esquirla": "Aquí abajo todos terminan sin nombre… un casero conoce tu fecha antes que tú mismo, y te espera entre piedras rotas para recordarte el polvo donde acabarás respirando por siempre o hasta que la tierra se aburra de tragarse promesas vacías.",
+    "signatura": "SMET-0105",
+    "palabras": 154,
+    "retrato": true
   }
 ]
