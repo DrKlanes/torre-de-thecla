@@ -3147,5 +3147,36 @@
     "signatura": "SMET-0105",
     "palabras": 154,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-07",
+    "palo": "A",
+    "carta": "A45",
+    "estado": "E11",
+    "modificador": null,
+    "prohibidas": [
+      "maldito",
+      "sangre",
+      "piedra"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 1.02,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P12",
+    "recortada": true,
+    "lucidez": true,
+    "aprendidas": [
+      "maldito",
+      "sangre"
+    ],
+    "esquirla": "No recuerdo el calor; solo humedad pegajosa y goteo constante contra algo duro… sé que lo tocaré pronto. Los muros aquí huelen a piedras lamiadas, saladas y muertas. No hay bares ni promesas: demasiados susurros demasiado cerca. ¿Quién escucha? Ya no importa.",
+    "signatura": "SMET-0106",
+    "palabras": 210,
+    "retrato": true
   }
 ]
