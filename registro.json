@@ -3178,5 +3178,38 @@
     "signatura": "SMET-0106",
     "palabras": 210,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-08",
+    "palo": "C",
+    "carta": "C11",
+    "estado": "E32",
+    "modificador": null,
+    "prohibidas": [
+      "aire",
+      "eterno",
+      "hueco"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P6",
+    "lugar": [
+      "L2"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "aire",
+      "eterno"
+    ],
+    "esquirla": "Húmedo, frío. El club vomita billetes antes del desmayo… La tierra huele a leche quemada debajo. No hay nombres, solo huesos. Si te reflejas dos veces sigues siendo uno. Esqueleto adentro.",
+    "signatura": "SMET-0107",
+    "palabras": 192,
+    "retrato": false
   }
 ]
