@@ -3211,5 +3211,34 @@
     "signatura": "SMET-0107",
     "palabras": 192,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-09",
+    "palo": "A",
+    "carta": "A40",
+    "estado": "E40",
+    "modificador": "breve",
+    "prohibidas": [
+      "huesos",
+      "piedra",
+      "grito"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P16",
+    "aprendidas": [
+      "huesos",
+      "piedra"
+    ],
+    "esquirla": "Me debe la vida, el cabrón. Dos navajas y sed de sangre. Llevo aquí cincuenta años sudando como un cerdo por su puta culpa. ¡Que lo jodan! Y si no paga… A ver quién le frena ahora.",
+    "signatura": "SMET-0108",
+    "palabras": 88,
+    "retrato": true
   }
 ]

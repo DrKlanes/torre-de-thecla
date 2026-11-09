@@ -641,6 +641,12 @@
       "signatura": "SMET-0107",
       "fecha": "2026-11-08T03:36:21+01:00",
       "torre": false
+    },
+    {
+      "archivo": "fragmentos/SMET-0108.md",
+      "signatura": "SMET-0108",
+      "fecha": "2026-11-09T03:35:20+01:00",
+      "torre": false
     }
   ]
 }

@@ -310,5 +310,13 @@
     "v": 1,
     "desde": "SMET-0106",
     "senal": "clara"
+  },
+  "A40": {
+    "f": 12,
+    "m": 12,
+    "b": 1,
+    "v": -1,
+    "desde": "SMET-0108",
+    "senal": "abisal"
   }
 }
