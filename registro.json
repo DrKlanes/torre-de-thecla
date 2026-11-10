@@ -3240,5 +3240,44 @@
     "signatura": "SMET-0108",
     "palabras": 88,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-10",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E4",
+    "modificador": "V1",
+    "prohibidas": [
+      "hueco",
+      "muro",
+      "gusanos"
+    ],
+    "violadas": [
+      "hueco",
+      "gusanos"
+    ],
+    "senal": "clara",
+    "temperatura": 1.14,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P4",
+    "lugar": [
+      "L5"
+    ],
+    "feo": true,
+    "recortada": true,
+    "voz_inventada": "dientes que no crecen; voz quebradiza por hambre y piedra; gritos sin aire",
+    "aprendidas": [
+      "hueco",
+      "muro"
+    ],
+    "carta_inventada": "La mandíbula rota de un niño enterrada bajo el mármol, aún mordiendo polvo del sótano vacío",
+    "esquirla": "Ábrete. La boca ya no crece; sólo gotea mármol y el polvo te llena los dientes rotos. P... la última letra que queda del nombre hundido bajo tierra húmeda. Sabe a gusanos y olvido. No hay aire aquí, ni grito posible. Solo un agujero abierto para… nada.",
+    "signatura": "SMET-0109",
+    "palabras": 135,
+    "retrato": false
   }
 ]
