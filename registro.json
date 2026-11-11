@@ -3279,5 +3279,38 @@
     "signatura": "SMET-0109",
     "palabras": 135,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-11",
+    "palo": "D",
+    "carta": "D13",
+    "estado": "E46",
+    "modificador": null,
+    "prohibidas": [
+      "piedra",
+      "aire",
+      "laberinto"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P8",
+    "lugar": [
+      "L11"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "piedra",
+      "aire"
+    ],
+    "esquirla": "¿Cuántos…? Otro espejo, jodidamente roto. La voz me pesa en la garganta como un trozo viejo que se deshace… El pulso lejano no es mío ni tuyo. Ni siquiera duele bien.",
+    "signatura": "SMET-0110",
+    "palabras": 129,
+    "retrato": false
   }
 ]
