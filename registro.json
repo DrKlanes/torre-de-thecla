@@ -3312,5 +3312,39 @@
     "signatura": "SMET-0110",
     "palabras": 129,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-12",
+    "palo": "A",
+    "carta": "A19",
+    "estado": "E13",
+    "modificador": "breve",
+    "prohibidas": [
+      "huesos",
+      "escupir",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "clara",
+    "temperatura": 0.93,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P11",
+    "lugar": [
+      "L7"
+    ],
+    "feo": true,
+    "recortada": true,
+    "aprendidas": [
+      "huesos",
+      "escupir"
+    ],
+    "esquirla": "Las luces me hacen daño en los ojos… como cuando mamá regaña y te pone a pensar qué hiciste mal de rodillas. Aquí solo brillos rotos caen del techo como escamas viejas. Vi armaduras altas, más que mi papá; frío en el piso duro… pegajoso. Y no quiero tocarlo.",
+    "signatura": "SMET-0111",
+    "palabras": 91,
+    "retrato": true
   }
 ]
