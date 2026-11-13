@@ -3346,5 +3346,35 @@
     "signatura": "SMET-0111",
     "palabras": 91,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-13",
+    "palo": "D",
+    "carta": "D34",
+    "estado": "E3",
+    "modificador": "V7",
+    "prohibidas": [
+      "torre",
+      "hueco",
+      "aire"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 2.52,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P17",
+    "corte": true,
+    "aprendidas": [
+      "torre",
+      "hueco"
+    ],
+    "esquirla": "La piedra pesa en la lengua, casi contento con su sabor a carne podrida entre los dientes. Duele lento como un temblor viscoso bajo el omóplato… Y quiero más humedad ahí dentro. No recuerdo qué significa esto. Solo sé que me gusta.",
+    "signatura": "SMET-0112",
+    "palabras": 124,
+    "retrato": false
   }
 ]
