@@ -3376,5 +3376,45 @@
     "signatura": "SMET-0112",
     "palabras": 124,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-14",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E16",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "luz",
+      "laberinto"
+    ],
+    "violadas": [
+      "dedos",
+      "luz",
+      "laberinto"
+    ],
+    "senal": "turbia",
+    "temperatura": 2.24,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "crecida",
+    "puerta": "P3",
+    "lugar": [
+      "L2",
+      "L3"
+    ],
+    "voz_inventada": "seca como escarcha; repite nombres ajenos; huele a olvido quemado",
+    "crecida": true,
+    "aprendidas": [
+      "dedos",
+      "luz"
+    ],
+    "carta_inventada": "La humedad se pega al fémur roto, un niño descolgado de una barandilla demasiado alta por alguien que ya no le recuerda",
+    "esquirla": "Hambre por primera vez… sabes qué significa. El eco solo escucha podredumbre que ya tenías dentro antes del llanto si hubo alguno, no importa ahora. Baja hasta el fondo; la grieta no cierra.",
+    "signatura": "SMET-0113",
+    "palabras": 458,
+    "retrato": false
   }
 ]
