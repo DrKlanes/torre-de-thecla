@@ -3416,5 +3416,45 @@
     "signatura": "SMET-0113",
     "palabras": 458,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-15",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E50",
+    "modificador": "V14",
+    "prohibidas": [
+      "hueco",
+      "podrido",
+      "eterno"
+    ],
+    "violadas": [
+      "podrido"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T11",
+      "T6",
+      "T13"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P14",
+    "lugar": [
+      "L10"
+    ],
+    "voz_inventada": "húmeda por el polvo azulado; balbuceo fetal distorsionado en delay; nadie grita ni reacciona",
+    "aprendidas": [
+      "hueco",
+      "podrido"
+    ],
+    "carta_inventada": "La placenta seca entre los altavoces vomitando graves, la niña sin nombre que no pudo nacer le hace cosquillas con sus dedos al dueño",
+    "esquirla": "La dentadura se rompe en la garganta, el sudor quema bajo los ojos… Muerden más hondo cuando te muerdes tú primero.",
+    "signatura": "SMET-0114",
+    "palabras": 123,
+    "retrato": false
   }
 ]
