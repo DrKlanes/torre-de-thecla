@@ -3456,5 +3456,35 @@
     "signatura": "SMET-0114",
     "palabras": 123,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-16",
+    "palo": "B",
+    "carta": "B9",
+    "estado": "E52",
+    "modificador": null,
+    "prohibidas": [
+      "sangre",
+      "vomitar",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P9",
+    "recortada": true,
+    "aprendidas": [
+      "sangre",
+      "vomitar"
+    ],
+    "esquirla": "Testigos juran el despliegue antes de mi pase en radio; imposible. Material policial consumido al 100% dentro del perímetro, intacto afuera... El tipo llevaba *mi* uniforme al caer. Nula coherencia con los registros oficiales. La única discrepancia: no hay otra voz.",
+    "signatura": "SMET-0115",
+    "palabras": 123,
+    "retrato": true
   }
 ]
