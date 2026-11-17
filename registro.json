@@ -3486,5 +3486,43 @@
     "signatura": "SMET-0115",
     "palabras": 123,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-17",
+    "palo": "C",
+    "carta": "C20",
+    "estado": "E21",
+    "modificador": null,
+    "prohibidas": [
+      "maldito",
+      "huesos",
+      "pesadilla"
+    ],
+    "violadas": null,
+    "senal": "turbia",
+    "temperatura": 1.6,
+    "eco": null,
+    "tuercas": [
+      "T8",
+      "T13",
+      "T1"
+    ],
+    "reintentos": 0,
+    "membrana": true,
+    "aliento": "corto",
+    "puerta": "P20",
+    "lugar": [
+      "L9"
+    ],
+    "boca": true,
+    "corte": true,
+    "aprendidas": [
+      "maldito",
+      "huesos"
+    ],
+    "esquirla": "Moho espera… ya no importa el nombre bajo tierra: pisaste barro y te quedó pegado al miedo. Quieres gritar pero solo quieres que empiece otra vez para pudrir más rápido en esa luz de mierda… ¿entiendes? Las bocas respiran sucio hasta romperte los huesos por dentro.",
+    "signatura": "SMET-0116",
+    "palabras": 83,
+    "retrato": false
   }
 ]
