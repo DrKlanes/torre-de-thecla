@@ -3524,5 +3524,38 @@
     "signatura": "SMET-0116",
     "palabras": 83,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-18",
+    "palo": "A",
+    "carta": "A34",
+    "estado": "E35",
+    "modificador": "V8",
+    "prohibidas": [],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T20",
+      "T7"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P10",
+    "lugar": [
+      "L6"
+    ],
+    "recortada": true,
+    "aniversario": true,
+    "aprendidas": [
+      "laberinto",
+      "muerte"
+    ],
+    "esquirla": "El barro cruje bajo los dientes… Mierda el día que me manché las manos por esta miseria. Decía un viejo ahogado entre ratas: “Si vas por lo bajo, espera la mordedura.” Lo sabía entonces, tú también si escuchas aquí abajo… La trampa era simple.",
+    "signatura": "SMET-0117",
+    "palabras": 74,
+    "retrato": false
   }
 ]
