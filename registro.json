@@ -3557,5 +3557,39 @@
     "signatura": "SMET-0117",
     "palabras": 74,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-19",
+    "palo": "A",
+    "carta": "A24",
+    "estado": "E23",
+    "modificador": null,
+    "prohibidas": [
+      "podrido",
+      "carne",
+      "infierno"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P7",
+    "lugar": [
+      "L12"
+    ],
+    "feo": true,
+    "recortada": true,
+    "aprendidas": [
+      "podrido",
+      "carne"
+    ],
+    "esquirla": "Piedras jodidas rechinando entre los dientes, silbo para un fantasma que no viene. Agua goteando como la puta náusea del puerto cuando nos hundíamos sin dinero hace años: igual este asco aquí ahora.",
+    "signatura": "SMET-0118",
+    "palabras": 192,
+    "retrato": true
   }
 ]
