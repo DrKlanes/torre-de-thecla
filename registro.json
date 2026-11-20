@@ -3591,5 +3591,40 @@
     "signatura": "SMET-0118",
     "palabras": 192,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-20",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E32",
+    "modificador": null,
+    "prohibidas": [
+      "vomitar",
+      "escupir",
+      "gusanos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P3",
+    "lugar": [
+      "L1"
+    ],
+    "recortada": true,
+    "voz_inventada": "aguja en voz baja; cada frase una puntura seca; remordimiento cosido entre jadeos ahogados",
+    "aprendidas": [
+      "vomitar",
+      "escupir"
+    ],
+    "carta_inventada": "La anciana costurera, dedos deshilachados por el lino y el miedo a ser enterrada viva antes del hilo final",
+    "esquirla": "El hilo engancha donde jode más. Tú sigues insistiendo como chicharrón lento, barro goteando en la torre que se come por dentro; te callan bajo tierra siempre igual… No pido nada solo hundirme antes del remiendo final y dejar de respirar con el pozo sin fondo.",
+    "signatura": "SMET-0119",
+    "palabras": 257,
+    "retrato": false
   }
 ]
