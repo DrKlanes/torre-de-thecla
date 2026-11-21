@@ -3626,5 +3626,41 @@
     "signatura": "SMET-0119",
     "palabras": 257,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-21",
+    "palo": "X",
+    "carta": "POLIZON",
+    "estado": "E11",
+    "modificador": "V15",
+    "prohibidas": [
+      "torre",
+      "hueco",
+      "muerte"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P13",
+    "lugar": [
+      "L2"
+    ],
+    "boca": true,
+    "recortada": true,
+    "voz_inventada": "susurro helado; eco sordo de clavos rasgando carne mojada; cada sílaba es un desprendimiento lento",
+    "aprendidas": [
+      "dientes",
+      "torre"
+    ],
+    "carta_inventada": "La humedad salobre de los huesos olvidados en el cemento, un fantasma con dientes nuevos que no mordió nunca",
+    "esquirla": "Cobre quemado en la humedad; recuerdos rotos… Tres años sin escafandra y más dientes que días vivos, joder. Me atraganto con calcín, muerdo para recordar chicle descolorido entre los molares: hoy es mi cumpleaños de mierda.",
+    "signatura": "SMET-0120",
+    "palabras": 131,
+    "retrato": false
   }
 ]
