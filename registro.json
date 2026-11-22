@@ -3662,5 +3662,45 @@
     "signatura": "SMET-0120",
     "palabras": 131,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-22",
+    "palo": "C",
+    "carta": "C33",
+    "estado": "E27",
+    "modificador": null,
+    "prohibidas": [
+      "carne",
+      "muro",
+      "huesos"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T2",
+      "T18"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P14",
+    "lugar": [
+      "L5",
+      "L9"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "carne",
+      "muro"
+    ],
+    "corregidas": [
+      "huesos"
+    ],
+    "esquirla": "El puto escalón roe la suela sin tocarla bien… raspa en seco porque abajo hay aire que sube frío. Cada vez más lento, ya no sé si busco el otro pie o solo quiero sentir lo peor contra el talón hasta desaparecer y dejar de respirar con esta humedad muerta aquí adentro.…",
+    "signatura": "SMET-0121",
+    "palabras": 86,
+    "retrato": false
   }
 ]
