@@ -3702,5 +3702,38 @@
     "signatura": "SMET-0121",
     "palabras": 86,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-23",
+    "palo": "A",
+    "carta": "A35",
+    "estado": "E28",
+    "modificador": null,
+    "prohibidas": [
+      "sala",
+      "podrido",
+      "grito"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P16",
+    "lugar": [
+      "L5"
+    ],
+    "recortada": true,
+    "aprendidas": [
+      "sala",
+      "podrido"
+    ],
+    "esquirla": "El hielo pega, resbala peor que frío… mis botas hacen marcas lentas en lo agrio. Intento lavarme la boca sin escupir. No hay reflejo sólo sombras tirando hacia abajo: patino para dejar atrás lo podrido dentro, aunque ya no respire bien.",
+    "signatura": "SMET-0122",
+    "palabras": 149,
+    "retrato": true
   }
 ]
