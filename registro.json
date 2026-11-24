@@ -3735,5 +3735,38 @@
     "signatura": "SMET-0122",
     "palabras": 149,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-24",
+    "palo": "D",
+    "carta": "D30",
+    "estado": "E36",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "muro",
+      "pesadilla"
+    ],
+    "violadas": [
+      "dedos",
+      "muro"
+    ],
+    "senal": "turbia",
+    "temperatura": 1.91,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P20",
+    "recortada": true,
+    "aprendidas": [
+      "dedos",
+      "muro"
+    ],
+    "esquirla": "El bajo revienta el pecho desde dentro. Sin grito final, solo vibración pegajosa en los ojos. El ritmo te desangra sin salida; implota la cabeza como una pompa podrida. Solo eso: presión contra las costillas hasta no quedar carne… puro vacío y sudor frío.",
+    "signatura": "SMET-0123",
+    "palabras": 242,
+    "retrato": false
   }
 ]
