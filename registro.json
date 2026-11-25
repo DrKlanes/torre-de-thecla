@@ -3768,5 +3768,42 @@
     "signatura": "SMET-0123",
     "palabras": 242,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-25",
+    "palo": "A",
+    "carta": "A36",
+    "estado": "E22",
+    "modificador": null,
+    "prohibidas": [
+      "vacío",
+      "torre",
+      "laberinto"
+    ],
+    "violadas": [
+      "vacío"
+    ],
+    "senal": "turbia",
+    "temperatura": 1.73,
+    "eco": null,
+    "tuercas": [
+      "T12",
+      "T20",
+      "T1"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "corto",
+    "puerta": "P5",
+    "boca": true,
+    "recortada": true,
+    "aprendidas": [
+      "vacío",
+      "torre"
+    ],
+    "esquirla": "Ignacio: el esternón se raja como la última puta esperanza. No hay anestesia aquí, solo metal frío en mis venas antes del desgarro final. Los huesos ya no sostienen; respirar es una agonía… y me estoy quedando sin aire. Esto duele hasta los putos dientes.",
+    "signatura": "SMET-0124",
+    "palabras": 113,
+    "retrato": true
   }
 ]
