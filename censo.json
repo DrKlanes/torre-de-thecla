@@ -350,5 +350,13 @@
     "v": 0,
     "desde": "SMET-0124",
     "senal": "turbia"
+  },
+  "A25": {
+    "f": 1,
+    "m": 4,
+    "b": 10,
+    "v": -1,
+    "desde": "SMET-0125",
+    "senal": "abisal"
   }
 }

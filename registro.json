@@ -3805,5 +3805,39 @@
     "signatura": "SMET-0124",
     "palabras": 113,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-26",
+    "palo": "A",
+    "carta": "A25",
+    "estado": "E15",
+    "modificador": null,
+    "prohibidas": [
+      "cráneo",
+      "muro",
+      "vomitar"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": "SMET-0029",
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "suspiro",
+    "puerta": "P2",
+    "lugar": [
+      "L11"
+    ],
+    "recortada": true,
+    "eco_frase": "Dicen muchas cosas ahora sobre todo: ¿es necesario respirar tanto?",
+    "aprendidas": [
+      "cráneo",
+      "muro"
+    ],
+    "esquirla": "Ciento sesenta y cuatro. A eso he perdonado la sangre sin esperar más. La indiferencia de esta época… casi noble. Pero basta ya de agravios fingidos; ¿para qué? Lo correcto sería sollozar con fervor, pero lo cierto es que no tengo aliento para tanto teatro vacío.",
+    "signatura": "SMET-0125",
+    "palabras": 82,
+    "retrato": true
   }
 ]
