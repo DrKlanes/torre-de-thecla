@@ -3839,5 +3839,41 @@
     "signatura": "SMET-0125",
     "palabras": 82,
     "retrato": true
+  },
+  {
+    "noche": "2026-11-27",
+    "palo": "C",
+    "carta": "C25",
+    "estado": "E55",
+    "modificador": null,
+    "prohibidas": [
+      "sombras",
+      "alma",
+      "luz"
+    ],
+    "violadas": null,
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": [
+      "T17",
+      "T16",
+      "T13"
+    ],
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "largo",
+    "puerta": "P1",
+    "lugar": [
+      "L6"
+    ],
+    "aprendidas": [
+      "sombras",
+      "alma"
+    ],
+    "esquirla": "... Mami quiero bien roto; besa bichos en mi costilla si sigues queriéndome sangrando así adentro, porque después te vomito reza y tú… no limpias la herida con saliva ni nada, solo me aprietas más fuerte hasta que deje de gritar.",
+    "signatura": "SMET-0126",
+    "palabras": 82,
+    "retrato": false
   }
 ]
