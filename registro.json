@@ -3875,5 +3875,42 @@
     "signatura": "SMET-0126",
     "palabras": 82,
     "retrato": false
+  },
+  {
+    "noche": "2026-11-28",
+    "palo": "B",
+    "carta": "B14",
+    "estado": "E1",
+    "modificador": null,
+    "prohibidas": [
+      "dedos",
+      "sala",
+      "eterno"
+    ],
+    "violadas": [
+      "dedos"
+    ],
+    "senal": "abisal",
+    "temperatura": 100.0,
+    "eco": null,
+    "tuercas": null,
+    "reintentos": 0,
+    "membrana": null,
+    "aliento": "medio",
+    "puerta": "P17",
+    "lugar": [
+      "L6",
+      "L5"
+    ],
+    "boca": true,
+    "recortada": true,
+    "aprendidas": [
+      "dedos",
+      "sala"
+    ],
+    "esquirla": "Golpear, engañar, robar, la vida es solo eso hasta que te queda mierda en las manos… Los idiotas creen ser dioses por chuparles el culo a los demás; yo me quedé sin dedos ni puta sala eterna para esconderlo. ¿La cima? Un puto vacío y ya.",
+    "signatura": "SMET-0127",
+    "palabras": 198,
+    "retrato": false
   }
 ]
